@@ -71,7 +71,6 @@ input:focus,textarea:focus{border-color:var(--accent)!important}
 <script src="config.js"></script>
 <script src="bitti-core.global.js"></script>
 <script src="lexicon.js"></script>
-<script src="history.js" onerror="console.log('history.js not found — starting fresh')"></script>
 <script type="importmap">
 {
   "imports": {
@@ -103,12 +102,6 @@ const DEFAULT_SETTINGS = {
   critic: { baseUrl: 'https://opencode.ai/zen/go/v1', apiKey: '', model: 'deepseek-v4-flash', temperature: 0.2, maxTokens: 2000 },
   criticEnabled: true, sameAsCritic: true, corsProxy: '',
 };
-function historyFileName() { return 'history.js'; }
-function historyFileContent(arr) { return 'window.__BITTIBOL_HISTORY = ' + JSON.stringify(arr, null, 2) + ';\n'; }
-function downloadHistory(arr) {
-  const blob = new Blob([historyFileContent(arr)], { type: 'application/javascript' });
-  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = historyFileName(); a.click();
-}
 
 function migrateV1History() {
   try {
@@ -145,9 +138,8 @@ if (typeof window.__BITTIBOL_CONFIG !== 'undefined') {
   if (cfg.corsProxy) _storage.settings.corsProxy = cfg.corsProxy;
 }
 let initialHistory;
-if (typeof window.__BITTIBOL_HISTORY !== 'undefined' && window.__BITTIBOL_HISTORY.length) { initialHistory = window.__BITTIBOL_HISTORY; }
-else if (_v2localHistory.length) { initialHistory = _v2localHistory; setTimeout(() => downloadHistory(initialHistory), 500); }
-else { initialHistory = migrateV1History(); if (initialHistory.length) setTimeout(() => downloadHistory(initialHistory), 500); }
+if (_v2localHistory.length) { initialHistory = _v2localHistory; }
+else { initialHistory = migrateV1History(); }
 
 function saveStorage() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(_storage)); } catch {} }
 
@@ -174,14 +166,7 @@ const layoutMode = signal('editorial');
 const editMode = signal(false);
 const hoveredHit = signal(null);
 
-effect(() => { _storage.settings = settings.value; saveStorage(); });
-let prevHistoryJson = JSON.stringify(history.value);
-effect(() => {
-  const json = JSON.stringify(history.value);
-  if (json === prevHistoryJson) return;
-  prevHistoryJson = json;
-  downloadHistory(history.value);
-});
+effect(() => { _storage.settings = settings.value; _storage.history = history.value; saveStorage(); });
 
 let scanTimer = null;
 function scheduleScan(text) {
