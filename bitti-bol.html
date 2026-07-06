@@ -212,11 +212,19 @@ input, textarea, select, button { font-family: inherit; font-size: inherit; }
 </head>
 <body>
 <div id="app"></div>
+<script type="importmap">
+{
+  "imports": {
+    "preact": "https://esm.sh/preact@10.26.4",
+    "preact/": "https://esm.sh/preact@10.26.4/"
+  }
+}
+</script>
 <script type="module">
 // === IMPORTS ===
-import { h, render, Fragment } from 'https://esm.sh/preact@10.26.4';
+import { h, render, Fragment } from 'preact';
 import htm from 'https://esm.sh/htm@3.1.1';
-import { signal, computed, effect } from 'https://esm.sh/@preact/signals@2.0.1';
+import { signal, computed, effect } from 'https://esm.sh/@preact/signals@2.0.1?external=preact';
 const html = htm.bind(h);
 
 // === DOMAIN DATA ===
@@ -1096,7 +1104,6 @@ function App() {
             <div style="font-size:3rem">🎵</div>
             <h2 style="color:var(--text-dim);font-size:1.1rem">Enter a topic and generate your song</h2>
             <div class="text-sm text-muted">Lyrics in Mahasuvi Pahari · Style for Suno v5.5</div>
-            <${LexiconEditor} />
           </div>
         `}
       </div>
@@ -1152,12 +1159,21 @@ function InputForm() {
         <textarea value=${formNotes} onInput=${e => formNotes.value = e.target.value} placeholder="Any extra guidance…" style="min-height:40px"></textarea>
       </div>
       <div class="flex gap-2 mt-3">
-        <button class="btn btn-primary w-full" onClick=${handleGenerate} disabled=${isBusy || !formTopic.value.trim()}>
-          ${isBusy ? '⏳ Working…' : '🎵 Generate'}
+        <button class="btn btn-primary w-full" onClick=${handleGenerate} disabled=${isBusy.value || !formTopic.value.trim()}>
+          ${isBusy.value ? '⏳ Working…' : '🎵 Generate'}
         </button>
       </div>
     </div>
   `;
+}
+
+// === TEST HOOKS ===
+if (typeof window !== 'undefined') {
+  window.__testSetSong = (title, lyrics, style) => {
+    songTitle.value = title;
+    songLyrics.value = lyrics;
+    songStyle.value = style;
+  };
 }
 
 // === MOUNT ===

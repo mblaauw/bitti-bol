@@ -1,0 +1,10 @@
+{
+  "type": "module",
+  "devDependencies": {
+    "@playwright/test": "^1.61.1"
+  },
+  "scripts": {
+    "test": "npx playwright test",
+    "test:headed": "npx playwright test --headed"
+  }
+}
