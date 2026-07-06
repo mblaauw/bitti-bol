@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans), sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+
+  --color-himachali-earth: #8B4513;
+  --color-himachali-pine: #2D5A27;
+  --color-himachali-sky: #87CEEB;
+  --color-himachali-snow: #FFFAF0;
+  --color-himachali-sunset: #FF6B35;
+  --color-himachali-river: #4A90D9;
+  --color-himachali-wool: #F5F0E8;
+}
+
+:root {
+  --background: #FFFAF0;
+  --foreground: #2D2D2D;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #1A1A2E;
+    --foreground: #E8E0D8;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
