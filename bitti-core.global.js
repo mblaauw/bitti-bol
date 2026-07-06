@@ -52,6 +52,18 @@ const CONTAMINATION_RULES = [
   { pattern: '\\blarki\\b', language: 'hindi', severity: 'medium', suggestion: 'bitti', explanation: 'Hindi "larki" = girl; use Pahari "bitti"' },
 ];
 
+for (const entry of LEXICON) {
+  if (!entry.avoid || !entry.avoid.length) continue;
+  for (const word of entry.avoid) {
+    if (word.includes('(acceptable)')) continue;
+    const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const pattern = '\\b' + escaped + '\\b';
+    if (!CONTAMINATION_RULES.some(r => r.pattern === pattern)) {
+      CONTAMINATION_RULES.push({ pattern, language: 'lexicon', severity: 'medium', suggestion: entry.pahari, explanation: 'Avoid Hindi "' + word + '", use Pahari "' + entry.pahari + '"' });
+    }
+  }
+}
+
 const SUNO_RULES = {
   limits: { lyrics: 5000, style: 1000, title: 100 },
   requiredSections: ['[Intro]', '[Verse', '[Chorus]'],

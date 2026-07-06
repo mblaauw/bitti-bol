@@ -370,6 +370,19 @@ const CONTAMINATION_RULES = [
   { pattern: '\\blarki\\b', language: 'hindi', severity: 'medium', suggestion: 'bitti', explanation: 'Hindi "larki" = girl; use Pahari "bitti"' },
 ];
 
+// Derive medium rules from lexicon avoid terms
+for (const entry of LEXICON) {
+  if (!entry.avoid || !entry.avoid.length) continue;
+  for (const word of entry.avoid) {
+    if (word.includes('(acceptable)')) continue;
+    const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const pattern = '\\b' + escaped + '\\b';
+    if (!CONTAMINATION_RULES.some(r => r.pattern === pattern)) {
+      CONTAMINATION_RULES.push({ pattern, language: 'lexicon', severity: 'medium', suggestion: entry.pahari, explanation: 'Avoid Hindi "' + word + '", use Pahari "' + entry.pahari + '"' });
+    }
+  }
+}
+
 const SUNO_RULES = {
   limits: { lyrics: 5000, style: 1000, title: 100 },
   requiredSections: ['[Intro]', '[Verse', '[Chorus]'],
@@ -556,7 +569,7 @@ const LEGACY_KEY = 'bitti-bol-history';
 const DEFAULT_SETTINGS = {
   composer: { baseUrl: 'https://opencode.ai/zen/go/v1', apiKey: '', model: 'deepseek-v4-flash', temperature: 0.85, maxTokens: 4000 },
   critic: { baseUrl: 'https://opencode.ai/zen/go/v1', apiKey: '', model: 'deepseek-v4-flash', temperature: 0.2, maxTokens: 2000 },
-  criticEnabled: true, sameAsCritic: true, corsProxy: '',
+  criticEnabled: true, corsProxy: '',
 };
 
 function migrateV1History() {
@@ -672,7 +685,7 @@ async function runPipeline(prefs) {
   scanHits.value = runContaminationScan(d.lyrics);
 
   pushStep('validate', 'active', '');
-  const mech = validateMechanical(d.lyrics, d.style);
+  let mech = validateMechanical(d.lyrics, d.style);
   pushStep('validate', 'done', mech.warnings.length ? (mech.warnings.length + ' note' + (mech.warnings.length !== 1 ? 's' : '')) : 'clean');
 
   pushStep('scan', 'active', '');
@@ -708,6 +721,7 @@ async function runPipeline(prefs) {
     if (rr.ok && rr.data.lyrics && rr.data.lyrics.length) {
       finalLyrics = rr.data.lyrics; repairApplied = true;
       afterHigh = runContaminationScan(finalLyrics).filter(h => h.severity === 'high').length;
+      mech = validateMechanical(finalLyrics, d.style);
       pushStep('repair', 'done', 'high ' + highHits + ' → ' + afterHigh);
     } else {
       pushStep('repair', 'done', rr.ok ? 'kept original' : 'failed · kept original');
@@ -841,9 +855,8 @@ function PipelineCard() {
 }
 
 function LyricsReadMode() {
-  const c = C();
-  if (!c || !songLyrics.value) return null;
-  const segs = c.segmentLyrics(songLyrics.value, scanHits.value);
+  if (!songLyrics.value) return null;
+  const segs = segmentLyrics(songLyrics.value, scanHits.value);
   const hovered = hoveredHit.value;
   return html`
     <div style="padding:22px 26px;font-family:var(--mono);font-size:13px;line-height:1.9;color:#33291f;background:linear-gradient(var(--bg-card),var(--bg-card))">
@@ -1055,9 +1068,25 @@ function HistoryPanel() {
                 const text = await input.files[0].text();
                 const data = JSON.parse(text);
                 if (data.schemaVersion !== 2) { alert('Invalid schema version'); return; }
-                if (data.history) history.value = data.history;
-                if (data.settings) settings.value = { ...settings.value, ...data.settings };
-                if (data.userLexicon) _storage.userLexicon = data.userLexicon;
+                if (data.history) {
+                  const byId = {};
+                  history.value.forEach(h => byId[h.id] = h);
+                  for (const h of data.history) byId[h.id || crypto.randomUUID()] = h;
+                  history.value = Object.values(byId).slice(0, 50);
+                }
+                if (data.settings) {
+                  settings.value = {
+                    ...settings.value, ...data.settings,
+                    composer: { ...(settings.value.composer || {}), ...(data.settings.composer || {}) },
+                    critic: { ...(settings.value.critic || {}), ...(data.settings.critic || {}) },
+                  };
+                }
+                if (data.userLexicon) {
+                  const byWord = {};
+                  (_storage.userLexicon || []).forEach(e => byWord[e.pahari] = e);
+                  for (const e of data.userLexicon) byWord[e.pahari] = e;
+                  _storage.userLexicon = Object.values(byWord);
+                }
                 saveStorage();
               } catch (e) { alert('Import failed: ' + e.message); }
             };
