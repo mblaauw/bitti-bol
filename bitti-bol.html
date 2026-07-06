@@ -261,7 +261,7 @@ async function runPipeline(prefs) {
   if (needRepair) {
     pushStep('repair', 'active', 'Applying fixes…');
     const issues = [];
-    for (const h of scan) issues.push('- Line ' + h.lineNo + ': "' + h.match + '" (' + h.language + ') → ' + h.suggestion);
+    for (const h of scan) if (h.severity === 'high') issues.push('- Line ' + h.lineNo + ': "' + h.match + '" (' + h.language + ') → ' + h.suggestion);
     if (critic && critic.issues) for (const iss of critic.issues) issues.push('- "' + (iss.excerpt || '') + '": ' + (iss.problem || '') + ' → ' + (iss.suggestion || ''));
     const rp = 'The following lyrics have dialect issues. Fix ONLY the flagged constructions with the suggested Pahari forms. Keep the title, structure, tags, and all other lines byte-identical. Return the same JSON shape {title, lyrics, style}.\n\nOriginal lyrics:\n' + d.lyrics + '\n\nIssues:\n' + issues.join('\n');
     const rr = await c.llmCall(withProxy(settings.value.composer), 'composer', 'You are a Himachali Pahari dialect editor. ' + c.PROMPT_FRAGMENTS.dialectRequirement, rp);
@@ -472,7 +472,7 @@ function ContaminationPanel() {
                   <div style="font-size:11px;color:var(--text-soft);line-height:1.4;font-family:var(--mono)">${h.line.length > 54 ? h.line.slice(0, 54) + '\u2026' : h.line}</div>
                   <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:7px">
                     <span style="font-size:12px;color:#4f7a3f;font-family:var(--mono)">\u2192 ${h.suggestion}</span>
-                    <button onClick=${() => { if (c) { songLyrics.value = c.applyReplacement(songLyrics.value, h.pattern, h.suggestion); scheduleScan(songLyrics.value); }}} style="flex-shrink:0;font-size:11px;font-weight:600;padding:4px 11px;border:1px solid #d3c6a8;background:#fff;color:var(--warn-fg);border-radius:6px;cursor:pointer">Apply fix</button>
+                    <button onClick=${() => { if (c) { songLyrics.value = c.applyReplacement(songLyrics.value, h.pattern, h.suggestion, h.lineNo, h.col); scheduleScan(songLyrics.value); }}} style="flex-shrink:0;font-size:11px;font-weight:600;padding:4px 11px;border:1px solid #d3c6a8;background:#fff;color:var(--warn-fg);border-radius:6px;cursor:pointer">Apply fix</button>
                   </div>
                 </div>
               `;

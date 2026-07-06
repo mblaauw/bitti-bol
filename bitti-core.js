@@ -40,9 +40,9 @@ export const CONTAMINATION_RULES = [
   { pattern: '\\btainu\\b', language: 'punjabi', severity: 'high', suggestion: 'tujo / tujhe', explanation: 'Punjabi "tainu" = to you; use Pahari forms' },
   { pattern: '\\bpind\\b', language: 'punjabi', severity: 'high', suggestion: 'graan', explanation: 'Punjabi "pind" = village; Pahari uses "graan"' },
   { pattern: '\\bvich\\b', language: 'punjabi', severity: 'high', suggestion: 'manjh', explanation: 'Punjabi "vich" = in; Pahari uses "manjh"' },
-  { pattern: '\\bdi\\b', language: 'punjabi', severity: 'high', suggestion: 'ri / ra / re', explanation: 'Punjabi genitive "di" should be Pahari "ri" (fem) / "ra" (masc) / "re" (obl)' },
-  { pattern: '\\bda\\b', language: 'punjabi', severity: 'high', suggestion: 'ra', explanation: 'Punjabi genitive "da" should be Pahari "ra"' },
-  { pattern: '\\bde\\b', language: 'punjabi', severity: 'high', suggestion: 're', explanation: 'Punjabi oblique genitive "de" should be Pahari "re"' },
+  { pattern: '\\bdi\\b', language: 'punjabi', severity: 'medium', suggestion: 'ri / ra / re', explanation: 'Punjabi genitive "di" should be Pahari "ri" (fem) / "ra" (masc) / "re" (obl)' },
+  { pattern: '\\bda\\b', language: 'punjabi', severity: 'medium', suggestion: 'ra', explanation: 'Punjabi genitive "da" should be Pahari "ra"' },
+  { pattern: '\\bde\\b', language: 'punjabi', severity: 'medium', suggestion: 're', explanation: 'Punjabi oblique genitive "de" should be Pahari "re"' },
   { pattern: '\\bmujhe\\b', language: 'hindi', severity: 'medium', suggestion: 'minjo', explanation: 'Hindi "mujhe" = to me; use Pahari "minjo"' },
   { pattern: '\\btumhara\\b', language: 'hindi', severity: 'medium', suggestion: 'tera / teri', explanation: 'Hindi "tumhara" = your; use Pahari "tera/teri"' },
   { pattern: '\\bkyunki\\b', language: 'hindi', severity: 'medium', suggestion: 'kathi / je', explanation: 'Hindi "kyunki" = because; use Pahari forms' },
@@ -178,11 +178,17 @@ export function runContaminationScan(lyrics) {
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
     const trimmed = line.trim();
-    if (/^\[.*\]$/.test(trimmed)) continue; // skip bracket-tag lines
+    if (/^\[.*\]$/.test(trimmed)) continue;
     for (const rule of CONTAMINATION_RULES) {
       const re = new RegExp(rule.pattern, 'gi');
       let m;
       while ((m = re.exec(line)) !== null) {
+        // Context guard: skip lone "de" when it's part of "de naal" phrase
+        if (rule.pattern === '\\bde\\b') {
+          const after = line.slice(m.index + m[0].length);
+          if (/^\s+naal\b/i.test(after)) { re.lastIndex = m.index + m[0].length; continue; }
+          if (/^(\s+de\b)/i.test(after)) { re.lastIndex = m.index + m[0].length; continue; }
+        }
         hits.push({
           match: m[0],
           col: m.index,
@@ -194,16 +200,40 @@ export function runContaminationScan(lyrics) {
           explanation: rule.explanation,
           pattern: rule.pattern,
         });
-        if (m.index === re.lastIndex) re.lastIndex++; // guard zero-width
+        if (m.index === re.lastIndex) re.lastIndex++;
       }
     }
   }
-  // stable order: by line then column
-  hits.sort((a, b) => (a.lineNo - b.lineNo) || (a.col - b.col));
-  return hits;
+  // De-duplicate: sort by (lineNo, col), then by match length descending.
+  // Keep only the first hit per (lineNo, col) start position (longest match wins).
+  hits.sort((a, b) => (a.lineNo - b.lineNo) || (a.col - b.col) || (b.match.length - a.match.length));
+  const deduped = [];
+  const seen = {};
+  for (const h of hits) {
+    const key = h.lineNo + ':' + h.col;
+    if (seen[key]) continue;
+    seen[key] = true;
+    deduped.push(h);
+  }
+  return deduped;
 }
 
-export function applyReplacement(text, pattern, replacement) {
+export function applyReplacement(text, pattern, replacement, lineNo, col) {
+  if (lineNo != null && col != null) {
+    const lines = text.split('\n');
+    const idx = lineNo - 1;
+    if (idx >= 0 && idx < lines.length) {
+      const l = lines[idx];
+      const re = new RegExp(pattern, 'i');
+      const m = re.exec(l.slice(col));
+      if (m) {
+        const before = l.slice(0, col);
+        const after = l.slice(col + m[0].length);
+        lines[idx] = before + replacement + after;
+      }
+      return lines.join('\n');
+    }
+  }
   const re = new RegExp(pattern, 'gi');
   return text.replace(re, replacement);
 }
