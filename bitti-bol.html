@@ -366,7 +366,7 @@ const CONTAMINATION_RULES = [
   { pattern: '\\bkyunki\\b', language: 'hindi', severity: 'medium', suggestion: 'kathi / je', explanation: 'Hindi "kyunki" = because; use Pahari forms' },
   { pattern: '\\blekin\\b', language: 'hindi', severity: 'medium', suggestion: 'par / magar (acceptable)', explanation: 'Hindi "lekin" = but; "par" is borderline acceptable' },
   { pattern: '\\bdekhda\\b', language: 'hindi', severity: 'medium', suggestion: 'herda', explanation: 'Hindi "dekhda" = watching; use Pahari "herda"' },
-  { pattern: '\\braat\\b', language: 'hindi', severity: 'medium', suggestion: 'rouni', explanation: 'Hindi "raat" = night; use Pahari "rouni"' },
+  { pattern: '\\braat\\b', language: 'hindi', severity: 'medium', suggestion: 'rouni', explanation: '"rouni" preferred for night; "raat" acceptable in mixed register' },
   { pattern: '\\blarki\\b', language: 'hindi', severity: 'medium', suggestion: 'bitti', explanation: 'Hindi "larki" = girl; use Pahari "bitti"' },
 ];
 
@@ -618,7 +618,6 @@ const formMood = signal('');
 const formOccasion = signal('');
 const formInstruments = signal('');
 const formNotes = signal('');
-const pipelineStep = signal('idle');
 const pipelineError = signal(null);
 const pipelineSteps = signal([]);
 const songTitle = signal('');
@@ -626,6 +625,7 @@ const songLyrics = signal('');
 const songStyle = signal('');
 const songReport = signal(null);
 const scanHits = signal([]);
+const userLexiconSig = signal(_storage.userLexicon || []);
 const showSettings = signal(false);
 const showLexicon = signal(false);
 const showExportImport = signal(false);
@@ -635,7 +635,7 @@ const layoutMode = signal('editorial');
 const editMode = signal(false);
 const hoveredHit = signal(null);
 
-effect(() => { _storage.settings = settings.value; _storage.history = history.value; saveStorage(); });
+effect(() => { _storage.settings = settings.value; _storage.history = history.value; _storage.userLexicon = userLexiconSig.value; saveStorage(); });
 
 let scanTimer = null;
 function scheduleScan(text) {
@@ -667,7 +667,7 @@ async function runPipeline(prefs) {
   pushStep('compose', 'active', 'Calling composer…');
 
   const withProxy = (cfg) => settings.value.corsProxy ? { ...cfg, corsProxy: settings.value.corsProxy } : cfg;
-  const prompts = assemblePrompt(prefs);
+  const prompts = assemblePrompt(prefs, userLexiconSig.value);
   const result = await llmCall(withProxy(settings.value.composer), 'composer', prompts.system, prompts.user);
   if (!result.ok) {
     pushStep('compose', 'failed', result.message);
@@ -1058,7 +1058,7 @@ function HistoryPanel() {
         </div>
         <div style="display:flex;gap:4px">
           <button onClick=${() => {
-            const blob = new Blob([JSON.stringify({ schemaVersion: 2, settings: settings.value, history: history.value, userLexicon: _storage.userLexicon }, null, 2)], { type: 'application/json' });
+            const blob = new Blob([JSON.stringify({ schemaVersion: 2, settings: settings.value, history: history.value, userLexicon: userLexiconSig.value }, null, 2)], { type: 'application/json' });
             const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'bitti-bol-songbook.json'; a.click();
           }} title="Export songbook" style="width:28px;height:28px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border-input);background:#fff;border-radius:6px;cursor:pointer;color:var(--text-soft)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m8 11 4 4 4-4"/><path d="M5 21h14"/></svg></button>
           <button onClick=${() => {
@@ -1083,9 +1083,9 @@ function HistoryPanel() {
                 }
                 if (data.userLexicon) {
                   const byWord = {};
-                  (_storage.userLexicon || []).forEach(e => byWord[e.pahari] = e);
+                  userLexiconSig.value.forEach(e => byWord[e.pahari] = e);
                   for (const e of data.userLexicon) byWord[e.pahari] = e;
-                  _storage.userLexicon = Object.values(byWord);
+                  userLexiconSig.value = Object.values(byWord);
                 }
                 saveStorage();
               } catch (e) { alert('Import failed: ' + e.message); }
@@ -1098,6 +1098,7 @@ function HistoryPanel() {
         ${items.map(s => {
           const highH = (s.report && s.report.scan || []).filter(h => h.severity === 'high').length;
           const critc = s.report && s.report.critic;
+          // Precedence: critic verdict > high-hit count > defaults to true
           const authentic = critc ? critc.is_authentic : (highH === 0);
           let dateStr = '';
           try { dateStr = new Date(s.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }); } catch {}
@@ -1188,7 +1189,7 @@ function LexiconModal() {
   if (!showLexicon.value) return null;
   const entries = [
     ...LEXICON.map(e => ({ pahari: e.pahari, gloss: e.gloss_en, avoid: (e.avoid || []).join(', '), isUser: false })),
-    ...(_storage.userLexicon || []).map((e, i) => ({ pahari: e.pahari, gloss: e.gloss_en, avoid: (e.avoid || []).join(', '), isUser: true, onDelete: () => { _storage.userLexicon.splice(i, 1); saveStorage(); showLexicon.value = false; setTimeout(() => showLexicon.value = true, 50); } })),
+    ...userLexiconSig.value.map((e, i) => ({ pahari: e.pahari, gloss: e.gloss_en, avoid: (e.avoid || []).join(', '), isUser: true, onDelete: () => { userLexiconSig.value = userLexiconSig.value.filter((_, j) => j !== i); } })),
   ];
   return html`
     <div class="modal" onClick=${e => { if (e.target === e.currentTarget) showLexicon.value = false; }} style="position:fixed;inset:0;background:rgba(38,33,26,0.42);backdrop-filter:blur(2px);display:flex;align-items:flex-start;justify-content:center;padding:52px 20px;z-index:100;overflow-y:auto">
@@ -1203,9 +1204,7 @@ function LexiconModal() {
               const pahari = prompt('Pahari word:'); if (!pahari) return;
               const gloss = prompt('English meaning:'); if (!gloss) return;
               const avoid = prompt('Words to avoid (comma-separated):') || '';
-              if (!_storage.userLexicon) _storage.userLexicon = [];
-              _storage.userLexicon.push({ pahari, gloss_en: gloss, avoid: avoid ? avoid.split(',').map(x => x.trim()).filter(Boolean) : [] });
-              saveStorage(); showLexicon.value = false; setTimeout(() => showLexicon.value = true, 50);
+              userLexiconSig.value = [...userLexiconSig.value, { pahari, gloss_en: gloss, avoid: avoid ? avoid.split(',').map(x => x.trim()).filter(Boolean) : [] }];
             }} style="border:1px solid #d3c6a8;background:#fff;color:var(--warn-fg);border-radius:7px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer">+ Add word</button>
             <button onClick=${() => showLexicon.value = false} style="width:30px;height:30px;border:1px solid var(--border-input);background:#fff;border-radius:7px;cursor:pointer;color:#6b6152;font-size:14px">\u2715</button>
           </div>
