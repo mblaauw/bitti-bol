@@ -1140,8 +1140,8 @@ function SettingsModal() {
               <div style="font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-soft)">CORS Proxy</div>
               <span style="font-size:10px;color:var(--text-muted)">optional</span>
             </div>
-            <input value=${s.corsProxy} onInput=${e => setNested('corsProxy', e.target.value)} placeholder="https://corsproxy.io/?" style="width:100%;background:#fff;border:1px solid var(--border-input);border-radius:7px;padding:7px 10px;font-size:12.5px;font-family:var(--mono);outline:none"/>
-            <p style="font-size:10.5px;color:var(--text-dim);margin-top:5px;line-height:1.45">Prefix each API request with this URL. Needed when running from <code style="background:#efebde;padding:1px 4px;border-radius:4px;font-size:10px">file://</code> where CORS blocks direct fetch calls.</p>
+            <input value=${s.corsProxy} onInput=${e => setNested('corsProxy', e.target.value)} placeholder="https://your-proxy.com/?" style="width:100%;background:#fff;border:1px solid var(--border-input);border-radius:7px;padding:7px 10px;font-size:12.5px;font-family:var(--mono);outline:none"/>
+            <p style="font-size:10.5px;color:var(--text-dim);margin-top:5px;line-height:1.45">Needed from <code style="background:#efebde;padding:1px 4px;border-radius:4px;font-size:10px">file://</code> where CORS blocks fetch. ⚠ Only use a proxy you control — it sees your API key.</p>
           </div>
           ${slot('composer', 'Composer slot \u00b7 writes the song')}
           ${slot('critic', 'Critic slot \u00b7 verifies dialect')}
