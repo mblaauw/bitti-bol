@@ -83,11 +83,11 @@ test.describe('Bitti Bol v2', () => {
     await expect(checkbox).not.toBeChecked();
   });
 
-  test('pipeline shows auth error when no API key configured', async ({ page }) => {
+  test('pipeline shows error when API call fails', async ({ page }) => {
     await page.getByPlaceholder('chitte dandru').fill('test');
     await page.getByRole('button', { name: /generate/i }).click();
     await expect(page.locator('.callout-error')).toBeVisible({ timeout: 15000 });
-    await expect(page.locator('.callout-error')).toContainText('No API key configured');
+    await expect(page.locator('.callout-error')).toContainText(/cors_or_network|Network\/CORS|auth/);
   });
 
   test('history panel shows empty state', async ({ page }) => {

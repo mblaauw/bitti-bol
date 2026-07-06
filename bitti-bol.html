@@ -212,6 +212,7 @@ input, textarea, select, button { font-family: inherit; font-size: inherit; }
 </head>
 <body>
 <div id="app"></div>
+<script src="config.js"></script>
 <script type="importmap">
 {
   "imports": {
@@ -375,6 +376,20 @@ try {
   }
 } catch (e) {
   _storage = createDefaultStorage();
+}
+// config.js overrides (authoritative on every load)
+if (typeof window.__BITTIBOL_CONFIG !== 'undefined') {
+  const cfg = window.__BITTIBOL_CONFIG;
+  if (cfg.composer) {
+    if (cfg.composer.apiKey) _storage.settings.composer.apiKey = cfg.composer.apiKey;
+    if (cfg.composer.baseUrl) _storage.settings.composer.baseUrl = cfg.composer.baseUrl;
+    if (cfg.composer.model) _storage.settings.composer.model = cfg.composer.model;
+  }
+  if (cfg.critic) {
+    if (cfg.critic.apiKey) _storage.settings.critic.apiKey = cfg.critic.apiKey;
+    if (cfg.critic.baseUrl) _storage.settings.critic.baseUrl = cfg.critic.baseUrl;
+    if (cfg.critic.model) _storage.settings.critic.model = cfg.critic.model;
+  }
 }
 if (_storage.history.length === 0) {
   const migrated = migrateV1History();
