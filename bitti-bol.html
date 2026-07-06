@@ -3,216 +3,75 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <title>Bitti Bol — Himachali Pahari Song Studio</title>
 <style>
 :root {
-  --bg-deepest: #0b0b14;
-  --bg-surface: #14142a;
-  --bg-card: #1c1c36;
-  --bg-input: #252542;
-  --bg-hover: #2f2f50;
-  --text-main: #e8e0d8;
-  --text-dim: #a09888;
-  --text-muted: #6b6560;
-  --pine: #3d8a37;
-  --teal: #4a90d9;
-  --earth: #a0522d;
-  --sunset: #ff6b35;
-  --snow: #f5f0e8;
-  --border: #2a2a40;
-  --danger: #e74c3c;
-  --success: #27ae60;
-  --warning: #f39c12;
-  --radius: 8px;
-  --font: system-ui, -apple-system, sans-serif;
-  --mono: ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
+  --bg-body: #f4f0e8; --bg-card: #fbf9f4; --bg-input: #ffffff; --bg-soft: #fbfaf6;
+  --text-main: #3a3128; --text-dim: #a89a84; --text-muted: #b5a993; --text-soft: #9c8f78;
+  --accent: #c0472a; --accent-hover: #a83c22; --success: #4f7a3f; --warn-fg: #8a6d1a;
+  --border: #e6dfd0; --border-light: #eee5d5; --border-input: #e0d8c6;
+  --radius: 8px; --radius-lg: 12px;
+  --font: 'IBM Plex Sans', system-ui, sans-serif; --mono: 'IBM Plex Mono', ui-monospace, monospace;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: var(--font);
-  background: var(--bg-deepest);
-  color: var(--text-main);
-  line-height: 1.6;
-  min-height: 100vh;
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg-body);color:var(--text-main);line-height:1.55;min-height:100vh;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--accent-hover);text-decoration:underline}
+textarea,input,select,button{font-family:inherit;font-size:inherit;color:inherit}
+::selection{background:#f2d3c8;color:#26211a}
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-thumb{background:#d8cebb;border-radius:6px;border:2px solid var(--bg-body)}
+::-webkit-scrollbar-thumb:hover{background:#c7bca6}
+@keyframes bbpulse{0%,100%{box-shadow:0 0 0 0 rgba(192,71,42,.35)}50%{box-shadow:0 0 0 6px rgba(192,71,42,0)}}
+@keyframes bbspin{to{transform:rotate(360deg)}}
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.card-header h3{font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#26211a}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 16px;border:none;border-radius:var(--radius);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;white-space:nowrap}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:disabled{background:#e0d0c4;color:#a08c7e;opacity:1}
+.form-label{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-soft);margin-bottom:5px}
+.form-input,.form-textarea{width:100%;background:#fff;border:1px solid var(--border-input);border-radius:8px;padding:8px 11px;font-size:13px;outline:none}
+.form-input:focus,.form-textarea:focus{border-color:var(--accent);box-shadow:0 0 0 2px rgba(192,71,42,.12)}
+.form-textarea{resize:vertical;font-size:14px;padding:9px 11px;line-height:1.5}
+.form-hint{font-size:11px;color:var(--text-dim);margin-top:5px}
+.form-hint-sm{font-size:10px;color:var(--text-muted);margin-top:4px}
+.btn-primary:hover:not(:disabled){background:var(--accent-hover)}
+.btn-secondary{background:#fff;color:#6b6152;border:1px solid var(--border-input)}
+.btn-secondary:hover:not(:disabled){background:var(--bg-soft)}
+.btn-ghost{background:transparent;color:var(--text-dim);padding:6px}
+.btn-ghost:hover{color:var(--text-main)}
+.btn-sm{padding:4px 10px;font-size:11px}
+.btn-icon{width:34px;height:34px;padding:0;display:inline-flex;align-items:center;justify-content:center}
+input,textarea,select{font-family:inherit;font-size:inherit;color:inherit;outline:none;transition:border-color .15s}
+input:focus,textarea:focus{border-color:var(--accent)!important}
+.char-count{font-family:var(--mono);font-size:10.5px;font-variant-numeric:tabular-nums}
+.char-count.ok{color:#b0a48f}
+.char-count.warn{color:var(--warn-fg)}
+.char-count.over{color:var(--accent)}
+.chk-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:960px){
+  .chk-grid{grid-template-columns:1fr}
 }
-input, textarea, select, button { font-family: inherit; font-size: inherit; }
-::selection { background: var(--pine); color: #fff; }
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-
-/* Layout */
-.app { display: grid; grid-template-columns: 380px 1fr; min-height: 100vh; }
-.left-panel { border-right: 1px solid var(--border); padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }
-.right-panel { padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }
-@media (max-width: 960px) {
-  .app { grid-template-columns: 1fr; }
-  .left-panel { border-right: none; border-bottom: 1px solid var(--border); }
-}
-
-/* Header */
-.header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.header h1 { font-size: 1.4rem; font-weight: 700; color: var(--snow); }
-.header h1 em { color: var(--sunset); font-style: normal; }
-.header .tagline { font-size: 0.75rem; color: var(--text-dim); }
-.header-actions { display: flex; gap: 8px; }
-
-/* Buttons */
-.btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-  padding: 8px 16px; border: none; border-radius: var(--radius);
-  font-size: 0.85rem; font-weight: 500; cursor: pointer;
-  transition: all 0.15s; white-space: nowrap;
-}
-.btn:disabled { opacity: 0.4; cursor: not-allowed; }
-.btn-primary { background: var(--earth); color: #fff; }
-.btn-primary:hover:not(:disabled) { background: #c06030; }
-.btn-secondary { background: var(--bg-input); color: var(--text-main); }
-.btn-secondary:hover:not(:disabled) { background: var(--bg-hover); }
-.btn-danger { background: var(--danger); color: #fff; }
-.btn-danger:hover:not(:disabled) { opacity: 0.85; }
-.btn-ghost { background: transparent; color: var(--text-dim); padding: 6px; }
-.btn-ghost:hover { color: var(--text-main); background: var(--bg-input); }
-.btn-sm { padding: 4px 10px; font-size: 0.78rem; }
-.btn-icon { width: 34px; height: 34px; padding: 0; }
-
-/* Inputs */
-.field { display: flex; flex-direction: column; gap: 4px; }
-.field label { font-size: 0.78rem; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.04em; }
-.field input, .field textarea, .field select {
-  background: var(--bg-input); border: 1px solid var(--border); border-radius: var(--radius);
-  padding: 8px 12px; color: var(--text-main); outline: none; width: 100%;
-  transition: border-color 0.15s;
-}
-.field input:focus, .field textarea:focus, .field select:focus { border-color: var(--teal); }
-.field textarea { resize: vertical; min-height: 60px; }
-.field select { cursor: pointer; }
-.field .hint { font-size: 0.72rem; color: var(--text-muted); }
-
-/* Card */
-.card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
-.card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-.card-header h3 { font-size: 0.85rem; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.04em; }
-
-/* Char counter */
-.char-count { font-size: 0.72rem; font-variant-numeric: tabular-nums; }
-.char-count.ok { color: var(--text-muted); }
-.char-count.warn { color: var(--warning); }
-.char-count.over { color: var(--danger); }
-
-/* Pipeline tracker */
-.steps { display: flex; gap: 0; align-items: stretch; overflow-x: auto; padding: 4px 0; }
-.step {
-  display: flex; align-items: center; gap: 6px; padding: 6px 12px;
-  font-size: 0.75rem; font-weight: 500; white-space: nowrap;
-  border-radius: 20px; background: var(--bg-input); color: var(--text-muted);
-  flex-shrink: 0;
-}
-.step + .step { margin-left: 4px; }
-.step.active { background: var(--teal); color: #fff; }
-.step.done { background: var(--pine); color: #fff; }
-.step.failed { background: var(--danger); color: #fff; }
-.step.skipped { background: var(--bg-hover); color: var(--text-dim); font-style: italic; }
-.step-icon { font-size: 0.85rem; line-height: 1; }
-.step-msg { display: block; font-size: 0.7rem; color: var(--text-dim); margin-top: 4px; }
-
-/* Tags/badges */
-.badge { display: inline-flex; align-items: center; gap: 3px; padding: 2px 7px; border-radius: 10px; font-size: 0.68rem; font-weight: 600; }
-.badge-high { background: #3a1515; color: var(--danger); }
-.badge-medium { background: #3a2a10; color: var(--warning); }
-.badge-info { background: #10203a; color: var(--teal); }
-.badge-success { background: #102a15; color: var(--success); }
-
-/* Contamination scan hit */
-.scan-hit {
-  display: flex; align-items: flex-start; gap: 8px; padding: 6px 10px;
-  border-left: 3px solid var(--danger); margin-top: 4px;
-  font-size: 0.78rem; background: var(--bg-input); border-radius: 0 var(--radius) var(--radius) 0;
-}
-.scan-hit.medium { border-left-color: var(--warning); }
-.scan-hit-info { flex: 1; min-width: 0; }
-.scan-hit-word { font-weight: 600; color: var(--snow); }
-.scan-hit-line { color: var(--text-dim); font-size: 0.72rem; }
-.scan-hit-suggest { color: var(--success); }
-
-/* Modal */
-.modal-overlay {
-  position: fixed; inset: 0; background: rgba(0,0,0,0.7);
-  display: flex; align-items: center; justify-content: center; z-index: 100;
-  padding: 20px;
-}
-.modal {
-  background: var(--bg-surface); border: 1px solid var(--border); border-radius: 12px;
-  width: 100%; max-width: 560px; max-height: 85vh; overflow-y: auto;
-  padding: 24px;
-}
-.modal h2 { font-size: 1.1rem; margin-bottom: 16px; }
-.modal .field + .field { margin-top: 12px; }
-
-/* Lyrics monospace */
-.mono { font-family: var(--mono); font-size: 0.82rem; line-height: 1.65; }
-
-/* Live scan panel */
-.live-scan-panel { display: flex; flex-direction: column; gap: 4px; }
-.live-scan-panel .scan-count { font-size: 0.72rem; color: var(--text-muted); }
-.live-scan-panel .scan-count.has-hits { color: var(--warning); }
-
-/* History */
-.history-item {
-  display: flex; align-items: center; gap: 10px; padding: 10px 12px;
-  border-radius: var(--radius); cursor: pointer; background: var(--bg-input);
-  transition: background 0.15s; border: 1px solid transparent;
-}
-.history-item:hover { background: var(--bg-hover); border-color: var(--border); }
-.history-item-info { flex: 1; min-width: 0; }
-.history-item-title { font-size: 0.82rem; font-weight: 500; color: var(--snow); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.history-item-meta { font-size: 0.7rem; color: var(--text-muted); }
-
-/* Accordion */
-.accordion-toggle {
-  background: none; border: none; color: var(--teal); cursor: pointer;
-  font-size: 0.78rem; padding: 4px 0;
-}
-.accordion-toggle:hover { text-decoration: underline; }
-.accordion-body { margin-top: 8px; }
-
-/* Inline warning callout */
-.callout { padding: 10px 14px; border-radius: var(--radius); font-size: 0.82rem; line-height: 1.5; }
-.callout-warn { background: #3a2a10; border-left: 3px solid var(--warning); color: var(--text-main); }
-.callout-error { background: #3a1515; border-left: 3px solid var(--danger); }
-.callout-info { background: #10203a; border-left: 3px solid var(--teal); }
-
-/* Lexicon editor */
-.lex-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
-.lex-table th { text-align: left; padding: 6px 8px; color: var(--text-dim); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid var(--border); }
-.lex-table td { padding: 6px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
-.lex-table .rtl { color: var(--text-muted); font-size: 0.72rem; }
-
-/* Utilities */
-.flex { display: flex; }
-.flex-col { flex-direction: column; }
-.items-center { align-items: center; }
-.justify-between { justify-content: space-between; }
-.gap-2 { gap: 8px; }
-.gap-3 { gap: 12px; }
-.gap-4 { gap: 16px; }
-.mt-2 { margin-top: 8px; }
-.mt-3 { margin-top: 12px; }
-.mb-2 { margin-bottom: 8px; }
-.text-sm { font-size: 0.82rem; }
-.text-xs { font-size: 0.72rem; }
-.text-dim { color: var(--text-dim); }
-.text-muted { color: var(--text-muted); }
-.text-danger { color: var(--danger); }
-.text-success { color: var(--success); }
-.text-warning { color: var(--warning); }
-.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.w-full { width: 100%; }
+.callout-error{background:#f8e5df;border:1px solid #eec6ba;border-left:3px solid var(--accent);border-radius:8px;padding:11px 13px}
+.grid-layout{flex:1;display:grid;gap:16px;align-items:start;padding:20px 28px;max-width:1420px;width:100%;margin:0 auto;grid-template-areas:"form pipe pipe" "form song scan" "hist song scan";grid-template-rows:auto auto 1fr}
+.grid-layout.editorial{grid-template-columns:300px minmax(0,1fr) 340px}
+.grid-layout.studio{grid-template-columns:320px minmax(0,1fr) 360px}
+@media(max-width:960px){.grid-layout.editorial,.grid-layout.studio{grid-template-columns:1fr!important;grid-template-areas:"form""pipe""song""scan""hist"!important}}
+.callout-error strong{font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);font-weight:600;display:block;margin-bottom:3px}
+.callout-error div:last-child{font-size:12.5px;color:#5e4a42;line-height:1.5}
 </style>
 </head>
 <body>
 <div id="app"></div>
 <script src="config.js"></script>
+<script src="bitti-core.global.js"></script>
+<script src="lexicon.js"></script>
+<script src="history.js" onerror="console.log('history.js not found — starting fresh')"></script>
 <script type="importmap">
 {
   "imports": {
@@ -222,121 +81,33 @@ input, textarea, select, button { font-family: inherit; font-size: inherit; }
 }
 </script>
 <script type="module">
-// === IMPORTS ===
 import { h, render, Fragment } from 'preact';
 import htm from 'https://esm.sh/htm@3.1.1';
 import { signal, computed, effect } from 'https://esm.sh/@preact/signals@2.0.1?external=preact';
 const html = htm.bind(h);
 
-// === DOMAIN DATA ===
+let core;
+try { core = await import('./bitti-core.js'); } catch { core = null; }
+const C = () => core || window.__BITTIBOL_CORE;
 
-const LEXICON = [
-  { pahari: 'dandru', gloss_en: 'teeth (diminutive -ru)', avoid: ['daant'], tags: ['body'], notes: 'Chitte dandru = white teeth, a beauty trope' },
-  { pahari: 'kundu', gloss_en: 'where', avoid: ['kahan'], tags: ['grammar'] },
-  { pahari: 'bitti', gloss_en: 'girl / daughter', avoid: ['larki', 'beti'], tags: ['people'] },
-  { pahari: 'ghughuti', gloss_en: 'a bird (songbird)', avoid: ['chidiya'], tags: ['nature'] },
-  { pahari: 'rouni', gloss_en: 'night', avoid: ['raat'], tags: ['time'] },
-  { pahari: 'banjar', gloss_en: 'barren / fallow land', avoid: [], tags: ['nature'] },
-  { pahari: 'bagaich', gloss_en: 'garden', avoid: ['bagh'], tags: ['nature'] },
-  { pahari: 'shimle', gloss_en: 'Shimla (oblique case)', avoid: ['shimla'], tags: ['place'] },
-  { pahari: 'dharampur', gloss_en: 'a town / village name', avoid: [], tags: ['place'] },
-  { pahari: 'kamru', gloss_en: 'a mythological fort / place', avoid: [], tags: ['place'] },
-  { pahari: 'manjh', gloss_en: 'in / inside', avoid: ['ch', 'vich', 'de naal'], tags: ['grammar'], notes: 'Use "manjh" not "ch" or "vich" for "in"' },
-  { pahari: 'minjo', gloss_en: 'to me', avoid: ['mainu', 'mujhe'], tags: ['grammar'] },
-  { pahari: 'herda', gloss_en: 'watching / looking', avoid: ['dekhda'], tags: ['verb'] },
-  { pahari: 'jaalu', gloss_en: 'when', avoid: ['jadon', 'jab'], tags: ['grammar'] },
-  { pahari: 'katha', gloss_en: 'talk / story', avoid: ['gallan'], tags: ['noun'] },
-  { pahari: 'ri', gloss_en: 'genitive feminine suffix', avoid: ['di'], tags: ['grammar'], notes: '"ri" not "di" for feminine genitive' },
-  { pahari: 'ra', gloss_en: 'genitive masculine suffix', avoid: ['da'], tags: ['grammar'], notes: '"ra" not "da" for masculine genitive' },
-  { pahari: 're', gloss_en: 'genitive oblique suffix', avoid: ['de'], tags: ['grammar'], notes: '"re" not "de" for oblique genitive' },
-  { pahari: 'sheeli', gloss_en: 'cold / cool', avoid: ['thandi'], tags: ['adj'] },
-  { pahari: 'graan', gloss_en: 'village', avoid: ['pind', 'gaon'], tags: ['place'] },
-  { pahari: 'chunnru', gloss_en: 'a red dupatta / scarf (diminutive)', avoid: ['dupatta'], tags: ['clothing'] },
-  { pahari: 'jhumku', gloss_en: 'earring (diminutive)', avoid: ['bali'], tags: ['clothing'] },
-  { pahari: 'mela', gloss_en: 'village fair', avoid: ['mela (acceptable)'], tags: ['culture'] },
-  { pahari: 'naati', gloss_en: 'Pahari folk dance / song genre', avoid: ['bhangra'], tags: ['music'] },
-  { pahari: 'deodar', gloss_en: 'Himalayan cedar tree', avoid: [], tags: ['nature'] },
-  { pahari: 'pahari', gloss_en: 'of the mountains / Pahari people', avoid: [], tags: ['identity'] },
-];
+const LEXICON = window.__BITTIBOL_LEXICON || (C() ? C().LEXICON : []);
+const CONTAMINATION_RULES = C() ? C().CONTAMINATION_RULES : [];
+const SUNO_RULES = C() ? C().SUNO_RULES : { limits: { lyrics: 5000, style: 1000, title: 100 }, requiredSections: ['[Intro]', '[Verse', '[Chorus]'], recommendedSections: ['[Bridge]', '[Outro]'], styleRules: { mustContain: ['naati', 'dhol', 'nagara'], bpm: { min: 90, max: 105 }, forbidPhrases: ['crisp snare on the backbeat', 'crisp snare', 'backbeat'] } };
+const SONG_PATTERNS = C() ? C().SONG_PATTERNS : { structure: ['Intro', 'Verse 1', 'Chorus', 'Verse 2', 'Chorus', 'Bridge', 'Verse 3', 'Verse 4', 'Chorus', 'Outro'], form: 'O…/Ho… call-and-answer', chorusRule: 'identical hook text' };
+const PROMPT_FRAGMENTS = C() ? C().PROMPT_FRAGMENTS : {};
 
-const CONTAMINATION_RULES = [
-  { pattern: '\\bde naal\\b', language: 'punjabi', severity: 'high', suggestion: 'manjh', explanation: 'Punjabi "de naal" means "with"; use Pahari "manjh" or postpositional forms' },
-  { pattern: '\\bjadon\\b', language: 'punjabi', severity: 'high', suggestion: 'jaalu', explanation: 'Punjabi "jadon" = when; Pahari uses "jaalu"' },
-  { pattern: '\\bgallan\\b', language: 'punjabi', severity: 'high', suggestion: 'katha', explanation: 'Punjabi "gallan" = talk/stories; Pahari uses "katha"' },
-  { pattern: '\\bdila ch\\b', language: 'punjabi', severity: 'high', suggestion: 'manjh', explanation: 'Punjabi "dila ch" = in the heart; use Pahari "manjh"' },
-  { pattern: '\\bmainu\\b', language: 'punjabi', severity: 'high', suggestion: 'minjo', explanation: 'Punjabi "mainu" = to me; Pahari uses "minjo"' },
-  { pattern: '\\btainu\\b', language: 'punjabi', severity: 'high', suggestion: 'tujo / tujhe', explanation: 'Punjabi "tainu" = to you; use Pahari forms' },
-  { pattern: '\\bpind\\b', language: 'punjabi', severity: 'high', suggestion: 'graan', explanation: 'Punjabi "pind" = village; Pahari uses "graan"' },
-  { pattern: '\\bvich\\b', language: 'punjabi', severity: 'high', suggestion: 'manjh', explanation: 'Punjabi "vich" = in; Pahari uses "manjh"' },
-  { pattern: '\\bdi\\b', language: 'punjabi', severity: 'high', suggestion: 'ri / ra / re', explanation: 'Punjabi genitive "di" should be Pahari "ri" (fem) / "ra" (masc) / "re" (obl)' },
-  { pattern: '\\bda\\b', language: 'punjabi', severity: 'high', suggestion: 'ra', explanation: 'Punjabi genitive "da" should be Pahari "ra"' },
-  { pattern: '\\bde\\b', language: 'punjabi', severity: 'high', suggestion: 're', explanation: 'Punjabi oblique genitive "de" should be Pahari "re"' },
-  { pattern: '\\bmujhe\\b', language: 'hindi', severity: 'medium', suggestion: 'minjo', explanation: 'Hindi "mujhe" = to me; use Pahari "minjo"' },
-  { pattern: '\\btumhara\\b', language: 'hindi', severity: 'medium', suggestion: 'tera / teri', explanation: 'Hindi "tumhara" = your; use Pahari "tera/teri"' },
-  { pattern: '\\bkyunki\\b', language: 'hindi', severity: 'medium', suggestion: 'kathi / je', explanation: 'Hindi "kyunki" = because; use Pahari forms' },
-  { pattern: '\\blekin\\b', language: 'hindi', severity: 'medium', suggestion: 'par / magar (acceptable)', explanation: 'Hindi "lekin" = but; "par" is borderline acceptable' },
-  { pattern: '\\bdekhda\\b', language: 'hindi', severity: 'medium', suggestion: 'herda', explanation: 'Hindi "dekhda" = watching; use Pahari "herda"' },
-  { pattern: '\\braat\\b', language: 'hindi', severity: 'medium', suggestion: 'rouni', explanation: 'Hindi "raat" = night; use Pahari "rouni"' },
-  { pattern: '\\blarki\\b', language: 'hindi', severity: 'medium', suggestion: 'bitti', explanation: 'Hindi "larki" = girl; use Pahari "bitti"' },
-];
-
-const SUNO_RULES = {
-  limits: { lyrics: 5000, style: 1000, title: 100 },
-  requiredSections: ['[Intro]', '[Verse', '[Chorus]'],
-  recommendedSections: ['[Bridge]', '[Outro]'],
-  styleRules: {
-    firstSentenceLanguage: 'Himachali Pahari',
-    mustContain: ['naati', 'dhol', 'nagara'],
-    bpm: { min: 90, max: 105 },
-    forbidPhrases: ['crisp snare on the backbeat', 'crisp snare', 'backbeat'],
-    forbidWords: ['bhangra'],
-    tagVocabulary: [
-      '[flute trill]', '[bansuri melody]', '[acoustic guitar fill]', '[soft electric guitar fill]',
-      '[dhol accents]', '[valley echo]', '[male vocals with folk ornamentation]', '[group vocal harmony]',
-      '[full band, naati dance rhythm]', '[acoustic guitar strumming]', '[high-pitched flute melody]',
-      '[steady dhol kick]', '[chimta metallic chime]', '[electric guitar crunch]', '[dhol heartbeat]',
-      '[raw mountain voice]', '[foot stomp rhythm]', '[nagara beat]',
-    ],
-  },
-};
-
-const SONG_PATTERNS = {
-  form: 'O…/Ho… call-and-answer with callback last line',
-  structure: ['Intro', 'Verse 1', 'Chorus', 'Verse 2', 'Chorus', 'Bridge', 'Verse 3', 'Verse 4', 'Chorus', 'Outro'],
-  tropeChains: [
-    'white teeth → red chunnru in wind → jhumku swaying → mela dancing',
-    'deodar shade → moonlight → waiting on path → heart longing',
-    'snowy peaks → village path → dhol rhythm → feet dancing',
-  ],
-  chorusRule: 'identical hook text on every repetition',
-};
-
-const PROMPT_FRAGMENTS = {
-  composerPersona: 'You are a master Himachali Pahari folk songwriter from the Mahasuvi/Sirmauri belt. You create authentic, soulful songs for the Suno v5.5 AI music generation platform.',
-  dialectRequirement: 'CRITICAL: Lyrics MUST be in the Mahasuvi/Sirmauri dialect of Himachali Pahari — NOT standard Hindi, NOT Punjabi. Use authentic Pahari words, grammar, and expressions. The dialect must feel authentic to someone from the Shimla/Sirmaur hills.',
-  lyricsFormat: 'Use Suno v5.5 tags: [Intro], [Verse 1]-[Verse 4], [Chorus] (identical on each repetition), [Bridge] (quiet shift), [Outro] (fade). Include instrument performance tags and vocal direction tags. The hook/chorus must be memorable and repeatable.',
-  styleFormat: 'Style block = comma-separated English descriptor string. Structure: [Genre/Style], [Vocal Type], [Instruments], [Tempo/Key/Mood]. Must open with language hint "sung in Himachali Pahari" as the first sentence. Explicitly name naati as genre. Name dhol and nagara for percussion. No backbeat phrasing. BPM must be stated and fall within 90-105.',
-  titleRule: 'Romanized Pahari title, 2-5 words, poetic, not English, not Devanagari.',
-  outputContract: 'Respond ONLY with a valid JSON object: {"title": "...", "lyrics": "...", "style": "..."}. No markdown fences. No other text.',
-  criticPersona: 'You are a Himachali Pahari language expert specializing in Mahasuvi/Sirmauri dialects. Analyze song lyrics for dialect authenticity.',
-  criticOutput: 'Respond with JSON: {"is_authentic": bool, "confidence": 0-1, "issues": [{"excerpt": "...", "problem": "...", "suggestion": "..."}]}',
-};
-
-// === STORAGE ===
 const STORAGE_KEY = 'bitti-bol:v2';
 const LEGACY_KEY = 'bitti-bol-history';
-
 const DEFAULT_SETTINGS = {
   composer: { baseUrl: 'https://opencode.ai/zen/go/v1', apiKey: '', model: 'deepseek-v4-flash', temperature: 0.85, maxTokens: 4000 },
   critic: { baseUrl: 'https://opencode.ai/zen/go/v1', apiKey: '', model: 'deepseek-v4-flash', temperature: 0.2, maxTokens: 2000 },
-  criticEnabled: true,
-  sameAsCritic: true,
+  criticEnabled: true, sameAsCritic: true, corsProxy: '',
 };
-
-const DEFAULT_USER_LEXICON = [];
-
-function createDefaultStorage() {
-  return { schemaVersion: 2, settings: JSON.parse(JSON.stringify(DEFAULT_SETTINGS)), history: [], userLexicon: [] };
+function historyFileName() { return 'history.js'; }
+function historyFileContent(arr) { return 'window.__BITTIBOL_HISTORY = ' + JSON.stringify(arr, null, 2) + ';\n'; }
+function downloadHistory(arr) {
+  const blob = new Blob([historyFileContent(arr)], { type: 'application/javascript' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = historyFileName(); a.click();
 }
 
 function migrateV1History() {
@@ -346,61 +117,40 @@ function migrateV1History() {
     const old = JSON.parse(raw);
     if (!Array.isArray(old)) return [];
     return old.map(s => ({
-      id: s.id || crypto.randomUUID(),
-      createdAt: s.generated_at || new Date().toISOString(),
-      title: s.title || 'Untitled',
-      lyrics: s.lyrics?.content || '',
-      style: s.style?.content || '',
-      topic: s.topic || '',
-      prefs: {},
+      id: s.id || crypto.randomUUID(), createdAt: s.generated_at || new Date().toISOString(),
+      title: s.title || 'Untitled', lyrics: s.lyrics?.content || '', style: s.style?.content || '',
+      topic: s.topic || '', prefs: {},
       report: { mechanical: { warnings: [], isValid: true }, scan: [], critic: null, repair: null },
       pipelineVersion: 1,
     }));
-  } catch (e) {
-    return [];
-  }
+  } catch { return []; }
 }
 
-let _storage = createDefaultStorage();
+let _storage = { schemaVersion: 2, settings: JSON.parse(JSON.stringify(DEFAULT_SETTINGS)), userLexicon: [] };
+let _v2localHistory = [];
 try {
   const raw = localStorage.getItem(STORAGE_KEY);
   if (raw) {
     const parsed = JSON.parse(raw);
     if (parsed && typeof parsed === 'object' && parsed.schemaVersion === 2) {
-      _storage = {
-        ...createDefaultStorage(),
-        ...parsed,
-        settings: { ...DEFAULT_SETTINGS, ...(parsed.settings || {}) },
-      };
+      _storage = { ..._storage, ...parsed, settings: { ...DEFAULT_SETTINGS, ...(parsed.settings || {}) } };
+      if (Array.isArray(parsed.history)) _v2localHistory = parsed.history;
     }
   }
-} catch (e) {
-  _storage = createDefaultStorage();
-}
-// config.js overrides (authoritative on every load)
+} catch {}
 if (typeof window.__BITTIBOL_CONFIG !== 'undefined') {
   const cfg = window.__BITTIBOL_CONFIG;
-  if (cfg.composer) {
-    if (cfg.composer.apiKey) _storage.settings.composer.apiKey = cfg.composer.apiKey;
-    if (cfg.composer.baseUrl) _storage.settings.composer.baseUrl = cfg.composer.baseUrl;
-    if (cfg.composer.model) _storage.settings.composer.model = cfg.composer.model;
-  }
-  if (cfg.critic) {
-    if (cfg.critic.apiKey) _storage.settings.critic.apiKey = cfg.critic.apiKey;
-    if (cfg.critic.baseUrl) _storage.settings.critic.baseUrl = cfg.critic.baseUrl;
-    if (cfg.critic.model) _storage.settings.critic.model = cfg.critic.model;
-  }
+  if (cfg.composer) { if (cfg.composer.apiKey) _storage.settings.composer.apiKey = cfg.composer.apiKey; if (cfg.composer.baseUrl) _storage.settings.composer.baseUrl = cfg.composer.baseUrl; if (cfg.composer.model) _storage.settings.composer.model = cfg.composer.model; }
+  if (cfg.critic) { if (cfg.critic.apiKey) _storage.settings.critic.apiKey = cfg.critic.apiKey; if (cfg.critic.baseUrl) _storage.settings.critic.baseUrl = cfg.critic.baseUrl; if (cfg.critic.model) _storage.settings.critic.model = cfg.critic.model; }
+  if (cfg.corsProxy) _storage.settings.corsProxy = cfg.corsProxy;
 }
-if (_storage.history.length === 0) {
-  const migrated = migrateV1History();
-  if (migrated.length > 0) _storage.history = migrated;
-}
+let initialHistory;
+if (typeof window.__BITTIBOL_HISTORY !== 'undefined' && window.__BITTIBOL_HISTORY.length) { initialHistory = window.__BITTIBOL_HISTORY; }
+else if (_v2localHistory.length) { initialHistory = _v2localHistory; setTimeout(() => downloadHistory(initialHistory), 500); }
+else { initialHistory = migrateV1History(); if (initialHistory.length) setTimeout(() => downloadHistory(initialHistory), 500); }
 
-function saveStorage() {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(_storage)); } catch (e) { /* quota exceeded */ }
-}
+function saveStorage() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(_storage)); } catch {} }
 
-// === SIGNALS ===
 const settings = signal(_storage.settings);
 const formTopic = signal('');
 const formMood = signal('');
@@ -418,411 +168,125 @@ const scanHits = signal([]);
 const showSettings = signal(false);
 const showLexicon = signal(false);
 const showExportImport = signal(false);
-const history = signal(_storage.history);
-const importError = signal(null);
-const copyFeedback = signal({ title: false, lyrics: false, style: false });
+const history = signal(initialHistory);
+const copyFeedback = signal({ title: false, style: false, lyrics: false });
+const layoutMode = signal('editorial');
+const editMode = signal(false);
+const hoveredHit = signal(null);
 
-// Persistent settings watcher
+effect(() => { _storage.settings = settings.value; saveStorage(); });
+let prevHistoryJson = JSON.stringify(history.value);
 effect(() => {
-  _storage.settings = settings.value;
-  saveStorage();
+  const json = JSON.stringify(history.value);
+  if (json === prevHistoryJson) return;
+  prevHistoryJson = json;
+  downloadHistory(history.value);
 });
-effect(() => { _storage.history = history.value; saveStorage(); });
 
-// Live contamination scan — debounced
 let scanTimer = null;
 function scheduleScan(text) {
   clearTimeout(scanTimer);
   if (!text.trim()) { scanHits.value = []; return; }
   scanTimer = setTimeout(() => {
-    scanHits.value = runContaminationScan(text);
+    if (C()) scanHits.value = C().runContaminationScan(text);
   }, 400);
 }
 
-// === LLM ADAPTER ===
-async function llmCall(slot, systemPrompt, userPrompt, { expectJson = true } = {}) {
-  const cfg = settings.value[slot];
-  const isComposer = slot === 'composer';
-  const timeoutMs = isComposer ? 90000 : 60000;
-
-  if (!cfg.apiKey) return { ok: false, errorKind: 'auth', message: 'No API key configured for ' + slot + ' — set it in Settings.' };
-  if (!cfg.baseUrl) return { ok: false, errorKind: 'auth', message: 'No base URL configured for ' + slot + ' — set it in Settings.' };
-
-  const baseUrl = cfg.baseUrl.replace(/\/+$/, '');
-  const url = baseUrl + '/chat/completions';
-
-  const body = {
-    model: cfg.model || 'deepseek-v4-flash',
-    messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: userPrompt }],
-    temperature: cfg.temperature ?? (isComposer ? 0.85 : 0.2),
-    max_tokens: cfg.maxTokens ?? (isComposer ? 4000 : 2000),
-  };
-  if (expectJson) body.response_format = { type: 'json_object' };
-
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs);
-
-  try {
-    const resp = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + cfg.apiKey },
-      body: JSON.stringify(body),
-      signal: controller.signal,
-    });
-    clearTimeout(timer);
-
-    if (resp.status === 401 || resp.status === 403) {
-      const msg = await resp.text().catch(() => '');
-      return { ok: false, errorKind: 'auth', message: 'Key rejected (' + resp.status + '). Verify your API key.' + (msg ? ' ' + msg.slice(0, 200) : '') };
-    }
-    if (resp.status === 429) {
-      return { ok: false, errorKind: 'rate_limit', message: 'Rate limited. Wait a moment and retry.' };
-    }
-    if (!resp.ok) {
-      const msg = await resp.text().catch(() => '');
-      return { ok: false, errorKind: 'provider_error', message: 'Provider error (' + resp.status + ')' + (msg ? ': ' + msg.slice(0, 300) : '') };
-    }
-
-    const data = await resp.json();
-    const content = data?.choices?.[0]?.message?.content;
-    const finish = data?.choices?.[0]?.finish_reason;
-
-    if (!content) {
-      if (finish === 'length') return { ok: false, errorKind: 'bad_json', message: 'Response empty (max_tokens too short or reasoning ate tokens). Try increasing max_tokens.' };
-      return { ok: false, errorKind: 'bad_json', message: 'Empty response from model.' };
-    }
-
-    if (!expectJson) return { ok: true, data: content };
-
-    let json;
-    try {
-      const cleaned = content.replace(/^```(?:json)?\s*/, '').replace(/\s*```$/, '').trim();
-      json = JSON.parse(cleaned);
-    } catch (e) {
-      return { ok: false, errorKind: 'bad_json', message: 'Failed to parse response as JSON. Raw: ' + content.slice(0, 300) };
-    }
-    return { ok: true, data: json };
-  } catch (e) {
-    clearTimeout(timer);
-    if (e.name === 'AbortError') return { ok: false, errorKind: 'timeout', message: 'Request timed out after ' + (timeoutMs / 1000) + 's.' };
-    const msg = e.message || String(e);
-    if (msg.includes('Failed to fetch') || msg.includes('NetworkError') || msg.includes('CORS') || msg.includes('network')) {
-      return { ok: false, errorKind: 'cors_or_network', message: 'Network/CORS error. The provider may not allow browser calls. Set a proxy base URL in Settings.' };
-    }
-    return { ok: false, errorKind: 'provider_error', message: msg };
-  }
-}
-
-// === VALIDATORS ===
-
-function validateMechanical(lyrics, style) {
-  const warnings = [];
-  const lc = lyrics.length;
-  const sc = style.length;
-
-  if (lc > SUNO_RULES.limits.lyrics) warnings.push({ code: 'lyrics_overflow', severity: 'high', message: 'Lyrics exceed ' + SUNO_RULES.limits.lyrics + ' chars (' + lc + '). Suno may truncate.' });
-  if (sc > SUNO_RULES.limits.style) warnings.push({ code: 'style_overflow', severity: 'high', message: 'Style exceeds ' + SUNO_RULES.limits.style + ' chars (' + sc + '). Suno may truncate.' });
-
-  for (const tag of SUNO_RULES.requiredSections) {
-    if (tag === '[Verse') {
-      if (!lyrics.match(/\[Verse\s*\d+\]/i)) warnings.push({ code: 'missing_' + tag, severity: 'high', message: 'Missing required section: [Verse N]' });
-    } else {
-      if (!lyrics.includes(tag)) warnings.push({ code: 'missing_' + tag, severity: 'high', message: 'Missing required section: ' + tag });
-    }
-  }
-  for (const tag of SUNO_RULES.recommendedSections) {
-    if (!lyrics.includes(tag)) warnings.push({ code: 'missing_' + tag, severity: 'medium', message: 'Consider adding ' + tag + ' for better suno structure' });
-  }
-
-  // Chorus consistency
-  const chorusSections = [];
-  const lines = lyrics.split('\n');
-  let inChorus = false;
-  let currentChorus = [];
-  for (const line of lines) {
-    if (/\[Chorus\]/i.test(line) || /\[Chorus\s*\d*\]/i.test(line)) {
-      if (inChorus && currentChorus.length) chorusSections.push(currentChorus.join('\n').trim());
-      inChorus = true;
-      currentChorus = [];
-      continue;
-    }
-    if (inChorus) {
-      if (/^\[/.test(line.trim())) {
-        if (currentChorus.length) chorusSections.push(currentChorus.join('\n').trim());
-        inChorus = false;
-        currentChorus = [];
-        continue;
-      }
-      currentChorus.push(line);
-    }
-  }
-  if (inChorus && currentChorus.length) chorusSections.push(currentChorus.join('\n').trim());
-  if (chorusSections.length > 1) {
-    const normalized = chorusSections.map(c => c.replace(/\s+/g, ' ').trim());
-    const first = normalized[0];
-    for (let i = 1; i < normalized.length; i++) {
-      if (normalized[i] !== first) warnings.push({ code: 'chorus_mismatch', severity: 'medium', message: 'Chorus ' + (i + 1) + ' differs from first Chorus. Suno v5.5 works best with identical hooks.' });
-    }
-  }
-
-  // Style checks
-  const styleLower = style.toLowerCase();
-  const firstSentence = style.split(/[,.]/)[0]?.trim().toLowerCase() || '';
-  if (!firstSentence.includes('himachali') && !firstSentence.includes('pahari')) {
-    warnings.push({ code: 'style_language_hint', severity: 'medium', message: 'Style block should open with a language hint (e.g. "sung in Himachali Pahari")' });
-  }
-  for (const word of SUNO_RULES.styleRules.mustContain) {
-    if (!styleLower.includes(word)) warnings.push({ code: 'style_missing_' + word, severity: 'medium', message: 'Style block should mention "' + word + '" for authentic Pahari sound' });
-  }
-  const bpmMatch = style.match(/\b(\d{2,3})\s*bpm\b/i);
-  if (bpmMatch) {
-    const bpm = parseInt(bpmMatch[1]);
-    if (bpm < SUNO_RULES.styleRules.bpm.min || bpm > SUNO_RULES.styleRules.bpm.max) {
-      warnings.push({ code: 'style_bpm', severity: 'medium', message: 'BPM ' + bpm + ' outside recommended range (' + SUNO_RULES.styleRules.bpm.min + '-' + SUNO_RULES.styleRules.bpm.max + ') for naati rhythm' });
-    }
-  } else {
-    warnings.push({ code: 'style_bpm_missing', severity: 'medium', message: 'Style block should include a BPM range within ' + SUNO_RULES.styleRules.bpm.min + '-' + SUNO_RULES.styleRules.bpm.max });
-  }
-  for (const phrase of SUNO_RULES.styleRules.forbidPhrases) {
-    if (styleLower.includes(phrase.toLowerCase())) warnings.push({ code: 'style_backbeat', severity: 'medium', message: 'Avoid "' + phrase + '" (bhangra attractor). Use "dhol" and "nagara" phrasing instead.' });
-  }
-
-  const isValid = warnings.filter(w => w.severity === 'high').length === 0;
-  return { warnings, isValid };
-}
-
-function runContaminationScan(lyrics) {
-  const hits = [];
-  const lines = lyrics.split('\n');
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
-    const trimmed = line.trim();
-    if (/^\[.*\]$/.test(trimmed)) continue; // skip bracket-tag lines
-    for (const rule of CONTAMINATION_RULES) {
-      const re = new RegExp(rule.pattern, 'gi');
-      let m;
-      while ((m = re.exec(line)) !== null) {
-        hits.push({
-          match: m[0],
-          line: line.trim(),
-          lineNo: i + 1,
-          language: rule.language,
-          severity: rule.severity,
-          suggestion: rule.suggestion,
-          explanation: rule.explanation,
-          pattern: rule.pattern,
-        });
-      }
-    }
-  }
-  return hits;
-}
-
-function applyReplacement(text, pattern, replacement) {
-  const re = new RegExp(pattern, 'gi');
-  return text.replace(re, replacement);
-}
-
-function assemblePrompt(prefs, includeLexicon = true) {
-  const lexBlock = includeLexicon ? LEXICON.map(e => e.pahari + ' = ' + e.gloss_en + (e.avoid?.length ? ' (avoid: ' + e.avoid.join(', ') + ')' : '')).join('\n') : '';
-  const rulesBlock = 'Style rules:\n- First sentence: "sung in Himachali Pahari"\n- Must name genre as naati\n- Percussion: dhol and nagara (no backbeat phrasing)\n- BPM: ' + SUNO_RULES.styleRules.bpm.min + '-' + SUNO_RULES.styleRules.bpm.max + '\n- No bhangra references\n';
-  const structureBlock = 'Structure: ' + SONG_PATTERNS.structure.join(' → ') + '\nForm: ' + SONG_PATTERNS.form + '\nTrope chains: ' + SONG_PATTERNS.tropeChains.join('; ') + '\nChorus rule: ' + SONG_PATTERNS.chorusRule + '\n';
-
-  const userLines = [];
-  userLines.push('Create a Himachali Pahari folk song about: ' + prefs.topic);
-  if (prefs.mood) userLines.push('Mood: ' + prefs.mood);
-  if (prefs.occasion) userLines.push('Occasion: ' + prefs.occasion);
-  if (prefs.instruments) userLines.push('Incorporate these instruments: ' + prefs.instruments);
-  if (prefs.notes) userLines.push('Additional guidance: ' + prefs.notes);
-  userLines.push('\nRemember: Lyrics in authentic Mahasuvi/Sirmauri Pahari. Style in English. Output ONLY valid JSON.');
-
-  return {
-    system: PROMPT_FRAGMENTS.composerPersona + '\n\n' + PROMPT_FRAGMENTS.dialectRequirement + '\n\n## Pahari Lexicon (use these)\n' + lexBlock + '\n\n## ' + rulesBlock + '\n\n## ' + structureBlock + '\n\n## Output Format\n' + PROMPT_FRAGMENTS.titleRule + '\n' + PROMPT_FRAGMENTS.lyricsFormat + '\n' + PROMPT_FRAGMENTS.styleFormat + '\n' + PROMPT_FRAGMENTS.outputContract,
-    user: userLines.join('\n'),
-  };
-}
-
-function assembleCriticPrompt(lyrics) {
-  const lexBlock = LEXICON.map(e => e.pahari + ' = ' + e.gloss_en).join('\n');
-  const rulesBlock = CONTAMINATION_RULES.filter(r => r.severity === 'high').map(r => r.pattern + ' (' + r.language + ' ' + r.severity + ') → ' + r.suggestion).join('\n');
-  return {
-    system: PROMPT_FRAGMENTS.criticPersona + '\n\nLexicon:\n' + lexBlock + '\n\nKnown contamination patterns:\n' + rulesBlock + '\n\n' + PROMPT_FRAGMENTS.criticOutput,
-    user: 'Validate these lyrics:\n\n' + lyrics.slice(0, 3000),
-  };
-}
-
-// === PIPELINE ===
+const STAGES = [
+  { key: 'compose', label: 'Compose', blurb: 'LLM writes the song' },
+  { key: 'validate', label: 'Validate', blurb: 'Suno structure rules' },
+  { key: 'scan', label: 'Scan', blurb: 'Dialect contamination' },
+  { key: 'critic', label: 'Critic', blurb: 'LLM authenticity check' },
+  { key: 'repair', label: 'Repair', blurb: 'Targeted dialect fixes' },
+];
 
 function pushStep(name, status, msg) {
-  pipelineSteps.value = [...pipelineSteps.value, { name, status, message: msg || '' }];
+  const stages = pipelineSteps.value;
+  const existing = stages.find(s => s.name === name);
+  if (existing) { existing.status = status; existing.message = msg || ''; pipelineSteps.value = [...stages]; }
+  else { pipelineSteps.value = [...stages, { name, status, message: msg || '' }]; }
 }
 
 async function runPipeline(prefs) {
-  pipelineStep.value = 'composing';
+  const c = C(); if (!c) { pipelineError.value = { errorKind: 'load_error', message: 'Core module not loaded. Check that bitti-core.js exists.' }; return; }
   pipelineError.value = null;
   pipelineSteps.value = [];
-  pushStep('composing', 'active', 'Calling composer…');
+  pushStep('compose', 'active', 'Calling composer…');
 
-  const prompts = assemblePrompt(prefs);
-  const result = await llmCall('composer', prompts.system, prompts.user);
-
+  const withProxy = (cfg) => settings.value.corsProxy ? { ...cfg, corsProxy: settings.value.corsProxy } : cfg;
+  const prompts = c.assemblePrompt(prefs);
+  const result = await c.llmCall(withProxy(settings.value.composer), 'composer', prompts.system, prompts.user);
   if (!result.ok) {
-    pipelineStep.value = 'failed';
-    pushStep('composing', 'failed', result.message);
+    pushStep('compose', 'failed', result.message);
     pipelineError.value = result;
     return;
   }
-
   const d = result.data;
   if (!d.title || !d.lyrics || !d.style) {
-    pipelineStep.value = 'failed';
-    pushStep('composing', 'failed', 'Incomplete generation: missing title/lyrics/style');
-    pipelineError.value = { ok: false, errorKind: 'bad_json', message: 'Model returned incomplete data. Try again.' };
+    pushStep('compose', 'failed', 'Incomplete: missing title/lyrics/style');
+    pipelineError.value = { errorKind: 'bad_json', message: 'Model returned incomplete data. Try again.' };
     return;
   }
+  pushStep('compose', 'done', '');
+  songTitle.value = d.title; songLyrics.value = d.lyrics; songStyle.value = d.style;
+  scanHits.value = c.runContaminationScan(d.lyrics);
 
-  pushStep('composing', 'done', '');
-  songTitle.value = d.title;
-  songLyrics.value = d.lyrics;
-  songStyle.value = d.style;
+  pushStep('validate', 'active', '');
+  const mech = c.validateMechanical(d.lyrics, d.style);
+  pushStep('validate', 'done', mech.warnings.length ? (mech.warnings.length + ' note' + (mech.warnings.length !== 1 ? 's' : '')) : 'clean');
 
-  // Step 2: Mechanical validation
-  pipelineStep.value = 'validating';
-  pushStep('validating', 'active', '');
-  const mech = validateMechanical(d.lyrics, d.style);
-  pushStep('validating', mech.isValid ? 'done' : 'done', mech.isValid ? '' : mech.warnings.length + ' warnings');
+  pushStep('scan', 'active', '');
+  const scan = c.runContaminationScan(d.lyrics);
+  const highHits = scan.filter(h => h.severity === 'high').length;
+  pushStep('scan', 'done', scan.length ? (highHits + ' high · ' + (scan.length - highHits) + ' med') : 'clean');
 
-  // Step 3: Contamination scan
-  pipelineStep.value = 'scanning';
-  pushStep('scanning', 'active', '');
-  const scan = runContaminationScan(d.lyrics);
-  const highScanHits = scan.filter(h => h.severity === 'high').length;
-  pushStep('scanning', 'done', highScanHits ? highScanHits + ' high hits' : 'clean');
-
-  // Step 4: Critic
-  let criticResult = null;
+  let critic = null;
   if (settings.value.criticEnabled) {
-    pipelineStep.value = 'critiquing';
-    pushStep('critiquing', 'active', '');
-    const cPrompts = assembleCriticPrompt(d.lyrics);
-    const cResult = await llmCall('critic', cPrompts.system, cPrompts.user);
-    if (cResult.ok) {
-      criticResult = cResult.data;
-      const auth = cResult.data.is_authentic;
-      const conf = cResult.data.confidence || 0;
-      pushStep('critiquing', 'done', auth ? 'authentic (conf ' + conf.toFixed(2) + ')' : 'issues (conf ' + conf.toFixed(2) + ')');
+    pushStep('critic', 'active', '');
+    const cp = c.assembleCriticPrompt(d.lyrics);
+    const cr = await c.llmCall(withProxy(settings.value.critic), 'critic', cp.system, cp.user);
+    if (cr.ok) {
+      critic = cr.data;
+      const conf = (critic.confidence || 0);
+      pushStep('critic', 'done', (critic.is_authentic ? 'authentic' : 'issues') + ' · ' + conf.toFixed(2));
     } else {
-      pushStep('critiquing', 'skipped', 'critic unavailable: ' + cResult.message);
+      pushStep('critic', 'skipped', 'unavailable');
     }
   } else {
-    pushStep('critiquing', 'skipped', 'disabled in settings');
+    pushStep('critic', 'skipped', 'disabled');
   }
 
-  // Step 5: Repair (max once)
-  let repairApplied = false;
-  let beforeScan = scan.length;
-  let afterScan = scan.length;
-  const needRepair = (criticResult && criticResult.is_authentic === false && (criticResult.confidence || 0) < 0.7) || highScanHits > 0;
-
+  let repairApplied = false, afterHigh = highHits, finalLyrics = d.lyrics;
+  const needRepair = (critic && critic.is_authentic === false && (critic.confidence || 0) < 0.7) || highHits > 0;
   if (needRepair) {
-    pipelineStep.value = 'repairing';
-    pushStep('repairing', 'active', 'Applying repair…');
-
+    pushStep('repair', 'active', 'Applying fixes…');
     const issues = [];
     for (const h of scan) issues.push('- Line ' + h.lineNo + ': "' + h.match + '" (' + h.language + ') → ' + h.suggestion);
-    if (criticResult && criticResult.issues) {
-      for (const iss of criticResult.issues) issues.push('- "' + (iss.excerpt || '') + '": ' + (iss.problem || '') + ' → ' + (iss.suggestion || ''));
-    }
-
-    const repairPrompt = 'The following lyrics have dialect issues. Fix ONLY the flagged constructions with the suggested Pahari forms. Keep the title, structure, tags, and all other lines byte-identical. Return the same JSON shape {title, lyrics, style}.\n\nOriginal lyrics:\n' + d.lyrics + '\n\nIssues:\n' + issues.join('\n');
-    const rResult = await llmCall('composer', 'You are a Himachali Pahari dialect editor. ' + PROMPT_FRAGMENTS.dialectRequirement, repairPrompt);
-    if (rResult.ok) {
-      const rd = rResult.data;
-      if (rd.lyrics && rd.lyrics.length > 0) {
-        songLyrics.value = rd.lyrics;
-        repairApplied = true;
-        afterScan = runContaminationScan(rd.lyrics).length;
-        pushStep('repairing', 'done', 'High hits: ' + highScanHits + ' → ' + runContaminationScan(rd.lyrics).filter(h => h.severity === 'high').length);
-      } else {
-        pushStep('repairing', 'done', 'repair produced empty lyrics, keeping original');
-      }
+    if (critic && critic.issues) for (const iss of critic.issues) issues.push('- "' + (iss.excerpt || '') + '": ' + (iss.problem || '') + ' → ' + (iss.suggestion || ''));
+    const rp = 'The following lyrics have dialect issues. Fix ONLY the flagged constructions with the suggested Pahari forms. Keep the title, structure, tags, and all other lines byte-identical. Return the same JSON shape {title, lyrics, style}.\n\nOriginal lyrics:\n' + d.lyrics + '\n\nIssues:\n' + issues.join('\n');
+    const rr = await c.llmCall(withProxy(settings.value.composer), 'composer', 'You are a Himachali Pahari dialect editor. ' + c.PROMPT_FRAGMENTS.dialectRequirement, rp);
+    if (rr.ok && rr.data.lyrics && rr.data.lyrics.length) {
+      finalLyrics = rr.data.lyrics; repairApplied = true;
+      afterHigh = c.runContaminationScan(finalLyrics).filter(h => h.severity === 'high').length;
+      pushStep('repair', 'done', 'high ' + highHits + ' → ' + afterHigh);
     } else {
-      pushStep('repairing', 'done', 'repair failed: ' + rResult.message + ', keeping original');
+      pushStep('repair', 'done', rr.ok ? 'kept original' : 'failed · kept original');
     }
+  } else {
+    pushStep('repair', 'skipped', 'nothing to fix');
   }
 
-  // Done
-  pipelineStep.value = 'done';
-  pushStep('done', 'done', '');
-
-  const report = {
-    mechanical: mech,
-    scan,
-    critic: criticResult,
-    repair: repairApplied ? { applied: true, beforeHigh: highScanHits, afterHigh: runContaminationScan(songLyrics.value).filter(h => h.severity === 'high').length } : null,
-  };
-  songReport.value = report;
-
+  const finalScan = c.runContaminationScan(finalLyrics);
+  const report = { mechanical: mech, scan: finalScan, critic, repair: repairApplied ? { applied: true, beforeHigh: highHits, afterHigh } : null };
   const record = {
-    id: crypto.randomUUID(),
-    createdAt: new Date().toISOString(),
-    title: songTitle.value,
-    lyrics: songLyrics.value,
-    style: songStyle.value,
-    topic: prefs.topic,
-    prefs,
-    report,
-    pipelineVersion: 2,
+    id: crypto.randomUUID(), createdAt: new Date().toISOString(), title: d.title, lyrics: finalLyrics,
+    style: d.style, topic: prefs.topic, prefs, report, pipelineVersion: 2,
   };
+  songLyrics.value = finalLyrics; scanHits.value = finalScan; songReport.value = report;
   history.value = [record, ...history.value].slice(0, 50);
-  pipelineStep.value = 'done';
 }
 
-// === UI COMPONENTS ===
-
-function Header() {
-  return html`
-    <div class="header">
-      <div>
-        <h1><em>Bitti</em> Bol</h1>
-        <div class="tagline">Himachali Pahari Song Studio for Suno v5.5</div>
-      </div>
-      <div class="header-actions">
-        <button class="btn btn-ghost btn-icon" title="Lexicon" onClick=${() => showLexicon.value = !showLexicon.value}>📖</button>
-        <button class="btn btn-ghost btn-icon" title="Settings" onClick=${() => showSettings.value = true}>⚙️</button>
-      </div>
-    </div>
-  `;
-}
-
-function PipelineTracker() {
-  const steps = pipelineSteps.value;
-  if (steps.length === 0) return null;
-  const icons = { done: '✅', active: '⏳', failed: '❌', skipped: '⏭️' };
-  return html`
-    <div class="card">
-      <div class="steps">
-        ${steps.map(s => html`
-          <div class="step step-${s.status}">
-            <span class="step-icon">${icons[s.status] || '○'}</span>
-            ${s.name}${s.message ? html`<span class="text-xs text-dim">: ${s.message}</span>` : ''}
-          </div>
-        `)}
-      </div>
-      ${pipelineError.value ? html`
-        <div class="callout callout-error mt-2">
-          <strong>${pipelineError.value.errorKind}</strong>: ${pipelineError.value.message}
-          ${pipelineError.value.errorKind === 'cors_or_network' ? html`
-            <div class="mt-2 text-sm">💡 OpenCode Zen may need a CORS proxy. Configure one in <button class="accordion-toggle" onClick=${() => showSettings.value = true}>Settings</button>.</div>
-          ` : ''}
-          ${pipelineError.value.errorKind === 'auth' ? html`
-            <div class="mt-2 text-sm">💡 Check your API key in <button class="accordion-toggle" onClick=${() => showSettings.value = true}>Settings</button>.</div>
-          ` : ''}
-        </div>
-      ` : ''}
-    </div>
-  `;
-}
+// === COMPONENTS ===
 
 function CharCounter({ text, limit }) {
   const len = (text || '').length;
@@ -830,228 +294,322 @@ function CharCounter({ text, limit }) {
   return html`<span class="char-count ${cls}">${len} / ${limit}</span>`;
 }
 
-function EditorBlock({ label, value, onChange, maxLen, mono, placeholder, extra }) {
-  const Tag = mono ? 'textarea' : 'textarea';
+function StageList() {
+  const sts = pipelineSteps.value;
+  const ed = layoutMode.value === 'editorial';
+  const pal = (status) => {
+    const m = { idle: { dot: '#ece4d3', ic: '#b0a48f', label: '#a89a84' }, active: { dot: '#c0472a', ic: '#fff', label: '#26211a' }, done: { dot: '#4f7a3f', ic: '#fff', label: '#26211a' }, failed: { dot: '#c0472a', ic: '#fff', label: '#c0472a' }, skipped: { dot: '#e4ddcd', ic: '#b0a48f', label: '#b0a48f' } };
+    return m[status] || m.idle;
+  };
+  const iconC = (stg, i) => stg.status === 'done' ? '✓' : stg.status === 'failed' ? '!' : stg.status === 'skipped' ? '–' : stg.status === 'active' ? '' : String(i + 1);
+  const allDone = sts.some(s => s.status !== 'idle');
   return html`
-    <div class="card">
+    <div style="display:${ed ? 'flex' : 'flex'};flex-direction:${ed ? 'row' : 'column'};flex-wrap:${ed ? 'wrap' : 'nowrap'};gap:2px;align-items:${ed ? 'stretch' : 'stretch'}">
+      ${STAGES.map((d, i) => {
+        const stg = sts.find(s => s.name === d.key) || { status: 'idle', message: '' };
+        const p = pal(stg.status);
+        const sub = stg.message || d.blurb;
+        return html`
+          <div style="display:flex;align-items:${ed ? 'stretch' : 'flex-start'};flex-direction:${ed ? 'row' : 'column'}">
+            ${i > 0 ? html`<div style="${ed ? 'width:16px;height:2px;background:#e2d9c7;align-self:center;margin:0 2px;flex-shrink:0' : 'width:2px;height:14px;background:#e2d9c7;margin-left:15px'}"></div>` : ''}
+            <div style="display:flex;align-items:center;gap:${ed ? '9px' : '10px'};padding:${ed ? '6px 8px' : '5px 6px'}">
+              <div style="flex-shrink:0;width:26px;height:26px;border-radius:50%;background:${p.dot};display:flex;align-items:center;justify-content:center;animation:${stg.status === 'active' ? 'bbpulse 1.3s ease-in-out infinite' : 'none'}">
+                ${stg.status === 'active' ? html`<div style="display:block;width:11px;height:11px;border:2px solid rgba(255,255,255,0.45);border-top-color:#fff;border-radius:50%;animation:bbspin .7s linear infinite"></div>` : html`<span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:${p.ic}">${iconC(stg, i)}</span>`}
+              </div>
+              <div style="min-width:0">
+                <div style="font-size:12.5px;font-weight:600;color:${p.label};line-height:1.2">${d.label}</div>
+                <div style="font-size:10.5px;color:#b0a48f;line-height:1.35">${sub}</div>
+              </div>
+            </div>
+          </div>
+        `;
+      })}
+    </div>
+  `;
+}
+
+function InputForm() {
+  const isBusy = computed(() => pipelineSteps.value.some(s => s.status === 'active'));
+  const handleGenerate = () => {
+    const topic = formTopic.value.trim();
+    if (!topic || isBusy.value) return;
+    runPipeline({ topic, mood: formMood.value, occasion: formOccasion.value, instruments: formInstruments.value, notes: formNotes.value });
+  };
+  return html`<section class="card">
       <div class="card-header">
-        <h3>${label}</h3>
-        <div class="flex items-center gap-2">
-          <${CharCounter} text=${value.value} limit=${maxLen} />
-          <button class="btn btn-ghost btn-sm" onClick=${async () => {
-            try {
-              await navigator.clipboard.writeText(value.value);
-              copyFeedback.value = { ...copyFeedback.value, [label.toLowerCase()]: true };
-              setTimeout(() => copyFeedback.value = { ...copyFeedback.value, [label.toLowerCase()]: false }, 1500);
-            } catch (e) {}
-          }}>${copyFeedback.value[label.toLowerCase()] ? '📋 copied!' : '📋 copy'}</button>
+        <h2>New Song</h2>
+        <span style="font-family:var(--mono);font-size:10px;color:var(--text-muted)">01</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:11px">
+        <div>
+          <label class="form-label">Topic <span style="color:var(--accent)">*</span></label>
+          <textarea class="form-textarea" value=${formTopic} onInput=${e => formTopic.value = e.target.value} placeholder="chitte dandru · mountain love · apple harvest" style="min-height:54px"></textarea>
+          <p class="form-hint">Type in any language — lyrics come back in Mahasuvi Pahari.</p>
+        </div>
+        <div>
+          <label class="form-label">Mood</label>
+          <input class="form-input" value=${formMood} onInput=${e => formMood.value = e.target.value} placeholder="romantic · longing · celebratory"/>
+        </div>
+        <div>
+          <label class="form-label">Occasion</label>
+          <input class="form-input" value=${formOccasion} onInput=${e => formOccasion.value = e.target.value} placeholder="wedding · festival · harvest"/>
+        </div>
+        <div>
+          <label class="form-label">Instruments</label>
+          <input class="form-input" value=${formInstruments} onInput=${e => formInstruments.value = e.target.value} placeholder="bansuri · dhol · chimta · acoustic guitar"/>
+          <p class="form-hint-sm">Base: acoustic guitar, bansuri, dhol, chimta</p>
+        </div>
+        <div>
+          <label class="form-label">Notes</label>
+          <textarea class="form-textarea" value=${formNotes} onInput=${e => formNotes.value = e.target.value} placeholder="Any extra guidance\u2026" style="min-height:40px"></textarea>
         </div>
       </div>
-      <${Tag}
-        class="w-full ${mono ? 'mono' : ''}"
-        style="background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius);padding:10px 12px;color:var(--text-main);outline:none;resize:vertical;min-height:${label === 'Lyrics' ? '200px' : '80px'}"
-        value=${value}
-        onInput=${e => { value.value = e.target.value; if (label === 'Lyrics') scheduleScan(e.target.value); }}
-        placeholder=${placeholder || ''}
-      />
-      ${extra || ''}
+      <button class="btn btn-primary" style="width:100%;margin-top:16px" onClick=${handleGenerate} disabled=${isBusy.value || !formTopic.value.trim()}>${isBusy.value ? 'Generating\u2026' : 'Generate song'}</button>
+    </section>`;
+}
+
+function ErrorBanner() {
+  const err = pipelineError.value;
+  if (!err) return null;
+  return html`
+    <div class="callout-error">
+      <strong>${err.errorKind}</strong>
+      <div>${err.message}</div>
+      ${err.errorKind === 'auth' || err.errorKind === 'cors_or_network' ? html`<button onClick=${() => showSettings.value = true} style="margin-top:8px;background:none;border:none;color:var(--accent);font-size:12px;font-weight:600;cursor:pointer;padding:0">Open Settings \u2192</button>` : ''}
+    </div>
+  `;
+}
+
+function PipelineCard() {
+  const sts = pipelineSteps.value;
+  const anyDone = sts.some(s => s.status !== 'idle');
+  const anyActive = sts.some(s => s.status === 'active');
+  let label = 'Idle', bg = '#efe9dc', fg = '#a89a84';
+  if (pipelineError.value) { label = 'Failed'; bg = '#f6e0d9'; fg = '#c0472a'; }
+  else if (anyActive) { label = 'Running'; bg = '#f6e3db'; fg = '#c0472a'; }
+  else if (anyDone) { label = 'Complete'; bg = '#e6efdd'; fg = '#4f7a3f'; }
+  return html`
+    <section style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:18px;min-width:0">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <h2 style="font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#26211a">Generation pipeline</h2>
+        <span style="font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;font-weight:600;padding:3px 9px;border-radius:20px;background:${bg};color:${fg}">${label}</span>
+      </div>
+      ${!anyDone && !anyActive && !pipelineError.value ? html`<p style="font-size:11.5px;color:#b0a48f;line-height:1.5">Five stages run in sequence. Each reports its own result \u2014 nothing hides behind a spinner.</p>` : html`<${StageList} />`}
+      <${ErrorBanner} />
+    </section>
+  `;
+}
+
+function LyricsReadMode() {
+  const c = C();
+  if (!c || !songLyrics.value) return null;
+  const segs = c.segmentLyrics(songLyrics.value, scanHits.value);
+  const hovered = hoveredHit.value;
+  return html`
+    <div style="padding:22px 26px;font-family:var(--mono);font-size:13px;line-height:1.9;color:#33291f;background:linear-gradient(var(--bg-card),var(--bg-card))">
+      ${segs.map(ln => {
+        if (ln.type === 'tag') return html`<div style="display:flex;align-items:center;gap:10px;margin:16px 0 6px"><span style="font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);white-space:nowrap">${ln.text}</span><span style="flex:1;height:1px;background:#e8dfce"></span></div>`;
+        if (ln.type === 'blank') return html`<div style="height:10px"></div>`;
+        return html`<div style="min-height:1.9em">${ln.segments.map(sg => {
+          if (!sg.hit) return html`<span>${sg.text}</span>`;
+          const hi = sg.severity === 'high';
+          const on = sg.idx === hovered;
+          const uc = hi ? '#c0472a' : '#a9791a';
+          const bg = on ? (hi ? '#f0c6b7' : '#ecd6a4') : (hi ? '#f7ddd3' : '#f4e8cc');
+          return html`<mark onMouseEnter=${() => hoveredHit.value = sg.idx} onMouseLeave=${() => hoveredHit.value = null} style="background:${bg};border-bottom:2px solid ${uc};border-radius:3px;padding:0 2px;cursor:pointer;color:#26211a;box-shadow:${on ? '0 0 0 2px ' + uc : 'none'};transition:background .12s,box-shadow .12s">${sg.text}</mark>`;
+        })}</div>`;
+      })}
     </div>
   `;
 }
 
 function ContaminationPanel() {
   const hits = scanHits.value;
-  if (!hits.length) return html`
-    <div class="live-scan-panel">
-      <div class="scan-count">No contamination detected</div>
-    </div>
+  const c = C();
+  if (!hits.length && !songLyrics.value) return html`
+    <section style="grid-area:scan;min-width:0">
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;position:sticky;top:92px;padding:26px 18px;text-align:center">
+        <div style="font-size:13px;font-weight:600;color:#b0a48f">Dialect scan</div>
+        <div style="font-size:11.5px;color:#b0a48f;margin-top:6px">Results appear after generation.</div>
+      </div>
+    </section>
   `;
-  const high = hits.filter(h => h.severity === 'high').length;
+  const highCount = hits.filter(h => h.severity === 'high').length;
+  const medCount = hits.length - highCount;
+  let badgeBg = '#e6efdd', badgeFg = '#4f7a3f', badgeLabel = 'clean';
+  if (highCount > 0) { badgeBg = '#f6e0d9'; badgeFg = '#c0472a'; badgeLabel = highCount + ' high'; }
+  else if (medCount > 0) { badgeBg = '#f5ecd3'; badgeFg = '#8a6d1a'; badgeLabel = medCount + ' medium'; }
+  const hovered = hoveredHit.value;
   return html`
-    <div class="live-scan-panel">
-      <div class="scan-count has-hits">${hits.length} hit${hits.length !== 1 ? 's' : ''} (${high} high)</div>
-      ${hits.slice(0, 15).map((h, i) => html`
-        <div class="scan-hit ${h.severity === 'medium' ? 'medium' : ''}">
-          <div class="scan-hit-info">
-            <div><span class="scan-hit-word">${h.match}</span> <span class="badge badge-${h.severity === 'high' ? 'high' : 'medium'}">${h.language}</span> <span class="text-xs text-dim">line ${h.lineNo}</span></div>
-            <div class="scan-hit-line">${h.line.slice(0, 60)}${h.line.length > 60 ? '…' : ''}</div>
-            <div class="scan-hit-suggest">→ ${h.suggestion}</div>
+    <section style="grid-area:scan;min-width:0">
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;position:sticky;top:92px">
+        <div style="padding:16px 18px;border-bottom:1px solid var(--border-light)">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <h2 style="font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#26211a">Dialect scan</h2>
+            <span style="font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;font-weight:600;padding:3px 9px;border-radius:20px;background:${badgeBg};color:${badgeFg}">${badgeLabel}</span>
           </div>
-          <button class="btn btn-sm btn-secondary" onClick=${() => {
-            songLyrics.value = applyReplacement(songLyrics.value, h.pattern, h.suggestion);
-            scheduleScan(songLyrics.value);
-          }}>Apply</button>
+          <p style="font-size:11px;color:var(--text-dim);margin-top:5px;line-height:1.45">Flags Hindi / Punjabi words that break Pahari authenticity. Hover a hit to find it in the lyrics.</p>
         </div>
-      `)}
-      ${hits.length > 15 ? html`<div class="text-xs text-dim">…and ${hits.length - 15} more</div>` : ''}
-    </div>
+        ${hits.length === 0 ? html`
+          <div style="padding:26px 18px;text-align:center">
+            <div style="width:38px;height:38px;border-radius:50%;background:#e6efdd;display:flex;align-items:center;justify-content:center;margin:0 auto 10px"><span style="color:#4f7a3f;font-size:19px;font-weight:700">\u2713</span></div>
+            <div style="font-size:13px;font-weight:600;color:#4f7a3f">Reads as authentic Pahari</div>
+            <div style="font-size:11.5px;color:var(--text-dim);margin-top:3px">No Hindi or Punjabi drift detected</div>
+          </div>
+        ` : html`
+          <div style="padding:12px;display:flex;flex-direction:column;gap:8px;max-height:calc(100vh - 260px);overflow-y:auto">
+            ${hits.map((h, i) => {
+              const hi = h.severity === 'high';
+              const on = i === hovered;
+              const accent = hi ? '#c0472a' : '#a9791a';
+              return html`
+                <div onMouseEnter=${() => hoveredHit.value = i} onMouseLeave=${() => hoveredHit.value = null} style="border:1px solid ${on ? accent : 'var(--border-light)'};border-left:3px solid ${accent};border-radius:8px;padding:9px 11px;background:${on ? '#fff' : 'var(--bg-soft)'};transition:border-color .12s,background .12s">
+                  <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:4px">
+                    <span style="font-family:var(--mono);font-size:13px;font-weight:600;color:#26211a">${h.match}</span>
+                    <span style="font-family:var(--mono);font-size:9px;letter-spacing:.04em;text-transform:uppercase;font-weight:600;color:#fff;background:${accent};padding:1px 6px;border-radius:4px">${h.language}</span>
+                    <span style="font-family:var(--mono);font-size:10px;color:#b0a48f">line ${h.lineNo}</span>
+                  </div>
+                  <div style="font-size:11px;color:var(--text-soft);line-height:1.4;font-family:var(--mono)">${h.line.length > 54 ? h.line.slice(0, 54) + '\u2026' : h.line}</div>
+                  <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:7px">
+                    <span style="font-size:12px;color:#4f7a3f;font-family:var(--mono)">\u2192 ${h.suggestion}</span>
+                    <button onClick=${() => { if (c) { songLyrics.value = c.applyReplacement(songLyrics.value, h.pattern, h.suggestion); scheduleScan(songLyrics.value); }}} style="flex-shrink:0;font-size:11px;font-weight:600;padding:4px 11px;border:1px solid #d3c6a8;background:#fff;color:var(--warn-fg);border-radius:6px;cursor:pointer">Apply fix</button>
+                  </div>
+                </div>
+              `;
+            })}
+          </div>
+        `}
+      </div>
+    </section>
   `;
 }
 
-function ValidationReport() {
-  const report = songReport.value;
-  if (!report) return html`<div class="card"><div class="text-sm text-dim">Run a generation to see the validation report.</div></div>`;
-  const mech = report.mechanical;
-  const scan = report.scan;
-  const critic = report.critic;
-  const repair = report.repair;
-  const [open, setOpen] = signal(false);
-
+function ChecksGrid() {
+  const rep = songReport.value;
+  if (!rep) return null;
+  const mech = rep.mechanical;
+  const critic = rep.critic;
+  const repair = rep.repair;
+  const mechWarnings = (mech && mech.warnings || []).map(w => ({
+    message: w.message,
+    dotStyle: 'flex-shrink:0;width:7px;height:7px;border-radius:50%;margin-top:5px;background:' + (w.severity === 'high' ? '#c0472a' : '#a9791a'),
+  }));
+  const criticIssues = (critic && critic.issues || []).slice(0, 4).map(iss => ({ text: (iss.excerpt ? iss.excerpt + ' \u2014 ' : '') + (iss.problem || '') + (iss.suggestion ? ' \u2192 ' + iss.suggestion : '') }));
+  const criticVerdict = critic ? (critic.is_authentic ? '\u2713 Authentic \u00b7 confidence ' + (critic.confidence || 0).toFixed(2) : '\u2717 Issues found \u00b7 confidence ' + (critic.confidence || 0).toFixed(2)) : '';
   return html`
-    <div class="card">
-      <button class="accordion-toggle" onClick=${() => setOpen.value = !open.value}>
-        ${open.value ? '▼' : '▶'} Validation Report
-        ${mech.warnings.length ? html`<span class="badge badge-medium">${mech.warnings.length}</span>` : html`<span class="badge badge-success">✓</span>`}
-      </button>
-      ${open.value ? html`
-        <div class="accordion-body">
-          <div class="text-sm text-dim mb-2">Mechanical</div>
-          ${mech.warnings.length ? mech.warnings.map(w => html`<div class="callout callout-warn mt-2 text-sm">${w.severity === 'high' ? '🔴' : '🟡'} ${w.message}</div>`) : html`<div class="text-sm text-success">All mechanical checks passed.</div>`}
-
-          <div class="text-sm text-dim mt-3 mb-2">Contamination Scan (${scan.length} hit${scan.length !== 1 ? 's' : ''})</div>
-          ${scan.length ? scan.slice(0, 10).map(h => html`<div class="text-xs text-dim">${h.severity === 'high' ? '🔴' : '🟡'} Line ${h.lineNo}: "${h.match}" (${h.language}) → ${h.suggestion}</div>`) : html`<div class="text-sm text-success">No contamination detected.</div>`}
-
-          <div class="text-sm text-dim mt-3 mb-2">Critic</div>
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:18px 20px">
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px">Checks</div>
+      <div class="chk-grid">
+        <div style="background:var(--bg-soft);border:1px solid var(--border-light);border-radius:9px;padding:12px 14px">
+          <div style="font-size:11px;font-weight:600;color:#6b6152;margin-bottom:7px">Suno structure</div>
+          ${mechWarnings.length === 0 ? html`<div style="font-size:12.5px;color:#4f7a3f;display:flex;align-items:center;gap:6px"><span style="font-weight:700">\u2713</span> All mechanical checks passed</div>` : html`
+            <div style="display:flex;flex-direction:column;gap:6px">${mechWarnings.map(w => html`<div style="display:flex;gap:7px;font-size:11.5px;line-height:1.45;color:#5e5344"><span style="${w.dotStyle}"></span><span>${w.message}</span></div>`)}</div>
+          `}
+        </div>
+        <div style="background:var(--bg-soft);border:1px solid var(--border-light);border-radius:9px;padding:12px 14px">
+          <div style="font-size:11px;font-weight:600;color:#6b6152;margin-bottom:7px">LLM critic</div>
           ${critic ? html`
-            <div class="text-sm">Authentic: ${critic.is_authentic ? '✅ Yes' : '❌ No'} (confidence: ${(critic.confidence || 0).toFixed(2)})</div>
-            ${critic.issues?.length ? critic.issues.slice(0, 5).map(iss => html`<div class="text-xs text-dim mt-1">• ${iss.excerpt || ''}: ${iss.problem || ''} → ${iss.suggestion || ''}</div>`) : ''}
-          ` : html`<div class="text-sm text-dim">Critic not run or unavailable.</div>`}
-
-          ${repair ? html`
-            <div class="text-sm text-dim mt-3 mb-2">Repair</div>
-            <div class="text-sm">Applied: ${repair.applied ? '✅ Yes' : '❌ No'}</div>
-            ${repair.applied ? html`<div class="text-sm text-dim">High hits: ${repair.beforeHigh} → ${repair.afterHigh}</div>` : ''}
-          ` : ''}
+            <div style="font-size:12.5px;font-weight:600;color:${critic.is_authentic ? '#4f7a3f' : '#c0472a'}">${criticVerdict}</div>
+            ${criticIssues.map(iss => html`<div style="font-size:11px;color:#8a7d68;margin-top:5px;line-height:1.4">\u00b7 ${iss.text}</div>`)}
+          ` : html`<div style="font-size:12px;color:#b0a48f">Not run for this song.</div>`}
+          ${repair && repair.applied ? html`<div style="margin-top:9px;padding-top:9px;border-top:1px solid var(--border-light);font-size:11.5px;color:#4f7a3f">Repair applied \u00b7 high hits ${repair.beforeHigh} \u2192 ${repair.afterHigh}</div>` : ''}
         </div>
-      ` : ''}
+      </div>
     </div>
   `;
 }
 
-function SettingsModal() {
-  if (!showSettings.value) return null;
-  const s = settings.value;
-
-  const setNested = (path, value) => {
-    const newS = JSON.parse(JSON.stringify(settings.value));
-    let obj = newS;
-    const keys = path.split('.');
-    for (let i = 0; i < keys.length - 1; i++) obj = obj[keys[i]];
-    obj[keys[keys.length - 1]] = value;
-    settings.value = newS;
+function SongCard() {
+  const hasSong = songTitle.value || songLyrics.value || songStyle.value;
+  if (!hasSong) return html`
+    <section style="grid-area:song;min-width:0">
+      <div style="background:var(--bg-card);border:1px dashed #ddd3c0;border-radius:12px;padding:56px 32px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px;min-height:360px">
+        <svg width="72" height="46" viewBox="0 0 72 46" fill="none"><path d="M2 44 L24 12 L38 32 L50 6 L70 44 Z" fill="#efe7d7" stroke="#d8cebb" stroke-width="1.5" stroke-linejoin="round"/><circle cx="50" cy="6" r="3" fill="#c0472a"/></svg>
+        <div>
+          <h3 style="font-size:19px;font-weight:600;color:#26211a;letter-spacing:-.01em">Compose a Pahari folk song</h3>
+          <p style="font-size:13.5px;color:var(--text-dim);margin-top:6px;max-width:340px">Set a topic on the left and generate. Lyrics arrive in Mahasuvi Pahari, checked line-by-line for dialect drift.</p>
+        </div>
+      </div>
+    </section>
+  `;
+  const copy = (field, val) => {
+    try { navigator.clipboard.writeText(val || ''); copyFeedback.value = { ...copyFeedback.value, [field]: true }; setTimeout(() => copyFeedback.value = { ...copyFeedback.value, [field]: false }, 1400); } catch {}
   };
-
-  const slot = (name, label) => html`
-    <div class="card">
-      <div class="card-header"><h3>${label}</h3></div>
-      <div class="field"><label>Base URL</label><input value=${s[name].baseUrl} onInput=${e => setNested(name + '.baseUrl', e.target.value)} /></div>
-      <div class="field"><label>API Key</label><input type="password" value=${s[name].apiKey} onInput=${e => setNested(name + '.apiKey', e.target.value)} placeholder="sk-…" /></div>
-      <div class="field"><label>Model</label><input value=${s[name].model} onInput=${e => setNested(name + '.model', e.target.value)} placeholder="deepseek-v4-flash" /></div>
-      <div class="field"><label>Temperature</label><input type="number" step="0.05" min="0" max="2" value=${s[name].temperature} onInput=${e => setNested(name + '.temperature', parseFloat(e.target.value) || 0.85)} /></div>
-      <div class="field"><label>Max Tokens</label><input type="number" step="100" min="100" max="16000" value=${s[name].maxTokens} onInput=${e => setNested(name + '.maxTokens', parseInt(e.target.value) || 4000)} /></div>
-    </div>
-  `;
-
+  const styleLen = (songStyle.value || '').length;
+  const lyricsLen = (songLyrics.value || '').length;
+  const scCls = styleLen > 1000 ? 'over' : styleLen > 900 ? 'warn' : 'ok';
+  const lcCls = lyricsLen > 5000 ? 'over' : lyricsLen > 4500 ? 'warn' : 'ok';
   return html`
-    <div class="modal-overlay" onClick=${e => { if (e.target === e.currentTarget) showSettings.value = false; }}>
-      <div class="modal">
-        <div class="flex items-center justify-between mb-3">
-          <h2>Settings</h2>
-          <button class="btn btn-ghost" onClick=${() => showSettings.value = false}>✕</button>
+    <section style="grid-area:song;min-width:0;display:flex;flex-direction:column;gap:16px">
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:20px 22px">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:14px">
+          <div style="min-width:0;flex:1">
+            <div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px">Title</div>
+            <h1 style="font-size:29px;font-weight:700;letter-spacing:-.02em;color:#26211a;line-height:1.15;word-break:break-word">${songTitle.value}</h1>
+          </div>
+          <button onClick=${() => copy('title', songTitle.value)} style="flex-shrink:0;font-family:var(--mono);font-size:11px;padding:5px 10px;border:1px solid var(--border-input);background:#fff;border-radius:7px;cursor:pointer;color:#6b6152">${copyFeedback.value.title ? 'copied' : 'copy'}</button>
         </div>
-        <div class="callout callout-warn text-sm mb-3">⚠️ API keys are stored in browser localStorage in plaintext. Do not use this on a shared device.</div>
-
-        <div class="field mb-3">
-          <label>
-            <input type="checkbox" checked=${s.criticEnabled} onInput=${e => setNested('criticEnabled', e.target.checked)} style="margin-right:6px" />
-            Enable critic pass (LLM dialect check after generation)
-          </label>
-        </div>
-
-        ${slot('composer', 'Composer Slot (song generation)')}
-        ${slot('critic', 'Critic Slot (dialect verification)')}
-
-        <div class="mt-3 flex gap-2">
-          <button class="btn btn-primary" onClick=${() => showSettings.value = false}>Done</button>
-          <button class="btn btn-secondary" onClick=${() => {
-            if (confirm('Reset settings to defaults?')) settings.value = JSON.parse(JSON.stringify(DEFAULT_SETTINGS));
-          }}>Reset to Defaults</button>
+        <div style="margin-top:18px;padding-top:16px;border-top:1px solid var(--border-light)">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:7px">
+            <div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted)">Style prompt</div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <span class="char-count ${scCls}">${styleLen} / 1000</span>
+              <button onClick=${() => copy('style', songStyle.value)} style="flex-shrink:0;font-family:var(--mono);font-size:11px;padding:5px 10px;border:1px solid var(--border-input);background:#fff;border-radius:7px;cursor:pointer;color:#6b6152">${copyFeedback.value.style ? 'copied' : 'copy'}</button>
+            </div>
+          </div>
+          <textarea value=${songStyle} onInput=${e => songStyle.value = e.target.value} style="width:100%;min-height:64px;resize:vertical;font-family:var(--mono);font-size:12.5px;line-height:1.6;background:var(--bg-soft);border:1px solid var(--border-light);border-radius:8px;padding:11px 13px;outline:none;color:#3a3128"></textarea>
         </div>
       </div>
-    </div>
-  `;
-}
 
-function LexiconEditor() {
-  if (!showLexicon.value) return null;
-  return html`
-    <div class="modal-overlay" onClick=${e => { if (e.target === e.currentTarget) showLexicon.value = false; }}>
-      <div class="modal" style="max-width:700px">
-        <div class="flex items-center justify-between mb-3">
-          <h2>Lexicon</h2>
-          <button class="btn btn-ghost" onClick=${() => showLexicon.value = false}>✕</button>
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 20px;border-bottom:1px solid var(--border-light)">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted)">Lyrics</div>
+            <span class="char-count ${lcCls}">${lyricsLen} / 5000</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="display:flex;background:#efe9dc;border:1px solid var(--border-input);border-radius:7px;padding:2px">
+              <button onClick=${() => editMode.value = false} style="padding:5px 12px;border:none;border-radius:6px;background:${!editMode.value ? '#fff' : 'transparent'};color:${!editMode.value ? '#26211a' : '#8a7d68'};font-size:12px;font-weight:${!editMode.value ? '600' : '500'};cursor:pointer;box-shadow:${!editMode.value ? '0 1px 2px rgba(38,33,26,0.08)' : 'none'}">Read</button>
+              <button onClick=${() => editMode.value = true} style="padding:5px 12px;border:none;border-radius:6px;background:${editMode.value ? '#fff' : 'transparent'};color:${editMode.value ? '#26211a' : '#8a7d68'};font-size:12px;font-weight:${editMode.value ? '600' : '500'};cursor:pointer;box-shadow:${editMode.value ? '0 1px 2px rgba(38,33,26,0.08)' : 'none'}">Edit</button>
+            </div>
+            <button onClick=${() => copy('lyrics', songLyrics.value)} style="font-family:var(--mono);font-size:11px;padding:5px 10px;border:1px solid var(--border-input);background:#fff;border-radius:7px;cursor:pointer;color:#6b6152">${copyFeedback.value.lyrics ? 'copied' : 'copy'}</button>
+          </div>
         </div>
-        <div class="text-sm text-dim mb-3">Pahari vocabulary used in prompt assembly and contamination scan. Built-in entries are read-only.</div>
-        <table class="lex-table">
-          <tr><th>Pahari</th><th>Gloss</th><th>Avoid</th><th>Tags</th></tr>
-          ${LEXICON.map(e => html`
-            <tr>
-              <td><strong>${e.pahari}</strong></td>
-              <td>${e.gloss_en}</td>
-              <td class="rtl">${e.avoid?.join(', ') || ''}</td>
-              <td class="rtl">${e.tags?.join(', ') || ''}</td>
-            </tr>
-          `)}
-          ${_storage.userLexicon?.map((e, i) => html`
-            <tr>
-              <td><strong>${e.pahari}</strong> <span class="badge badge-info">user</span></td>
-              <td>${e.gloss_en}</td>
-              <td class="rtl">${e.avoid?.join(', ') || ''}</td>
-              <td><button class="btn btn-ghost btn-sm" onClick=${() => {
-                _storage.userLexicon.splice(i, 1);
-                saveStorage();
-                showLexicon.value = false;
-                setTimeout(() => showLexicon.value = true, 50);
-              }}>✕</button></td>
-            </tr>
-          `)}
-        </table>
-        <button class="btn btn-secondary btn-sm mt-3" onClick=${() => {
-          const pahari = prompt('Pahari word:');
-          if (!pahari) return;
-          const gloss = prompt('English gloss:');
-          if (!gloss) return;
-          const avoid = prompt('Words to avoid (comma-separated):');
-          if (!_storage.userLexicon) _storage.userLexicon = [];
-          _storage.userLexicon.push({ pahari, gloss_en: gloss, avoid: avoid ? avoid.split(',').map(s => s.trim()) : [] });
-          saveStorage();
-          showLexicon.value = false;
-          setTimeout(() => showLexicon.value = true, 50);
-        }}>+ Add word</button>
+        ${editMode.value ? html`
+          <textarea value=${songLyrics} onInput=${e => { songLyrics.value = e.target.value; scheduleScan(e.target.value); }} spellcheck="false" style="width:100%;min-height:420px;resize:vertical;border:none;outline:none;background:var(--bg-soft);font-family:var(--mono);font-size:13px;line-height:1.85;padding:20px 24px;color:#3a3128"></textarea>
+        ` : html`<${LyricsReadMode} />`}
       </div>
-    </div>
+
+      <${ChecksGrid} />
+    </section>
   `;
 }
 
 function HistoryPanel() {
   const items = history.value;
   if (!items.length) return html`
-    <div class="card">
-      <div class="card-header"><h3>History</h3></div>
-      <div class="text-sm text-dim">No songs yet. Generate one!</div>
-    </div>
+    <section style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:18px;min-width:0">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div style="display:flex;align-items:baseline;gap:8px">
+          <h2 style="font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#26211a">History</h2>
+        </div>
+      </div>
+      <p style="font-size:12px;color:#b0a48f;line-height:1.5">No songs yet. Your generated songs collect here \u2014 a growing shelf of Pahari verse.</p>
+    </section>
   `;
-
   return html`
-    <div class="card">
-      <div class="card-header">
-        <h3>History</h3>
-        <div class="flex gap-2">
-          <button class="btn btn-ghost btn-sm" title="Export all" onClick=${() => {
+    <section style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:18px;min-width:0">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div style="display:flex;align-items:baseline;gap:8px">
+          <h2 style="font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#26211a">History</h2>
+          <span style="font-family:var(--mono);font-size:11px;color:var(--text-muted)">${items.length}</span>
+        </div>
+        <div style="display:flex;gap:4px">
+          <button onClick=${() => {
             const blob = new Blob([JSON.stringify({ schemaVersion: 2, settings: settings.value, history: history.value, userLexicon: _storage.userLexicon }, null, 2)], { type: 'application/json' });
-            const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'bitti-bol-export.json'; a.click();
-          }}>📤</button>
-          <button class="btn btn-ghost btn-sm" title="Import" onClick=${() => {
+            const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'bitti-bol-songbook.json'; a.click();
+          }} title="Export songbook" style="width:28px;height:28px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border-input);background:#fff;border-radius:6px;cursor:pointer;color:var(--text-soft)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m8 11 4 4 4-4"/><path d="M5 21h14"/></svg></button>
+          <button onClick=${() => {
             const input = document.createElement('input'); input.type = 'file'; input.accept = '.json';
             input.onchange = async () => {
               try {
@@ -1065,133 +623,200 @@ function HistoryPanel() {
               } catch (e) { alert('Import failed: ' + e.message); }
             };
             input.click();
-          }}>📥</button>
+          }} title="Import songbook" style="width:28px;height:28px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border-input);background:#fff;border-radius:6px;cursor:pointer;color:var(--text-soft)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="m8 7 4-4 4 4"/><path d="M5 21h14"/></svg></button>
         </div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:4px">
-        ${items.map(s => html`
-          <div class="history-item" onClick=${() => {
-            songTitle.value = s.title;
-            songLyrics.value = s.lyrics;
-            songStyle.value = s.style;
-            songReport.value = s.report || null;
-            scanHits.value = runContaminationScan(s.lyrics);
-          }}>
-            <div class="history-item-info">
-              <div class="history-item-title">${s.title}</div>
-              <div class="history-item-meta">${s.topic} · ${new Date(s.createdAt).toLocaleDateString()}</div>
-              ${s.report?.scan?.filter(h => h.severity === 'high').length ? html`<span class="badge badge-high">⚠</span>` : ''}
+      <div style="display:flex;flex-direction:column;gap:7px;max-height:400px;overflow-y:auto">
+        ${items.map(s => {
+          const highH = (s.report && s.report.scan || []).filter(h => h.severity === 'high').length;
+          const critc = s.report && s.report.critic;
+          const authentic = critc ? critc.is_authentic : (highH === 0);
+          let dateStr = '';
+          try { dateStr = new Date(s.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }); } catch {}
+          return html`
+            <div onClick=${() => {
+              songTitle.value = s.title; songLyrics.value = s.lyrics; songStyle.value = s.style;
+              songReport.value = s.report || null;
+              if (C()) scanHits.value = C().runContaminationScan(s.lyrics);
+              editMode.value = false;
+            }} style="padding:9px 11px;border:1px solid var(--border-light);border-radius:9px;background:var(--bg-soft);cursor:pointer;transition:border-color .12s,background .12s">
+              <div style="display:flex;align-items:center;gap:9px;min-width:0">
+                <span style="flex-shrink:0;width:8px;height:8px;border-radius:50%;background:${authentic ? '#4f7a3f' : '#c0472a'}" title="${authentic ? 'passed dialect checks' : 'had high-severity hits'}"></span>
+                <div style="min-width:0;flex:1">
+                  <div style="font-size:13px;font-weight:600;color:#26211a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${s.title}</div>
+                  <div style="font-family:var(--mono);font-size:10px;color:#b0a48f;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${(s.topic || '').slice(0, 28)} \u00b7 ${dateStr}</div>
+                </div>
+                <button onClick=${e => { e.stopPropagation(); history.value = history.value.filter(h => h.id !== s.id); }} style="flex-shrink:0;width:22px;height:22px;display:flex;align-items:center;justify-content:center;border:none;background:none;color:#c7bca6;cursor:pointer;border-radius:5px;font-size:14px">\u2715</button>
+              </div>
             </div>
-            <button class="btn btn-ghost btn-sm" onClick=${e => { e.stopPropagation(); history.value = history.value.filter(h => h.id !== s.id); }}>✕</button>
+          `;
+        })}
+      </div>
+    </section>
+  `;
+}
+
+function SettingsModal() {
+  if (!showSettings.value) return null;
+  const s = settings.value;
+  const setNested = (path, value) => {
+    const newS = JSON.parse(JSON.stringify(settings.value));
+    let obj = newS; const keys = path.split('.');
+    for (let i = 0; i < keys.length - 1; i++) obj = obj[keys[i]];
+    obj[keys[keys.length - 1]] = value;
+    settings.value = newS;
+  };
+  const slot = (name, label) => html`
+    <div class="card" style="border:1px solid var(--border-light);border-radius:10px;padding:15px 16px;background:var(--bg-soft)">
+      <div style="font-size:12px;font-weight:700;color:#26211a;margin-bottom:11px">${label}</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div><div style="font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-soft);margin-bottom:4px">Base URL</div><input value=${s[name].baseUrl} onInput=${e => setNested(name + '.baseUrl', e.target.value)} style="width:100%;background:#fff;border:1px solid var(--border-input);border-radius:7px;padding:7px 10px;font-size:12.5px;font-family:var(--mono);outline:none"/></div>
+        <div><div style="font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-soft);margin-bottom:4px">API key</div><input type="password" value=${s[name].apiKey} onInput=${e => setNested(name + '.apiKey', e.target.value)} placeholder="sk-\u2026" style="width:100%;background:#fff;border:1px solid var(--border-input);border-radius:7px;padding:7px 10px;font-size:12.5px;font-family:var(--mono);outline:none"/></div>
+        <div style="display:flex;gap:10px">
+          <div style="flex:2"><div style="font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-soft);margin-bottom:4px">Model</div><input value=${s[name].model} onInput=${e => setNested(name + '.model', e.target.value)} placeholder="deepseek-v4-flash" style="width:100%;background:#fff;border:1px solid var(--border-input);border-radius:7px;padding:7px 10px;font-size:12.5px;font-family:var(--mono);outline:none"/></div>
+          <div style="flex:1"><div style="font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-soft);margin-bottom:4px">Temp</div><input type="number" step="0.05" min="0" max="2" value=${s[name].temperature} onInput=${e => setNested(name + '.temperature', parseFloat(e.target.value) || 0.85)} style="width:100%;background:#fff;border:1px solid var(--border-input);border-radius:7px;padding:7px 10px;font-size:12.5px;font-family:var(--mono);outline:none"/></div>
+          <div style="flex:1"><div style="font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-soft);margin-bottom:4px">Max tok</div><input type="number" step="100" min="100" max="16000" value=${s[name].maxTokens} onInput=${e => setNested(name + '.maxTokens', parseInt(e.target.value) || 4000)} style="width:100%;background:#fff;border:1px solid var(--border-input);border-radius:7px;padding:7px 10px;font-size:12.5px;font-family:var(--mono);outline:none"/></div>
+        </div>
+      </div>
+    </div>
+  `;
+  return html`
+    <div onClick=${e => { if (e.target === e.currentTarget) showSettings.value = false; }} style="position:fixed;inset:0;background:rgba(38,33,26,0.42);backdrop-filter:blur(2px);display:flex;align-items:flex-start;justify-content:center;padding:52px 20px;z-index:100;overflow-y:auto">
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;width:100%;max-width:540px;box-shadow:0 24px 60px rgba(38,33,26,0.22)">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:20px 22px;border-bottom:1px solid var(--border-light)">
+          <div>
+            <h2 style="font-size:16px;font-weight:700;color:#26211a">Settings</h2>
+            <p style="font-size:11px;color:var(--text-dim);margin-top:2px">LLM endpoints for composer and critic</p>
           </div>
-        `)}
+          <button onClick=${() => showSettings.value = false} style="width:30px;height:30px;border:1px solid var(--border-input);background:#fff;border-radius:7px;cursor:pointer;color:#6b6152;font-size:14px">\u2715</button>
+        </div>
+        <div style="padding:20px 22px;display:flex;flex-direction:column;gap:16px">
+          <div style="background:#f8e5df;border:1px solid #eec6ba;border-radius:8px;padding:10px 12px;font-size:11.5px;color:#8a5648;line-height:1.5">API keys are stored in this browser's localStorage in plaintext. Don't use a shared device.</div>
+          <label style="display:flex;align-items:center;gap:9px;font-size:13px;color:#3a3128;cursor:pointer">
+            <input type="checkbox" checked=${s.criticEnabled} onChange=${e => setNested('criticEnabled', e.target.checked)} style="width:16px;height:16px;accent-color:#c0472a"/>
+            Run the LLM critic pass after generation
+          </label>
+          <div style="border:1px solid var(--border-light);border-radius:10px;padding:12px 14px;background:var(--bg-soft)">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+              <div style="font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-soft)">CORS Proxy</div>
+              <span style="font-size:10px;color:var(--text-muted)">optional</span>
+            </div>
+            <input value=${s.corsProxy} onInput=${e => setNested('corsProxy', e.target.value)} placeholder="https://corsproxy.io/?" style="width:100%;background:#fff;border:1px solid var(--border-input);border-radius:7px;padding:7px 10px;font-size:12.5px;font-family:var(--mono);outline:none"/>
+            <p style="font-size:10.5px;color:var(--text-dim);margin-top:5px;line-height:1.45">Prefix each API request with this URL. Needed when running from <code style="background:#efebde;padding:1px 4px;border-radius:4px;font-size:10px">file://</code> where CORS blocks direct fetch calls.</p>
+          </div>
+          ${slot('composer', 'Composer slot \u00b7 writes the song')}
+          ${slot('critic', 'Critic slot \u00b7 verifies dialect')}
+          <div style="display:flex;gap:10px;padding-top:2px">
+            <button onClick=${() => showSettings.value = false} style="flex:1;background:var(--accent);color:#fff;border:none;border-radius:8px;padding:10px;font-size:13px;font-weight:600;cursor:pointer">Done</button>
+            <button onClick=${() => { if (confirm('Reset settings to defaults?')) settings.value = JSON.parse(JSON.stringify(DEFAULT_SETTINGS)); }} style="background:#fff;color:#6b6152;border:1px solid var(--border-input);border-radius:8px;padding:10px 16px;font-size:13px;cursor:pointer">Reset</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function LexiconModal() {
+  if (!showLexicon.value) return null;
+  const entries = [
+    ...LEXICON.map(e => ({ pahari: e.pahari, gloss: e.gloss_en, avoid: (e.avoid || []).join(', '), isUser: false })),
+    ...(_storage.userLexicon || []).map((e, i) => ({ pahari: e.pahari, gloss: e.gloss_en, avoid: (e.avoid || []).join(', '), isUser: true, onDelete: () => { _storage.userLexicon.splice(i, 1); saveStorage(); showLexicon.value = false; setTimeout(() => showLexicon.value = true, 50); } })),
+  ];
+  return html`
+    <div class="modal" onClick=${e => { if (e.target === e.currentTarget) showLexicon.value = false; }} style="position:fixed;inset:0;background:rgba(38,33,26,0.42);backdrop-filter:blur(2px);display:flex;align-items:flex-start;justify-content:center;padding:52px 20px;z-index:100;overflow-y:auto">
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;width:100%;max-width:680px;box-shadow:0 24px 60px rgba(38,33,26,0.22)">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:20px 22px;border-bottom:1px solid var(--border-light)">
+          <div>
+            <h2 style="font-size:16px;font-weight:700;color:#26211a">Lexicon</h2>
+            <p style="font-size:11px;color:var(--text-dim);margin-top:2px">Vocabulary fed to the composer & the contamination scan</p>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button onClick=${() => {
+              const pahari = prompt('Pahari word:'); if (!pahari) return;
+              const gloss = prompt('English meaning:'); if (!gloss) return;
+              const avoid = prompt('Words to avoid (comma-separated):') || '';
+              if (!_storage.userLexicon) _storage.userLexicon = [];
+              _storage.userLexicon.push({ pahari, gloss_en: gloss, avoid: avoid ? avoid.split(',').map(x => x.trim()).filter(Boolean) : [] });
+              saveStorage(); showLexicon.value = false; setTimeout(() => showLexicon.value = true, 50);
+            }} style="border:1px solid #d3c6a8;background:#fff;color:var(--warn-fg);border-radius:7px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer">+ Add word</button>
+            <button onClick=${() => showLexicon.value = false} style="width:30px;height:30px;border:1px solid var(--border-input);background:#fff;border-radius:7px;cursor:pointer;color:#6b6152;font-size:14px">\u2715</button>
+          </div>
+        </div>
+        <div style="padding:8px 22px 22px;max-height:60vh;overflow-y:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:13px">
+            <thead>
+              <tr>
+                <th style="text-align:left;padding:9px 8px;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-soft);border-bottom:1px solid var(--border)">Pahari</th>
+                <th style="text-align:left;padding:9px 8px;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-soft);border-bottom:1px solid var(--border)">Meaning</th>
+                <th style="text-align:left;padding:9px 8px;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-soft);border-bottom:1px solid var(--border)">Avoid</th>
+                <th style="width:40px;border-bottom:1px solid var(--border)"></th>
+              </tr>
+            </thead>
+            <tbody>
+              ${entries.map(e => html`
+                <tr>
+                  <td style="padding:8px;border-bottom:1px solid #f0e9db;vertical-align:top"><span style="font-family:var(--mono);font-weight:600;color:#26211a">${e.pahari}</span>${e.isUser ? html`<span style="margin-left:6px;font-size:9px;background:#f6e3db;color:var(--accent);padding:1px 5px;border-radius:4px;font-weight:600">user</span>` : ''}</td>
+                  <td style="padding:8px;border-bottom:1px solid #f0e9db;vertical-align:top;color:#5e5344">${e.gloss}</td>
+                  <td style="padding:8px;border-bottom:1px solid #f0e9db;vertical-align:top;color:var(--text-dim);font-family:var(--mono);font-size:11.5px">${e.avoid}</td>
+                  <td style="padding:8px;border-bottom:1px solid #f0e9db;vertical-align:top;text-align:right">${e.isUser ? html`<button onClick=${e.onDelete} style="border:none;background:none;color:#c7bca6;cursor:pointer;font-size:13px">\u2715</button>` : ''}</td>
+                </tr>
+              `)}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   `;
 }
 
 function App() {
-  const isLoading = computed(() => pipelineStep.value === 'composing' || pipelineStep.value === 'critiquing' || pipelineStep.value === 'repairing');
-
+  const ed = layoutMode.value === 'editorial';
+  const cls = 'app grid-layout' + (ed ? ' editorial' : ' studio');
   return html`
-    <div class="app">
-      <div class="left-panel">
-        <${Header} />
-        <${InputForm} />
-        <${PipelineTracker} />
-        <${HistoryPanel} />
-      </div>
-      <div class="right-panel">
-        ${songTitle.value || songLyrics.value || songStyle.value ? html`
-          <${EditorBlock} label="Title" value=${songTitle} maxLen=${SUNO_RULES.limits.title} />
-          <${EditorBlock} label="Style" value=${songStyle} maxLen=${SUNO_RULES.limits.style} placeholder="Genre, vocals, instruments, tempo, mood" />
-          <${EditorBlock}
-            label="Lyrics"
-            value=${songLyrics}
-            maxLen=${SUNO_RULES.limits.lyrics}
-            mono=${true}
-            placeholder="[Intro]..."
-            extra=${html`<${ContaminationPanel} />`}
-          />
-          <${ValidationReport} />
-        ` : html`
-          <div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:300px;text-align:center;gap:12px">
-            <div style="font-size:3rem">🎵</div>
-            <h2 style="color:var(--text-dim);font-size:1.1rem">Enter a topic and generate your song</h2>
-            <div class="text-sm text-muted">Lyrics in Mahasuvi Pahari · Style for Suno v5.5</div>
+    <div style="min-height:100vh;display:flex;flex-direction:column">
+      <header style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 28px;border-bottom:1px solid var(--border);background:#faf7f0;position:sticky;top:0;z-index:20">
+        <div style="display:flex;align-items:baseline;gap:14px;min-width:0">
+          <div style="display:flex;align-items:baseline;gap:2px">
+            <span style="font-size:22px;font-weight:700;letter-spacing:-.02em;color:var(--accent)">Bitti</span>
+            <span style="font-size:22px;font-weight:700;letter-spacing:-.02em;color:#26211a"> Bol</span>
           </div>
-        `}
-      </div>
+          <span style="font-family:var(--mono);font-size:11px;letter-spacing:.02em;color:var(--text-dim);white-space:nowrap">Himachali Pahari Song Studio</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px">
+          <div style="display:flex;align-items:center;gap:8px;padding-right:14px;border-right:1px solid var(--border)">
+            <span style="font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim)">Layout</span>
+            <div style="display:flex;background:#efe9dc;border:1px solid var(--border-input);border-radius:8px;padding:3px;gap:2px">
+              <button onClick=${() => layoutMode.value = 'editorial'} style="${ed ? 'padding:5px 12px;border:none;border-radius:6px;background:#fff;color:#26211a;font-size:12px;font-weight:600;cursor:pointer;box-shadow:0 1px 2px rgba(38,33,26,0.08)' : 'padding:5px 12px;border:none;border-radius:6px;background:transparent;color:#8a7d68;font-size:12px;font-weight:500;cursor:pointer'}">Manuscript</button>
+              <button onClick=${() => layoutMode.value = 'studio'} style="${!ed ? 'padding:5px 12px;border:none;border-radius:6px;background:#fff;color:#26211a;font-size:12px;font-weight:600;cursor:pointer;box-shadow:0 1px 2px rgba(38,33,26,0.08)' : 'padding:5px 12px;border:none;border-radius:6px;background:transparent;color:#8a7d68;font-size:12px;font-weight:500;cursor:pointer'}">Console</button>
+            </div>
+          </div>
+          <button onClick=${() => showLexicon.value = !showLexicon.value} title="Lexicon" style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border-input);background:#fbf9f4;border-radius:8px;cursor:pointer;color:#6b6152">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 0-3 3z"/><path d="M18 7a3 3 0 0 1 3-3v16"/></svg>
+          </button>
+          <button onClick=${() => showSettings.value = true} title="Settings" style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border-input);background:#fbf9f4;border-radius:8px;cursor:pointer;color:#6b6152">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </button>
+        </div>
+      </header>
+      <main class="${cls}">
+        <${InputForm} />
+        <${PipelineCard} />
+        <${SongCard} />
+        <${ContaminationPanel} />
+        <${HistoryPanel} />
+      </main>
     </div>
     ${showSettings.value ? html`<${SettingsModal} />` : ''}
-    ${showLexicon.value ? html`<${LexiconEditor} />` : ''}
+    ${showLexicon.value ? html`<${LexiconModal} />` : ''}
   `;
 }
 
-function InputForm() {
-  const isBusy = computed(() => pipelineStep.value !== 'idle' && pipelineStep.value !== 'done' && pipelineStep.value !== 'failed');
-
-  const handleGenerate = () => {
-    const topic = formTopic.value.trim();
-    if (!topic) return;
-    const prefs = {
-      topic,
-      mood: formMood.value,
-      occasion: formOccasion.value,
-      instruments: formInstruments.value,
-      notes: formNotes.value,
-    };
-    runPipeline(prefs);
-  };
-
-  const handleCancel = () => {
-    // In a real app we'd abort the fetch. For now just log.
-  };
-
-  return html`
-    <div class="card">
-      <h3 style="font-size:0.85rem;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:10px">New Song</h3>
-      <div class="field">
-        <label>Topic *</label>
-        <textarea value=${formTopic} onInput=${e => formTopic.value = e.target.value} placeholder="e.g. chitte dandru, mountain love, apple harvest" style="min-height:50px"></textarea>
-        <div class="hint">Type in any language — lyrics will be in Himachali Pahari</div>
-      </div>
-      <div class="field mt-2">
-        <label>Mood</label>
-        <input value=${formMood} onInput=${e => formMood.value = e.target.value} placeholder="e.g. romantic, celebratory, longing" />
-      </div>
-      <div class="field mt-2">
-        <label>Occasion</label>
-        <input value=${formOccasion} onInput=${e => formOccasion.value = e.target.value} placeholder="e.g. wedding, festival, harvest" />
-      </div>
-      <div class="field mt-2">
-        <label>Preferred Instruments</label>
-        <input value=${formInstruments} onInput=${e => formInstruments.value = e.target.value} placeholder="acoustic guitar, bansuri, dhol, chimta…" />
-        <div class="hint">Base: acoustic guitar, bansuri, dhol, chimta</div>
-      </div>
-      <div class="field mt-2">
-        <label>Additional Notes</label>
-        <textarea value=${formNotes} onInput=${e => formNotes.value = e.target.value} placeholder="Any extra guidance…" style="min-height:40px"></textarea>
-      </div>
-      <div class="flex gap-2 mt-3">
-        <button class="btn btn-primary w-full" onClick=${handleGenerate} disabled=${isBusy.value || !formTopic.value.trim()}>
-          ${isBusy.value ? '⏳ Working…' : '🎵 Generate'}
-        </button>
-      </div>
-    </div>
-  `;
-}
-
-// === TEST HOOKS ===
 if (typeof window !== 'undefined') {
   window.__testSetSong = (title, lyrics, style) => {
-    songTitle.value = title;
-    songLyrics.value = lyrics;
-    songStyle.value = style;
+    songTitle.value = title; songLyrics.value = lyrics; songStyle.value = style;
   };
 }
 
-// === MOUNT ===
 render(html`<${App} />`, document.getElementById('app'));
 </script>
 </body>
