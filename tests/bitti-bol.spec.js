@@ -3,7 +3,7 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const HTML_PATH = 'file://' + path.resolve(__dirname, '..', 'bitti-bol.html');
+const HTML_PATH = 'file://' + path.resolve(__dirname, '..', 'dist', 'bitti-bol.html');
 
 test.describe('Bitti Bol v2', () => {
   test.beforeEach(async ({ page }) => {

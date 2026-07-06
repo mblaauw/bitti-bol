@@ -5,6 +5,8 @@
   },
   "scripts": {
     "test": "npx playwright test",
-    "test:headed": "npx playwright test --headed"
+    "test:headed": "npx playwright test --headed",
+    "dev": "npx serve .",
+    "build": "node scripts/build.mjs"
   }
 }

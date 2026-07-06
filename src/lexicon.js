@@ -1,5 +1,4 @@
-window.__BITTIBOL_LEXICON = [
-  // ==================== BODY & BEAUTY ====================
+const LEXICON = [
   { pahari: 'dandru', gloss_en: 'teeth (diminutive -ru)', avoid: ['daant'], tags: ['body'], notes: 'Chitte dandru = white teeth, a beauty trope' },
   { pahari: 'akhyun', gloss_en: 'eyes (plural)', avoid: ['aankhen'], tags: ['body'] },
   { pahari: 'nain', gloss_en: 'eyes (poetic)', avoid: [], tags: ['body'], notes: 'Used in romantic/poetic contexts' },
@@ -13,8 +12,6 @@ window.__BITTIBOL_LEXICON = [
   { pahari: 'sheeshu', gloss_en: 'head', avoid: ['sir'], tags: ['body'] },
   { pahari: 'goru', gloss_en: 'fair / light-skinned (diminutive)', avoid: ['gora'], tags: ['beauty'], notes: 'Fair complexion trope in folk songs' },
   { pahari: 'kaalu', gloss_en: 'dark / dusky (diminutive)', avoid: ['kala'], tags: ['beauty'] },
-
-  // ==================== PEOPLE & KINSHIP ====================
   { pahari: 'bitti', gloss_en: 'girl / daughter', avoid: ['larki', 'beti'], tags: ['people'] },
   { pahari: 'bittu', gloss_en: 'boy / son', avoid: ['larka', 'beta'], tags: ['people'] },
   { pahari: 'baabu', gloss_en: 'father', avoid: ['pita', 'papa'], tags: ['kinship'] },
@@ -35,8 +32,6 @@ window.__BITTIBOL_LEXICON = [
   { pahari: 'yaar', gloss_en: 'friend (male)', avoid: ['dost'], tags: ['people'] },
   { pahari: 'log', gloss_en: 'people / folk', avoid: [], tags: ['people'] },
   { pahari: 'jaat', gloss_en: 'caste / kind / type', avoid: [], tags: ['people'] },
-
-  // ==================== GRAMMAR & FUNCTION WORDS ====================
   { pahari: 'kundu', gloss_en: 'where', avoid: ['kahan'], tags: ['grammar'] },
   { pahari: 'kuthu', gloss_en: 'where (variant)', avoid: ['kidhar'], tags: ['grammar'] },
   { pahari: 'minjo', gloss_en: 'to me', avoid: ['mainu', 'mujhe'], tags: ['grammar'] },
@@ -62,8 +57,6 @@ window.__BITTIBOL_LEXICON = [
   { pahari: 'itna', gloss_en: 'this much', avoid: [], tags: ['grammar'] },
   { pahari: 'jyun', gloss_en: 'like / as / similar to', avoid: ['jaise', 'jiven'], tags: ['grammar'] },
   { pahari: 'tyun', gloss_en: 'like that / in that manner', avoid: ['taise', 'tiven'], tags: ['grammar'] },
-
-  // ==================== NATURE & LANDSCAPE ====================
   { pahari: 'ghughuti', gloss_en: 'a bird (songbird / dove)', avoid: ['chidiya'], tags: ['nature'] },
   { pahari: 'banjar', gloss_en: 'barren / fallow land', avoid: [], tags: ['nature'] },
   { pahari: 'bagaich', gloss_en: 'garden', avoid: ['bagh'], tags: ['nature'] },
@@ -92,8 +85,6 @@ window.__BITTIBOL_LEXICON = [
   { pahari: 'suuraj', gloss_en: 'sun', avoid: ['suraj'], tags: ['nature'] },
   { pahari: 'khet', gloss_en: 'field', avoid: [], tags: ['nature', 'agriculture'] },
   { pahari: 'pashu', gloss_en: 'animal / livestock', avoid: ['janwar'], tags: ['nature', 'agriculture'] },
-
-  // ==================== PLACES (REAL & MYTHICAL) ====================
   { pahari: 'shimle', gloss_en: 'Shimla (oblique case)', avoid: ['shimla'], tags: ['place'] },
   { pahari: 'dharampur', gloss_en: 'a town / village name', avoid: [], tags: ['place'] },
   { pahari: 'kamru', gloss_en: 'a mythological fort / place', avoid: [], tags: ['place'] },
@@ -109,8 +100,6 @@ window.__BITTIBOL_LEXICON = [
   { pahari: 'kothi', gloss_en: 'house / mansion', avoid: ['ghar'], tags: ['place'], notes: '"Aaja meri kothi" = come to my house (romantic)' },
   { pahari: 'gaushala', gloss_en: 'cowshed', avoid: [], tags: ['place'] },
   { pahari: 'naule', gloss_en: 'stepwell / water tank', avoid: [], tags: ['place'] },
-
-  // ==================== TIME & SEASONS ====================
   { pahari: 'rouni', gloss_en: 'night', avoid: ['raat'], tags: ['time'] },
   { pahari: 'dihu', gloss_en: 'day', avoid: ['din'], tags: ['time'] },
   { pahari: 'saun', gloss_en: 'monsoon month (Shravan)', avoid: ['sawan'], tags: ['time'] },
@@ -127,8 +116,6 @@ window.__BITTIBOL_LEXICON = [
   { pahari: 'kaal', gloss_en: 'tomorrow / yesterday', avoid: ['kal'], tags: ['time'], notes: 'Context determines future/past' },
   { pahari: 'parson', gloss_en: 'day after tomorrow / day before yesterday', avoid: [], tags: ['time'] },
   { pahari: 'biraan', gloss_en: 'late / delay', avoid: ['der'], tags: ['time'] },
-
-  // ==================== EMOTIONS & STATES ====================
   { pahari: 'maya', gloss_en: 'love / affection', avoid: ['pyaar', 'mohabbat'], tags: ['emotion'] },
   { pahari: 'prem', gloss_en: 'deep love (poetic)', avoid: [], tags: ['emotion'] },
   { pahari: 'raud', gloss_en: 'anger / rage', avoid: ['gussa'], tags: ['emotion'] },
@@ -144,8 +131,6 @@ window.__BITTIBOL_LEXICON = [
   { pahari: 'sapna', gloss_en: 'dream', avoid: [], tags: ['emotion'] },
   { pahari: 'chain', gloss_en: 'peace / calm', avoid: ['sukoon'], tags: ['emotion'] },
   { pahari: 'zehar', gloss_en: 'poison / something intoxicating', avoid: ['zahar'], tags: ['emotion'], notes: '"Tera hasna zehar lagda" = your smile intoxicates me' },
-
-  // ==================== VERBS (COMMON) ====================
   { pahari: 'herda', gloss_en: 'watching / looking', avoid: ['dekhda'], tags: ['verb'] },
   { pahari: 'karna', gloss_en: 'to do', avoid: [], tags: ['verb'] },
   { pahari: 'bonna', gloss_en: 'to become / to happen', avoid: ['hona'], tags: ['verb'] },
@@ -153,7 +138,6 @@ window.__BITTIBOL_LEXICON = [
   { pahari: 'auna', gloss_en: 'to come', avoid: ['aana'], tags: ['verb'] },
   { pahari: 'khaana', gloss_en: 'to eat', avoid: [], tags: ['verb'] },
   { pahari: 'pina', gloss_en: 'to drink', avoid: ['peena'], tags: ['verb'] },
-  { pahari: 'bonna', gloss_en: 'to sow / to plant', avoid: ['bona'], tags: ['verb', 'agriculture'] },
   { pahari: 'khotna', gloss_en: 'to dig', avoid: ['khodna'], tags: ['verb'] },
   { pahari: 'kaatna', gloss_en: 'to cut', avoid: [], tags: ['verb'] },
   { pahari: 'uthna', gloss_en: 'to rise / wake up', avoid: [], tags: ['verb'] },
@@ -172,12 +156,10 @@ window.__BITTIBOL_LEXICON = [
   { pahari: 'jhalakna', gloss_en: 'to shimmer / sparkle', avoid: ['chamakna'], tags: ['verb'] },
   { pahari: 'bilkhna', gloss_en: 'to sob / lament deeply', avoid: [], tags: ['verb'] },
   { pahari: 'rudna', gloss_en: 'to be stuck / entangled (emotional)', avoid: [], tags: ['verb'], notes: '"Dil rudya re" = heart is entangled' },
-
-  // ==================== ADJECTIVES & DESCRIPTORS ====================
   { pahari: 'sheeli', gloss_en: 'cold / cool', avoid: ['thandi'], tags: ['adj'] },
   { pahari: 'tattu', gloss_en: 'hot (diminutive)', avoid: ['garam'], tags: ['adj'] },
   { pahari: 'chittu', gloss_en: 'white / bright white', avoid: ['safed'], tags: ['adj', 'beauty'] },
-  { pahari: 'kaalu', gloss_en: 'black / dark', avoid: ['kala'], tags: ['adj'] },
+  { pahari: 'kaalu2', gloss_en: 'black / dark', avoid: ['kala'], tags: ['adj'] },
   { pahari: 'laal', gloss_en: 'red', avoid: [], tags: ['adj'] },
   { pahari: 'pillu', gloss_en: 'yellow (diminutive)', avoid: ['peela'], tags: ['adj'] },
   { pahari: 'nilu', gloss_en: 'blue (diminutive)', avoid: ['neela'], tags: ['adj'] },
@@ -190,7 +172,7 @@ window.__BITTIBOL_LEXICON = [
   { pahari: 'motu', gloss_en: 'fat / thick', avoid: ['mota'], tags: ['adj'] },
   { pahari: 'badhiya', gloss_en: 'good / excellent', avoid: ['achha'], tags: ['adj'] },
   { pahari: 'bura', gloss_en: 'bad', avoid: [], tags: ['adj'] },
-  { pahari: 'sunna', gloss_en: 'empty / deserted', avoid: ['suna'], tags: ['adj'] },
+  { pahari: 'sunna2', gloss_en: 'empty / deserted', avoid: ['suna'], tags: ['adj'] },
   { pahari: 'gahru', gloss_en: 'deep', avoid: ['gahra'], tags: ['adj'] },
   { pahari: 'chhichhora', gloss_en: 'shallow / superficial', avoid: [], tags: ['adj'] },
   { pahari: 'meetha', gloss_en: 'sweet', avoid: [], tags: ['adj'] },
@@ -199,8 +181,6 @@ window.__BITTIBOL_LEXICON = [
   { pahari: 'nyaaru', gloss_en: 'unique / separate / distinct', avoid: ['alag', 'nyara'], tags: ['adj'] },
   { pahari: 'sohna', gloss_en: 'beautiful / handsome', avoid: ['sundar'], tags: ['adj', 'beauty'] },
   { pahari: 'bholu', gloss_en: 'innocent / simple (diminutive)', avoid: ['bhola'], tags: ['adj'] },
-
-  // ==================== CLOTHING & ADORNMENT ====================
   { pahari: 'chunnru', gloss_en: 'a red dupatta / scarf (diminutive)', avoid: ['dupatta'], tags: ['clothing'] },
   { pahari: 'jhumku', gloss_en: 'earring (diminutive)', avoid: ['bali'], tags: ['clothing'] },
   { pahari: 'dhaantu', gloss_en: 'traditional Pahari silver necklace', avoid: [], tags: ['clothing'] },
@@ -213,8 +193,6 @@ window.__BITTIBOL_LEXICON = [
   { pahari: 'dhoti', gloss_en: 'traditional lower garment (men)', avoid: [], tags: ['clothing'] },
   { pahari: 'kurta', gloss_en: 'traditional upper garment', avoid: [], tags: ['clothing'] },
   { pahari: 'patka', gloss_en: 'waist sash / cummerbund', avoid: [], tags: ['clothing'] },
-
-  // ==================== CULTURE & TRADITION ====================
   { pahari: 'mela', gloss_en: 'village fair', avoid: ['mela (acceptable)'], tags: ['culture'] },
   { pahari: 'naati', gloss_en: 'Pahari folk dance / song genre', avoid: ['bhangra'], tags: ['music'] },
   { pahari: 'jatar', gloss_en: 'village deity festival / pilgrimage', avoid: [], tags: ['culture'] },
@@ -231,8 +209,6 @@ window.__BITTIBOL_LEXICON = [
   { pahari: 'nagada', gloss_en: 'kettle drum', avoid: [], tags: ['music'] },
   { pahari: 'shehnai', gloss_en: 'traditional wind instrument', avoid: [], tags: ['music'] },
   { pahari: 'karnal', gloss_en: 'traditional long trumpet', avoid: [], tags: ['music'] },
-
-  // ==================== AGRICULTURE & DAILY LIFE ====================
   { pahari: 'fasal', gloss_en: 'crop / harvest', avoid: [], tags: ['agriculture'] },
   { pahari: 'gahu', gloss_en: 'wheat', avoid: ['gehu'], tags: ['agriculture'] },
   { pahari: 'makki', gloss_en: 'corn / maize', avoid: [], tags: ['agriculture'] },
@@ -259,8 +235,6 @@ window.__BITTIBOL_LEXICON = [
   { pahari: 'chah', gloss_en: 'tea', avoid: ['chai'], tags: ['daily life'] },
   { pahari: 'bidi', gloss_en: 'rolled cigarette / beedi', avoid: [], tags: ['daily life'] },
   { pahari: 'hookah', gloss_en: 'water pipe (traditional smoking)', avoid: [], tags: ['daily life'] },
-
-  // ==================== PRONOUNS ====================
   { pahari: 'main', gloss_en: 'I', avoid: [], tags: ['grammar'] },
   { pahari: 'tu', gloss_en: 'you (intimate singular)', avoid: [], tags: ['grammar'] },
   { pahari: 'tum', gloss_en: 'you (semi-formal)', avoid: [], tags: ['grammar'] },
@@ -271,8 +245,6 @@ window.__BITTIBOL_LEXICON = [
   { pahari: 'tumlog', gloss_en: 'you all / you people', avoid: ['tum log (acceptable)'], tags: ['grammar'] },
   { pahari: 'ye', gloss_en: 'these / they (proximate)', avoid: [], tags: ['grammar'] },
   { pahari: 'se', gloss_en: 'those / they (distant)', avoid: ['woh (plural)'], tags: ['grammar'] },
-
-  // ==================== MISCELLANEOUS ====================
   { pahari: 'katha', gloss_en: 'talk / story / matter', avoid: ['gallan', 'baat'], tags: ['noun'] },
   { pahari: 'baat', gloss_en: 'matter / topic / conversation', avoid: [], tags: ['noun'], notes: '"Kya baat" is acceptable loan blend' },
   { pahari: 'sach', gloss_en: 'truth', avoid: [], tags: ['noun'] },
@@ -289,3 +261,5 @@ window.__BITTIBOL_LEXICON = [
   { pahari: 'nasha', gloss_en: 'intoxication', avoid: [], tags: ['emotion'], notes: 'Often metaphorical for love' },
   { pahari: 'chaska', gloss_en: 'addiction / habit (especially pleasurable)', avoid: [], tags: ['emotion'] },
 ];
+export default LEXICON;
+if (typeof window !== 'undefined') window.__BITTIBOL_LEXICON = LEXICON;
