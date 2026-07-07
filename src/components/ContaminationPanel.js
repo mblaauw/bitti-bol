@@ -1,7 +1,5 @@
 import { html } from '../htm.js';
-import { songLyrics, scanHits, hoveredHit } from '../state.js';
-import { applyReplacement } from '../core/index.js';
-import { scheduleScan } from '../state.js';
+import { songLyrics, scanHits, hoveredHit, scheduleScan } from '../state.js';
 
 export function ContaminationPanel() {
   const hits = scanHits.value;
@@ -19,12 +17,16 @@ export function ContaminationPanel() {
   const hovered = hoveredHit.value;
   const fixAll = () => {
     const sorted = [...hits].sort((a, b) => (b.lineNo - a.lineNo) || (b.col - a.col));
-    let lyrics = songLyrics.value;
+    const lns = songLyrics.value.split('\n');
     for (const h of sorted) {
-      lyrics = applyReplacement(lyrics, h.pattern, h.suggestion, h.lineNo, h.col);
+      const idx = h.lineNo - 1;
+      if (idx >= 0 && idx < lns.length) {
+        const l = lns[idx];
+        lns[idx] = l.slice(0, h.col) + h.suggestion + l.slice(h.col + h.match.length);
+      }
     }
-    songLyrics.value = lyrics;
-    scheduleScan(lyrics);
+    songLyrics.value = lns.join('\n');
+    scheduleScan(songLyrics.value);
   };
   return html`
     <div class="card" style="padding:0;overflow:hidden">
@@ -60,7 +62,7 @@ export function ContaminationPanel() {
                 <div style="font-size:11px;color:var(--text-soft);line-height:1.4;font-family:var(--mono)">${h.line.length > 54 ? h.line.slice(0, 54) + '…' : h.line}</div>
                 <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px">
                   <span style="font-size:12px;color:var(--success);font-family:var(--mono)">→ ${h.suggestion}</span>
-                  <button onClick=${() => { songLyrics.value = applyReplacement(songLyrics.value, h.pattern, h.suggestion, h.lineNo, h.col); scheduleScan(songLyrics.value); }} style="flex-shrink:0;font-size:11px;font-weight:600;padding:4px 11px;border:1px solid #d3c6a8;background:#fff;color:var(--warn-fg);border-radius:var(--radius-sm);cursor:pointer">Apply fix</button>
+                  <button onClick=${() => { const lns = songLyrics.value.split('\n'); const idx = h.lineNo - 1; if (idx >= 0 && idx < lns.length) { const l = lns[idx]; lns[idx] = l.slice(0, h.col) + h.suggestion + l.slice(h.col + h.match.length); songLyrics.value = lns.join('\n'); scheduleScan(songLyrics.value); } }} style="flex-shrink:0;font-size:11px;font-weight:600;padding:4px 11px;border:1px solid #d3c6a8;background:#fff;color:var(--warn-fg);border-radius:var(--radius-sm);cursor:pointer">Apply fix</button>
                 </div>
               </div>
             `;
