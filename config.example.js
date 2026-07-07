@@ -2,7 +2,7 @@
 // Keys here override localStorage values on every page load.
 // config.js is gitignored — your keys stay local.
 window.__BITTIBOL_CONFIG = {
-  // corsProxy: 'https://your-proxy.com/?', // only if you need CORS bypass from file://
+  corsProxy: 'http://localhost:3000/api/', // auto-set for dev; remove for file:// usage
   composer: {
     apiKey: 'sk-...',
     baseUrl: 'https://opencode.ai/zen/go/v1',

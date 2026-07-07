@@ -6,7 +6,7 @@
   "scripts": {
     "test": "npx playwright test",
     "test:headed": "npx playwright test --headed",
-    "dev": "npx serve .",
+    "dev": "node scripts/dev.mjs",
     "build": "node scripts/build.mjs"
   }
 }
