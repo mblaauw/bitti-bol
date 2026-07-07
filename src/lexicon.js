@@ -262,4 +262,3 @@ const LEXICON = [
   { pahari: 'chaska', gloss_en: 'addiction / habit (especially pleasurable)', avoid: [], tags: ['emotion'] },
 ];
 export default LEXICON;
-if (typeof window !== 'undefined') window.__BITTIBOL_LEXICON = LEXICON;

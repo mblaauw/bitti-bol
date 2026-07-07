@@ -1,28 +1,18 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { createRequire } from 'module';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-let core;
-try {
-  core = await import(path.resolve(__dirname, '..', 'bitti-core.js'));
-} catch {
-  // fallback: load via global
-  const req = createRequire(import.meta.url);
-  req(path.resolve(__dirname, '..', 'bitti-core.global.js'));
-  core = globalThis.__BITTIBOL_CORE;
-}
-
 const {
+  LEXICON,
   CONTAMINATION_RULES,
   runContaminationScan,
   applyReplacement,
   segmentLyrics,
   validateMechanical,
-} = core;
+} = await import(path.resolve(__dirname, '..', 'src/core/index.js'));
 
 // ---- CONTAMINATION RULES ----
 describe('CONTAMINATION_RULES', () => {

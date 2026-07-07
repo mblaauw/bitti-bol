@@ -1,6 +1,5 @@
 import { html } from '../htm.js';
 import { songTitle, songLyrics, songStyle, songReport, scanHits, editMode, copyFeedback, scheduleScan } from '../state.js';
-import { runContaminationScan } from '../core/index.js';
 import { LyricsReadMode } from './LyricsReadMode.js';
 import { ChecksGrid } from './ChecksGrid.js';
 export function SongCard() {

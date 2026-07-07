@@ -1,7 +1,7 @@
-import { signal, computed, effect } from 'https://esm.sh/@preact/signals@2.0.1?external=preact';
+import { signal, effect } from 'https://esm.sh/@preact/signals@2.0.1?external=preact';
 import { _storage, initialHistory, saveStorage, DEFAULT_SETTINGS } from './storage.js';
-import { runContaminationScan, validateMechanical, llmCall, assemblePrompt, assembleCriticPrompt, segmentLyrics } from './core/index.js';
-import { PROMPT_FRAGMENTS, SUNO_RULES, CONTAMINATION_RULES } from './constants.js';
+import { runContaminationScan, validateMechanical, llmCall, assemblePrompt, assembleCriticPrompt } from './core/index.js';
+import { PROMPT_FRAGMENTS } from './constants.js';
 
 export const settings = signal(_storage.settings);
 export const formTopic = signal('');

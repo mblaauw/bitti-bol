@@ -1,13 +1,20 @@
 # Bitti Bol — Himachali Pahari Song Studio
 
-Single-file browser app for composing Himachali Pahari folk songs with Suno v5.5. No server, no build step.
+Browser app for composing Himachali Pahari folk songs with Suno v5.5. No server required.
 
 ## How to use
 
-1. Open `bitti-bol.html` in Chrome/Edge (works from `file://` or GitHub Pages)
-2. Open **Settings** (gear icon), add your API key for the composer slot
-3. Enter a topic and click **Generate song**
-4. Review the pipeline results, apply fixes to flagged dialect issues, save to history
+### Dev mode (served)
+```bash
+npm run dev     # or: python3 -m http.server
+```
+Open `http://localhost:3000` (or wherever served), click the gear icon to add an API key, enter a topic, and generate.
+
+### Distributable (file://)
+```bash
+npm run build   # produces dist/bitti-bol.html
+```
+Open `dist/bitti-bol.html` directly from Chrome/Edge — works offline (except CDN deps) and from GitHub Pages.
 
 ## API key setup
 
@@ -29,14 +36,26 @@ Opening from `file://` blocks API fetch calls. Set a CORS proxy URL in Settings.
 ## Tests
 
 ```bash
-npm test                    # Playwright UI smoke tests (13)
-node --test tests/core.test.mjs  # Core logic regression tests (15)
+npm test                          # Playwright UI smoke tests (13)
+node --test tests/core.test.mjs   # Core logic regression tests (15)
 ```
 
 ## Architecture
 
-- `bitti-bol.html` — standalone app (Preact + htm + signals via esm.sh)
-- All core logic (scanner, validators, LLM adapter, prompt assembly) inlined
-- `bitti-core.js` — extracted ESM copy for Node test imports
-- `lexicon.js` — optional 90-entry lexicon override (auto-loaded if present)
-- `config.js` — optional gitignored API key/config file
+```
+bitti-bol/
+├── index.html               # Dev entry (import map, loads src/main.js)
+├── src/
+│   ├── main.js              # Bootstrap: render App
+│   ├── state.js             # Signals, effects, pipeline
+│   ├── storage.js           # localStorage, config merge
+│   ├── constants.js         # CONTAMINATION_RULES, SUNO rules, prompts
+│   ├── lexicon.js           # 90-entry Pahari lexicon
+│   ├── core/                # Pure domain logic (scanner, validators, LLM, prompts)
+│   ├── components/          # Preact UI components (one per file)
+│   └── styles.css           # All CSS
+├── scripts/build.mjs        # Inlines src/ → dist/bitti-bol.html
+├── dist/bitti-bol.html      # Single-file distribution (file:// compatible)
+├── config.js                # (gitignored) API keys
+└── config.example.js        # Template for config.js
+```

@@ -1,14 +1,9 @@
 node_modules/
-.next/
-__pycache__/
-*.pyc
 .env
-venv/
-.env.local
 .DS_Store
-dist/
-build/
-*.egg-info/
+dist/*
+!dist/.gitkeep
+!dist/bitti-bol.html
 config.js
 .vscode/
 test-results/
