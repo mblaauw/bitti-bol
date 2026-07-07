@@ -72,6 +72,7 @@ test.describe('Bitti Bol v2', () => {
 
     const baseUrlInput = page.locator('.card').filter({ hasText: 'Composer Slot' }).locator('input').first();
     await expect(baseUrlInput).toHaveValue('https://opencode.ai/zen/go/v1');
+    await expect(page.getByText('Generation Slot')).toBeVisible();
   });
 
   test('critic toggle checkbox works', async ({ page }) => {
@@ -106,6 +107,18 @@ test.describe('Bitti Bol v2', () => {
     const first = charCounts.first();
     await expect(first).toBeVisible();
     await expect(first).toContainText('/');
+  });
+
+  test('generation shows confirm dialog then cancels', async ({ page }) => {
+    await page.evaluate(() => {
+      window.__testSetSong('Test Title', '[Verse 1]\ntest lyrics', 'folk, acoustic');
+    });
+    await page.waitForTimeout(300);
+    await expect(page.getByText('Generate Audio')).toBeVisible({ timeout: 3000 });
+    await page.getByText('Generate Audio').click();
+    await expect(page.getByRole('heading', { name: 'Generate Audio?' })).toBeVisible({ timeout: 3000 });
+    await page.getByText('Cancel').click();
+    await expect(page.getByRole('heading', { name: 'Generate Audio?' })).not.toBeVisible();
   });
 
   test('mobile layout stacks single column', async ({ page }) => {

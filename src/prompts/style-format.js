@@ -1,0 +1,1 @@
+export const STYLE_FORMAT = 'Style block = comma-separated English descriptor string. Structure: [Genre/Style], [Vocal Type], [Instruments], [Tempo/Key/Mood]. Must open with language hint "sung in Himachali Pahari" as the first sentence. Explicitly name naati as genre. Name dhol and nagara for percussion. No backbeat phrasing. BPM must be stated and fall within 90-105.';

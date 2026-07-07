@@ -56,6 +56,10 @@ export function SettingsModal() {
           </div>
           ${slot('composer', 'Composer Slot', 'Writes the song')}
           ${slot('critic', 'Critic Slot', 'Verifies dialect')}
+          ${slot('generation', 'Generation Slot', 'Suno API audio generation')}
+          <div class="card" style="padding:16px 17px;background:var(--bg-soft);box-shadow:none;margin-top:-12px">
+            ${field('Callback URL', html`<input value=${s.generation.callBackUrl} onInput=${e => setNested('generation.callBackUrl', e.target.value)} placeholder="https://example.com/suno-callback" style="width:100%;background:#fff;border:1px solid var(--border-input);border-radius:var(--radius-sm);padding:8px 11px;font-size:12.5px;font-family:var(--mono);outline:none"/>`)}
+          </div>
           <div style="display:flex;gap:10px;padding-top:2px">
             <button class="btn btn-primary" style="flex:1;padding:11px" onClick=${() => showSettings.value = false}>Done</button>
             <button class="btn btn-secondary" style="padding:11px 18px" onClick=${() => { if (confirm('Reset settings to defaults?')) settings.value = JSON.parse(JSON.stringify(DEFAULT_SETTINGS)); }}>Reset</button>

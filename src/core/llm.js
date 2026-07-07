@@ -5,6 +5,7 @@ export async function llmCall(cfg, slot, systemPrompt, userPrompt, { expectJson 
   const baseUrl = cfg.baseUrl.replace(/\/+$/, '');
   let url = baseUrl + '/chat/completions';
   if (cfg.corsProxy) { url = cfg.corsProxy + encodeURIComponent(url); }
+  const isComposer = slot === 'composer';
   const body = { model: cfg.model || 'deepseek-v4-flash', messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: userPrompt }], temperature: cfg.temperature ?? (isComposer ? 0.85 : 0.2), max_tokens: cfg.maxTokens ?? 16384 };
   if (expectJson) body.response_format = { type: 'json_object' };
   const controller = new AbortController(); const timer = setTimeout(() => controller.abort(), timeoutMs);

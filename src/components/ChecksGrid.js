@@ -7,6 +7,7 @@ export function ChecksGrid() {
   const mech = rep.mechanical;
   const critic = rep.critic;
   const repair = rep.repair;
+  const iterations = rep.iterations;
   const mechWarnings = (mech && mech.warnings || []).map(w => ({
     message: w.message,
     dotStyle: 'flex-shrink:0;width:7px;height:7px;border-radius:50%;margin-top:6px;background:' + (w.severity === 'high' ? '#c0472a' : '#a9791a'),
@@ -29,7 +30,7 @@ export function ChecksGrid() {
             <div style="font-size:12.5px;font-weight:600;color:${critic.is_authentic ? 'var(--success)' : 'var(--accent)'}">${criticVerdict}</div>
             ${criticIssues.map(iss => html`<div style="font-size:11px;color:#8a7d68;margin-top:6px;line-height:1.4">· ${iss.text}</div>`)}
           ` : html`<div style="font-size:12px;color:#b0a48f">Not run for this song.</div>`}
-          ${repair && repair.applied ? html`<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border-light);font-size:11.5px;color:var(--success)">Repair applied · high hits ${repair.beforeHigh} → ${repair.afterHigh}</div>` : ''}
+          ${iterations ? html`<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border-light);font-size:11.5px;color:var(--success)">Revised (${iterations} iteration${iterations > 1 ? 's' : ''})</div>` : repair && repair.applied ? html`<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border-light);font-size:11.5px;color:var(--success)">Repair applied · high hits ${repair.beforeHigh} → ${repair.afterHigh}</div>` : ''}
         </div>
       </div>
     </div>

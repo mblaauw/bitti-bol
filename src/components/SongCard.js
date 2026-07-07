@@ -1,5 +1,5 @@
 import { html } from '../htm.js';
-import { songTitle, songLyrics, songStyle, songReport, scanHits, editMode, copyFeedback, scheduleScan } from '../state.js';
+import { songTitle, songLyrics, songStyle, songReport, scanHits, editMode, copyFeedback, scheduleScan, audioGen, generateAudio, selectGeneration, showSunoConfirm, pendingSunoArgs, settings } from '../state.js';
 import { LyricsReadMode } from './LyricsReadMode.js';
 import { ChecksGrid } from './ChecksGrid.js';
 
@@ -67,6 +67,92 @@ export function SongCard() {
       </div>
 
       <${ChecksGrid} />
+
+      <div class="card" style="padding:20px 22px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <div>
+            <div class="eyebrow" style="margin-bottom:4px">Audio Generation</div>
+            <div style="font-size:12px;color:var(--text-dim)">Suno API — 2 tracks per generation, costs credits</div>
+          </div>
+        </div>
+        ${audioGen.value.status === 'done' ? html`
+          <div style="display:flex;flex-direction:column;gap:12px">
+            ${audioGen.value.generations.length > 1 ? html`
+              <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:2px">
+                ${audioGen.value.generations.map((g, i) => html`
+                  <button class="chip-btn ${i === audioGen.value.activeGen ? 'on' : ''}" onClick=${() => selectGeneration(i)} style="font-size:11px;padding:4px 10px">
+                    Gen ${i + 1}${g.model ? ' · ' + g.model : ''}${g.instrumental ? ' · inst' : ''}
+                  </button>
+                `)}
+              </div>
+            ` : ''}
+            ${audioGen.value.tracks.map((t, i) => html`
+              <div style="display:flex;align-items:center;gap:12px;background:var(--bg-soft);border:1px solid var(--border-light);border-radius:var(--radius);padding:12px 14px">
+                <span style="font-size:13px;font-weight:600;color:var(--ink);min-width:48px">Track ${i + 1}</span>
+                <div style="flex:1;min-width:0">
+                  <audio controls style="width:100%;height:40px" src=${t.streamAudioUrl || t.audioUrl || ''}>
+                    Your browser does not support the audio element.
+                  </audio>
+                  <div style="display:flex;gap:8px;margin-top:6px">
+                    ${t.audioUrl ? html`<a href=${t.audioUrl} target="_blank" class="chip-btn" style="text-decoration:none">Download</a>` : ''}
+                    ${t.streamAudioUrl ? html`<a href=${t.streamAudioUrl} target="_blank" class="chip-btn" style="text-decoration:none">Stream link</a>` : ''}
+                  </div>
+                </div>
+              </div>
+            `)}
+            <button class="btn btn-secondary" style="align-self:flex-start;padding:8px 16px;font-size:12px" onClick=${() => audioGen.value = { status: 'idle', taskId: null, tracks: [], error: null, generations: [], activeGen: -1 }}>
+              Clear
+            </button>
+          </div>
+        ` : audioGen.value.status === 'error' ? html`
+          <div style="background:#fdf0ed;border:1px solid #f5c6b8;border-radius:var(--radius);padding:12px 14px;font-size:12px;color:#a84334;line-height:1.5">
+            ${audioGen.value.error?.message || 'Generation failed.'}
+          </div>
+          <button class="btn btn-secondary" style="margin-top:10px;align-self:flex-start;padding:8px 16px;font-size:12px" onClick=${() => audioGen.value = { status: 'idle', taskId: null, tracks: [], error: null, generations: [], activeGen: -1 }}>
+            Dismiss
+          </button>
+        ` : audioGen.value.status === 'submitting' || audioGen.value.status === 'polling' ? html`
+          <div style="display:flex;align-items:center;gap:10px;color:var(--text-dim);font-size:13px">
+            <span class="spinner" style="display:inline-block;width:16px;height:16px;border:2px solid var(--border-strong);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite"></span>
+            ${audioGen.value.status === 'submitting' ? 'Submitting...' : 'Generating audio (this takes 1–2 min)...'}
+          </div>
+        ` : html`
+          <div style="display:flex;align-items:center;gap:10px">
+            <button class="btn btn-primary" style="padding:10px 20px;font-size:13px" onClick=${() => {
+              const cfg = settings.value.generation;
+              if (!cfg.apiKey) { audioGen.value = { status: 'error', taskId: null, tracks: [], error: { ok: false, message: 'No API key configured — set it in Settings.' }, generations: [], activeGen: -1 }; return; }
+              pendingSunoArgs.value = { title: songTitle.value, style: songStyle.value, lyrics: songLyrics.value };
+              showSunoConfirm.value = true;
+            }}>
+              Generate Audio
+            </button>
+          </div>
+        `}
+      </div>
+
+      ${showSunoConfirm.value && pendingSunoArgs.value ? html`
+        <div class="modal" onClick=${e => { if (e.target === e.currentTarget) showSunoConfirm.value = false; }}>
+          <div class="modal-box" style="max-width:420px">
+            <div class="modal-head">
+              <h2 style="font-size:15px;font-weight:700;color:var(--ink)">Generate Audio?</h2>
+              <button class="icon-btn" style="width:28px;height:28px" onClick=${() => showSunoConfirm.value = false}>✕</button>
+            </div>
+            <div style="padding:18px 22px">
+              <p style="font-size:13px;color:var(--text-dim);line-height:1.55">This uses the Suno API and costs credits. <strong style="color:var(--ink)">2 tracks</strong> will be generated from your lyrics and style prompt.</p>
+              <p style="font-size:13px;color:var(--text-dim);margin-top:10px;line-height:1.5">Title: <strong style="color:var(--ink)">${pendingSunoArgs.value.title}</strong><br>Style: <strong style="color:var(--ink)">${pendingSunoArgs.value.style || '(none)'}</strong></p>
+              <div style="display:flex;gap:10px;margin-top:18px">
+                <button class="btn btn-primary" style="flex:1;padding:11px" onClick=${async () => {
+                  const a = pendingSunoArgs.value;
+                  showSunoConfirm.value = false;
+                  pendingSunoArgs.value = null;
+                  await generateAudio(a.title, a.style, a.lyrics, false);
+                }}>Generate</button>
+                <button class="btn btn-secondary" style="flex:1;padding:11px" onClick=${() => { showSunoConfirm.value = false; pendingSunoArgs.value = null; }}>Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      ` : null}
     </section>
   `;
 }

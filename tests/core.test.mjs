@@ -12,6 +12,8 @@ const {
   applyReplacement,
   segmentLyrics,
   validateMechanical,
+  submitGeneration,
+  pollGeneration,
 } = await import(path.resolve(__dirname, '..', 'src/core/index.js'));
 
 // ---- CONTAMINATION RULES ----
@@ -130,6 +132,28 @@ describe('segmentLyrics', () => {
     const lineSegs = segs.find(s => s.type === 'line')?.segments || [];
     const hitSegs = lineSegs.filter(s => s.hit);
     assert(hitSegs.length > 0, 'should have highlighted segments');
+  });
+});
+
+// ---- SUNO GENERATION ADAPTER ----
+describe('submitGeneration', () => {
+  it('returns auth error for missing apiKey', async () => {
+    const result = await submitGeneration({ baseUrl: 'https://api.sunoapi.org', apiKey: '' }, 'Test', 'pop', 'lyrics', false);
+    assert.equal(result.ok, false);
+    assert.equal(result.errorKind, 'auth');
+  });
+
+  it('returns auth error for missing baseUrl', async () => {
+    const result = await submitGeneration({ apiKey: 'fake' }, 'Test', 'pop', 'lyrics', false);
+    assert.equal(result.ok, false);
+    assert.equal(result.errorKind, 'auth');
+  });
+});
+
+describe('pollGeneration', () => {
+  it('returns provider_error for missing task', async () => {
+    const result = await pollGeneration({ baseUrl: 'https://api.sunoapi.org', apiKey: 'fake' }, 'nonexistent');
+    assert.equal(result.ok, false);
   });
 });
 

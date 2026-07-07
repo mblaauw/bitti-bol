@@ -3,6 +3,7 @@ export const LEGACY_KEY = 'bitti-bol-history';
 export const DEFAULT_SETTINGS = {
   composer: { baseUrl: 'https://opencode.ai/zen/go/v1', apiKey: '', model: 'deepseek-v4-flash', temperature: 0.85, maxTokens: 16384 },
   critic: { baseUrl: 'https://opencode.ai/zen/go/v1', apiKey: '', model: 'deepseek-v4-flash', temperature: 0.2, maxTokens: 16384 },
+  generation: { baseUrl: 'https://api.sunoapi.org', apiKey: '', model: 'V5_5', callBackUrl: '' },
   criticEnabled: true, corsProxy: '',
 };
 
@@ -16,7 +17,7 @@ function migrateV1History() {
       id: s.id || crypto.randomUUID(), createdAt: s.generated_at || new Date().toISOString(),
       title: s.title || 'Untitled', lyrics: s.lyrics?.content || '', style: s.style?.content || '',
       topic: s.topic || '', prefs: {},
-      report: { mechanical: { warnings: [], isValid: true }, scan: [], critic: null, repair: null },
+      report: { mechanical: { warnings: [], isValid: true }, scan: [], critic: null, repair: null, iterations: 0 },
       pipelineVersion: 1,
     }));
   } catch { return []; }
@@ -36,6 +37,7 @@ try {
           ...DEFAULT_SETTINGS,
           composer: { ...DEFAULT_SETTINGS.composer, ...(savedSettings.composer || {}) },
           critic: { ...DEFAULT_SETTINGS.critic, ...(savedSettings.critic || {}) },
+          generation: { ...DEFAULT_SETTINGS.generation, ...(savedSettings.generation || {}) },
           corsProxy: savedSettings.corsProxy ?? DEFAULT_SETTINGS.corsProxy,
           criticEnabled: savedSettings.criticEnabled ?? DEFAULT_SETTINGS.criticEnabled,
         },
@@ -48,6 +50,7 @@ if (typeof window.__BITTIBOL_CONFIG !== 'undefined') {
   const cfg = window.__BITTIBOL_CONFIG;
   if (cfg.composer) { for (const k of ['apiKey', 'baseUrl', 'model', 'temperature', 'maxTokens']) { if (cfg.composer[k] != null) _storage.settings.composer[k] = cfg.composer[k]; } }
   if (cfg.critic) { for (const k of ['apiKey', 'baseUrl', 'model', 'temperature', 'maxTokens']) { if (cfg.critic[k] != null) _storage.settings.critic[k] = cfg.critic[k]; } }
+  if (cfg.generation) { for (const k of ['apiKey', 'baseUrl', 'model', 'callBackUrl']) { if (cfg.generation[k] != null) _storage.settings.generation[k] = cfg.generation[k]; } }
   if (cfg.corsProxy) _storage.settings.corsProxy = cfg.corsProxy;
 }
 export let initialHistory;

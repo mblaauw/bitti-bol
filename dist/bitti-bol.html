@@ -605,11 +605,98 @@ function validateMechanical(lyrics, style) {
   return { warnings, isValid: warnings.filter(w => w.severity === 'high').length === 0 };
 }
 
+const POLL_INTERVAL = 5000;
+const MAX_POLLS = 120;
+
+async function submitGeneration(cfg, title, style, prompt, instrumental = false) {
+  if (!cfg || !cfg.apiKey) return { ok: false, errorKind: 'auth', message: 'No API key configured for generation — set it in Settings.' };
+  if (!cfg.baseUrl) return { ok: false, errorKind: 'auth', message: 'No base URL configured for generation — set it in Settings.' };
+  const baseUrl = cfg.baseUrl.replace(/\/+$/, '');
+  const callBackUrl = cfg.callBackUrl || 'https://example.com/suno-callback';
+  const body = {
+    customMode: true,
+    instrumental,
+    callBackUrl,
+    model: cfg.model || 'V5_5',
+    title,
+    style: style || '',
+    prompt,
+  };
+  try {
+    const resp = await fetch(baseUrl + '/api/v1/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + cfg.apiKey },
+      body: JSON.stringify(body),
+    });
+    const json = await resp.json();
+    if (json.code !== 200) {
+      const map = { 401: 'auth', 429: 'quota', 430: 'rate_limit', 413: 'too_long', 455: 'maintenance' };
+      const kind = map[json.code] || 'provider_error';
+      const msg = json.msg || 'Generation rejected (code ' + json.code + ')';
+      return { ok: false, errorKind: kind, message: msg };
+    }
+    if (!json.data || !json.data.taskId) {
+      return { ok: false, errorKind: 'provider_error', message: 'No taskId in response.' };
+    }
+    return { ok: true, data: { taskId: json.data.taskId } };
+  } catch (e) {
+    const msg = e.message || String(e);
+    if (msg.includes('Failed to fetch') || msg.includes('NetworkError')) {
+      return { ok: false, errorKind: 'cors_or_network', message: 'Network/CORS error. The provider may not be reachable from the browser.' };
+    }
+    return { ok: false, errorKind: 'provider_error', message: msg };
+  }
+}
+
+async function pollGeneration(cfg, taskId, onProgress) {
+  const baseUrl = cfg.baseUrl.replace(/\/+$/, '');
+  for (let i = 0; i < MAX_POLLS; i++) {
+    await new Promise(r => setTimeout(r, POLL_INTERVAL));
+    try {
+      const resp = await fetch(baseUrl + '/api/v1/generate/record-info?taskId=' + encodeURIComponent(taskId), {
+        headers: { 'Authorization': 'Bearer ' + cfg.apiKey },
+      });
+      const json = await resp.json();
+      if (json.code !== 200) {
+        return { ok: false, errorKind: 'provider_error', message: json.msg || 'Poll failed (code ' + json.code + ')' };
+      }
+      const d = json.data;
+      if (!d) {
+        return { ok: false, errorKind: 'provider_error', message: 'Empty poll response.' };
+      }
+      const status = d.status || '';
+      if (status === 'SUCCESS' || status === 'TEXT_SUCCESS' || status === 'FIRST_SUCCESS') {
+        const tracks = (d.response && d.response.sunoData) || [];
+        if (tracks.length === 0) {
+          if (i < 5) continue;
+          return { ok: false, errorKind: 'provider_error', message: 'No tracks after generation completed.' };
+        }
+        return { ok: true, data: { status, tracks } };
+      }
+      if (status === 'CREATE_TASK_FAILED' || status === 'GENERATE_AUDIO_FAILED') {
+        const errMsg = d.errorMessage || d.errorCode || 'Generation failed (' + status + ')';
+        return { ok: false, errorKind: 'provider_error', message: errMsg };
+      }
+      if (status === 'SENSITIVE_WORD_ERROR') {
+        return { ok: false, errorKind: 'content_policy', message: 'Content flagged by Suno policy. Try different lyrics.' };
+      }
+      if (status && status.includes('FAILED')) {
+        return { ok: false, errorKind: 'provider_error', message: d.errorMessage || 'Generation failed (' + status + ')' };
+      }
+      if (onProgress) onProgress(status);
+    } catch (e) {
+      return { ok: false, errorKind: 'provider_error', message: e.message || String(e) };
+    }
+  }
+  return { ok: false, errorKind: 'timeout', message: 'Generation timed out after ' + ((MAX_POLLS * POLL_INTERVAL) / 60000).toFixed(0) + ' min.' };
+}
+
 const STORAGE_KEY = 'bitti-bol:v2';
 const LEGACY_KEY = 'bitti-bol-history';
 const DEFAULT_SETTINGS = {
   composer: { baseUrl: 'https://opencode.ai/zen/go/v1', apiKey: '', model: 'deepseek-v4-flash', temperature: 0.85, maxTokens: 16384 },
   critic: { baseUrl: 'https://opencode.ai/zen/go/v1', apiKey: '', model: 'deepseek-v4-flash', temperature: 0.2, maxTokens: 16384 },
+  generation: { baseUrl: 'https://api.sunoapi.org', apiKey: '', model: 'V5_5', callBackUrl: '' },
   criticEnabled: true, corsProxy: '',
 };
 
@@ -643,6 +730,7 @@ try {
           ...DEFAULT_SETTINGS,
           composer: { ...DEFAULT_SETTINGS.composer, ...(savedSettings.composer || {}) },
           critic: { ...DEFAULT_SETTINGS.critic, ...(savedSettings.critic || {}) },
+          generation: { ...DEFAULT_SETTINGS.generation, ...(savedSettings.generation || {}) },
           corsProxy: savedSettings.corsProxy ?? DEFAULT_SETTINGS.corsProxy,
           criticEnabled: savedSettings.criticEnabled ?? DEFAULT_SETTINGS.criticEnabled,
         },
@@ -655,6 +743,7 @@ if (typeof window.__BITTIBOL_CONFIG !== 'undefined') {
   const cfg = window.__BITTIBOL_CONFIG;
   if (cfg.composer) { for (const k of ['apiKey', 'baseUrl', 'model', 'temperature', 'maxTokens']) { if (cfg.composer[k] != null) _storage.settings.composer[k] = cfg.composer[k]; } }
   if (cfg.critic) { for (const k of ['apiKey', 'baseUrl', 'model', 'temperature', 'maxTokens']) { if (cfg.critic[k] != null) _storage.settings.critic[k] = cfg.critic[k]; } }
+  if (cfg.generation) { for (const k of ['apiKey', 'baseUrl', 'model', 'callBackUrl']) { if (cfg.generation[k] != null) _storage.settings.generation[k] = cfg.generation[k]; } }
   if (cfg.corsProxy) _storage.settings.corsProxy = cfg.corsProxy;
 }
 let initialHistory;
@@ -684,6 +773,10 @@ const history = signal(initialHistory);
 const copyFeedback = signal({ title: false, style: false, lyrics: false });
 const editMode = signal(false);
 const hoveredHit = signal(null);
+const audioGen = signal({ status: 'idle', taskId: null, tracks: [], error: null, generations: [], activeGen: -1 });
+const showSunoConfirm = signal(false);
+const pendingSunoArgs = signal(null);
+const selectedHistoryId = signal(null);
 
 effect(() => { _storage.settings = settings.value; _storage.history = history.value; _storage.userLexicon = userLexiconSig.value; saveStorage(); });
 
@@ -709,6 +802,62 @@ function pushStep(name, status, msg) {
   const existing = stages.find(s => s.name === name);
   if (existing) { existing.status = status; existing.message = msg || ''; pipelineSteps.value = [...stages]; }
   else { pipelineSteps.value = [...stages, { name, status, message: msg || '' }]; }
+}
+
+async function generateAudio(title, style, lyrics, instrumental) {
+  const prevGens = audioGen.value.generations || [];
+  audioGen.value = { status: 'submitting', taskId: null, tracks: [], error: null, generations: prevGens, activeGen: -1 };
+  const cfg = settings.value.generation;
+  const sub = await submitGeneration(cfg, title, style, lyrics, instrumental);
+  if (!sub.ok) {
+    audioGen.value = { status: 'error', taskId: null, tracks: [], error: sub, generations: prevGens, activeGen: -1 };
+    return;
+  }
+  const taskId = sub.data.taskId;
+  audioGen.value = { status: 'polling', taskId, tracks: [], error: null, generations: prevGens, activeGen: -1 };
+  const result = await pollGeneration(cfg, taskId, (status) => {
+    audioGen.value = { ...audioGen.value, status: status === 'SUCCESS' ? 'done' : 'polling' };
+  });
+  if (!result.ok) {
+    audioGen.value = { status: 'error', taskId, tracks: [], error: result, generations: prevGens, activeGen: -1 };
+    return;
+  }
+  const model = cfg.model || 'V5_5';
+  const entry = { tracks: result.data.tracks, taskId, createdAt: new Date().toISOString(), model, instrumental };
+  const gens = [...prevGens, entry];
+  const activeGen = gens.length - 1;
+  audioGen.value = { status: 'done', taskId, tracks: result.data.tracks, error: null, generations: gens, activeGen };
+  const saveAudio = (record) => ({ ...record, audio: gens });
+  const hId = selectedHistoryId.value;
+  if (hId) {
+    const idx = history.value.findIndex(r => r.id === hId);
+    if (idx !== -1) {
+      const copy = [...history.value];
+      copy[idx] = saveAudio(copy[idx]);
+      history.value = copy;
+      return;
+    }
+  }
+  const matchIdx = history.value.findIndex(r => r.title === title && r.lyrics === lyrics && r.style === style);
+  if (matchIdx !== -1) {
+    const copy = [...history.value];
+    copy[matchIdx] = saveAudio(copy[matchIdx]);
+    history.value = copy;
+  } else {
+    const record = {
+      id: crypto.randomUUID(), createdAt: new Date().toISOString(), title, lyrics,
+      style: style || '', topic: '', prefs: {}, report: null, pipelineVersion: 3,
+      audio: gens,
+    };
+    selectedHistoryId.value = record.id;
+    history.value = [record, ...history.value].slice(0, 50);
+  }
+}
+
+function selectGeneration(index) {
+  const gens = audioGen.value.generations;
+  if (!gens || index < 0 || index >= gens.length) return;
+  audioGen.value = { ...audioGen.value, activeGen: index, tracks: gens[index].tracks, taskId: gens[index].taskId };
 }
 
 async function runPipeline(prefs) {
@@ -787,11 +936,13 @@ async function runPipeline(prefs) {
 
   const finalScan = runContaminationScan(finalLyrics);
   const report = { mechanical: mech, scan: finalScan, critic, repair: repairApplied ? { applied: true, beforeHigh: highHits, afterHigh } : null };
+  const recordId = crypto.randomUUID();
   const record = {
-    id: crypto.randomUUID(), createdAt: new Date().toISOString(), title: d.title, lyrics: finalLyrics,
-    style: d.style, topic: prefs.topic, prefs, report, pipelineVersion: 2,
+    id: recordId, createdAt: new Date().toISOString(), title: d.title, lyrics: finalLyrics,
+    style: d.style, topic: prefs.topic, prefs, report, pipelineVersion: 3,
   };
   songLyrics.value = finalLyrics; scanHits.value = finalScan; songReport.value = report;
+  selectedHistoryId.value = recordId;
   history.value = [record, ...history.value].slice(0, 50);
 }
 
@@ -934,12 +1085,14 @@ function ContaminationPanel() {
 
 function ErrorBanner() {
   const err = pipelineError.value;
-  if (!err) return null;
+  const audioErr = audioGen.value.status === 'error' ? audioGen.value.error : null;
+  const activeErr = err || audioErr;
+  if (!activeErr) return null;
   return html`
     <div class="callout-error">
-      <strong>${err.errorKind}</strong>
-      <div>${err.message}</div>
-      ${err.errorKind === 'auth' || err.errorKind === 'cors_or_network' ? html`<button onClick=${() => showSettings.value = true} style="margin-top:8px;background:none;border:none;color:var(--accent);font-size:12px;font-weight:600;cursor:pointer;padding:0">Open Settings \u2192</button>` : ''}
+      <strong>${activeErr.errorKind}</strong>
+      <div>${activeErr.message}</div>
+      ${(activeErr.errorKind === 'auth' || activeErr.errorKind === 'cors_or_network' || activeErr.errorKind === 'quota') && !err ? html`<button onClick=${() => showSettings.value = true} style="margin-top:8px;background:none;border:none;color:var(--accent);font-size:12px;font-weight:600;cursor:pointer;padding:0">Open Settings \u2192</button>` : ''}
     </div>
   `;
 }
@@ -1010,15 +1163,36 @@ function HistoryPanel() {
           try { dateStr = new Date(s.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }); } catch {}
           return html`
             <div class="hist-row" onClick=${() => {
+              const prevId = selectedHistoryId.value;
+              if (prevId && prevId !== s.id) {
+                const prevIdx = history.value.findIndex(r => r.id === prevId);
+                if (prevIdx !== -1) {
+                  const copy = [...history.value];
+                  copy[prevIdx] = { ...copy[prevIdx], title: songTitle.value, lyrics: songLyrics.value, style: songStyle.value, updatedAt: new Date().toISOString() };
+                  history.value = copy;
+                }
+              }
               songTitle.value = s.title; songLyrics.value = s.lyrics; songStyle.value = s.style;
               songReport.value = s.report || null;
               scanHits.value = runContaminationScan(s.lyrics);
               editMode.value = false;
+              selectedHistoryId.value = s.id;
+              const gens = s.audio;
+              if (gens && Array.isArray(gens) && gens.length) {
+                const last = gens.length - 1;
+                audioGen.value = { status: 'done', taskId: gens[last].taskId || null, tracks: gens[last].tracks, error: null, generations: gens, activeGen: last };
+              } else if (gens && gens.tracks && gens.tracks.length) {
+                const legacy = [gens];
+                audioGen.value = { status: 'done', taskId: gens.taskId || null, tracks: gens.tracks, error: null, generations: legacy, activeGen: 0 };
+              } else {
+                audioGen.value = { status: 'idle', taskId: null, tracks: [], error: null, generations: [], activeGen: -1 };
+              }
             }}>
               <div style="display:flex;align-items:center;gap:10px;min-width:0">
                 <span style="flex-shrink:0;width:8px;height:8px;border-radius:50%;background:${authentic ? 'var(--success)' : 'var(--accent)'}" title="${authentic ? 'passed dialect checks' : 'had high-severity hits'}"></span>
-                <div style="min-width:0;flex:1">
+                  <div style="min-width:0;flex:1;display:flex;align-items:center;gap:6px">
                   <div style="font-size:13px;font-weight:600;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${s.title}</div>
+                  ${(Array.isArray(s.audio) ? s.audio.length : s.audio?.tracks?.length) ? html`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>` : ''}
                   <div style="font-family:var(--mono);font-size:10px;color:#b0a48f;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${(s.topic || '').slice(0, 28)} · ${dateStr}</div>
                 </div>
                 <button onClick=${e => { e.stopPropagation(); history.value = history.value.filter(h => h.id !== s.id); }} style="flex-shrink:0;width:22px;height:22px;display:flex;align-items:center;justify-content:center;border:none;background:none;color:#c7bca6;cursor:pointer;border-radius:5px;font-size:14px">✕</button>
@@ -1244,6 +1418,10 @@ function SettingsModal() {
           </div>
           ${slot('composer', 'Composer Slot', 'Writes the song')}
           ${slot('critic', 'Critic Slot', 'Verifies dialect')}
+          ${slot('generation', 'Generation Slot', 'Suno API audio generation')}
+          <div class="card" style="padding:16px 17px;background:var(--bg-soft);box-shadow:none;margin-top:-12px">
+            ${field('Callback URL', html`<input value=${s.generation.callBackUrl} onInput=${e => setNested('generation.callBackUrl', e.target.value)} placeholder="https://example.com/suno-callback" style="width:100%;background:#fff;border:1px solid var(--border-input);border-radius:var(--radius-sm);padding:8px 11px;font-size:12.5px;font-family:var(--mono);outline:none"/>`)}
+          </div>
           <div style="display:flex;gap:10px;padding-top:2px">
             <button class="btn btn-primary" style="flex:1;padding:11px" onClick=${() => showSettings.value = false}>Done</button>
             <button class="btn btn-secondary" style="padding:11px 18px" onClick=${() => { if (confirm('Reset settings to defaults?')) settings.value = JSON.parse(JSON.stringify(DEFAULT_SETTINGS)); }}>Reset</button>
@@ -1318,6 +1496,92 @@ function SongCard() {
       </div>
 
       <${ChecksGrid} />
+
+      <div class="card" style="padding:20px 22px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <div>
+            <div class="eyebrow" style="margin-bottom:4px">Audio Generation</div>
+            <div style="font-size:12px;color:var(--text-dim)">Suno API — 2 tracks per generation, costs credits</div>
+          </div>
+        </div>
+        ${audioGen.value.status === 'done' ? html`
+          <div style="display:flex;flex-direction:column;gap:12px">
+            ${audioGen.value.generations.length > 1 ? html`
+              <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:2px">
+                ${audioGen.value.generations.map((g, i) => html`
+                  <button class="chip-btn ${i === audioGen.value.activeGen ? 'on' : ''}" onClick=${() => selectGeneration(i)} style="font-size:11px;padding:4px 10px">
+                    Gen ${i + 1}${g.model ? ' · ' + g.model : ''}${g.instrumental ? ' · inst' : ''}
+                  </button>
+                `)}
+              </div>
+            ` : ''}
+            ${audioGen.value.tracks.map((t, i) => html`
+              <div style="display:flex;align-items:center;gap:12px;background:var(--bg-soft);border:1px solid var(--border-light);border-radius:var(--radius);padding:12px 14px">
+                <span style="font-size:13px;font-weight:600;color:var(--ink);min-width:48px">Track ${i + 1}</span>
+                <div style="flex:1;min-width:0">
+                  <audio controls style="width:100%;height:40px" src=${t.streamAudioUrl || t.audioUrl || ''}>
+                    Your browser does not support the audio element.
+                  </audio>
+                  <div style="display:flex;gap:8px;margin-top:6px">
+                    ${t.audioUrl ? html`<a href=${t.audioUrl} target="_blank" class="chip-btn" style="text-decoration:none">Download</a>` : ''}
+                    ${t.streamAudioUrl ? html`<a href=${t.streamAudioUrl} target="_blank" class="chip-btn" style="text-decoration:none">Stream link</a>` : ''}
+                  </div>
+                </div>
+              </div>
+            `)}
+            <button class="btn btn-secondary" style="align-self:flex-start;padding:8px 16px;font-size:12px" onClick=${() => audioGen.value = { status: 'idle', taskId: null, tracks: [], error: null, generations: [], activeGen: -1 }}>
+              Clear
+            </button>
+          </div>
+        ` : audioGen.value.status === 'error' ? html`
+          <div style="background:#fdf0ed;border:1px solid #f5c6b8;border-radius:var(--radius);padding:12px 14px;font-size:12px;color:#a84334;line-height:1.5">
+            ${audioGen.value.error?.message || 'Generation failed.'}
+          </div>
+          <button class="btn btn-secondary" style="margin-top:10px;align-self:flex-start;padding:8px 16px;font-size:12px" onClick=${() => audioGen.value = { status: 'idle', taskId: null, tracks: [], error: null, generations: [], activeGen: -1 }}>
+            Dismiss
+          </button>
+        ` : audioGen.value.status === 'submitting' || audioGen.value.status === 'polling' ? html`
+          <div style="display:flex;align-items:center;gap:10px;color:var(--text-dim);font-size:13px">
+            <span class="spinner" style="display:inline-block;width:16px;height:16px;border:2px solid var(--border-strong);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite"></span>
+            ${audioGen.value.status === 'submitting' ? 'Submitting...' : 'Generating audio (this takes 1–2 min)...'}
+          </div>
+        ` : html`
+          <div style="display:flex;align-items:center;gap:10px">
+            <button class="btn btn-primary" style="padding:10px 20px;font-size:13px" onClick=${() => {
+              const cfg = settings.value.generation;
+              if (!cfg.apiKey) { audioGen.value = { status: 'error', taskId: null, tracks: [], error: { ok: false, message: 'No API key configured — set it in Settings.' }, generations: [], activeGen: -1 }; return; }
+              pendingSunoArgs.value = { title: songTitle.value, style: songStyle.value, lyrics: songLyrics.value };
+              showSunoConfirm.value = true;
+            }}>
+              Generate Audio
+            </button>
+          </div>
+        `}
+      </div>
+
+      ${showSunoConfirm.value && pendingSunoArgs.value ? html`
+        <div class="modal" onClick=${e => { if (e.target === e.currentTarget) showSunoConfirm.value = false; }}>
+          <div class="modal-box" style="max-width:420px">
+            <div class="modal-head">
+              <h2 style="font-size:15px;font-weight:700;color:var(--ink)">Generate Audio?</h2>
+              <button class="icon-btn" style="width:28px;height:28px" onClick=${() => showSunoConfirm.value = false}>✕</button>
+            </div>
+            <div style="padding:18px 22px">
+              <p style="font-size:13px;color:var(--text-dim);line-height:1.55">This uses the Suno API and costs credits. <strong style="color:var(--ink)">2 tracks</strong> will be generated from your lyrics and style prompt.</p>
+              <p style="font-size:13px;color:var(--text-dim);margin-top:10px;line-height:1.5">Title: <strong style="color:var(--ink)">${pendingSunoArgs.value.title}</strong><br>Style: <strong style="color:var(--ink)">${pendingSunoArgs.value.style || '(none)'}</strong></p>
+              <div style="display:flex;gap:10px;margin-top:18px">
+                <button class="btn btn-primary" style="flex:1;padding:11px" onClick=${async () => {
+                  const a = pendingSunoArgs.value;
+                  showSunoConfirm.value = false;
+                  pendingSunoArgs.value = null;
+                  await generateAudio(a.title, a.style, a.lyrics, false);
+                }}>Generate</button>
+                <button class="btn btn-secondary" style="flex:1;padding:11px" onClick=${() => { showSunoConfirm.value = false; pendingSunoArgs.value = null; }}>Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      ` : null}
     </section>
   `;
 }

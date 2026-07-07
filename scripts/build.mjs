@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Build: inline all src/ modules into a single dist/bitti-bol.html (file:// compatible).
 // Strips local import/export, hoists the three CDN imports, concatenates in dependency order.
-import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import { readFile, writeFile, mkdir, copyFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
@@ -15,6 +15,7 @@ const ORDER = [
   'src/core/prompts.js',
   'src/core/scanner.js',
   'src/core/validators.js',
+  'src/core/suno.js',
   'src/storage.js',
   'src/state.js',
   'src/components/App.js',
@@ -82,4 +83,5 @@ ${bodies}
 
 await mkdir(p('dist'), { recursive: true });
 await writeFile(p('dist/bitti-bol.html'), html);
+try { await copyFile(p('config.js'), p('dist/config.js')); } catch {}
 console.log('Built dist/bitti-bol.html (' + html.length + ' bytes)');

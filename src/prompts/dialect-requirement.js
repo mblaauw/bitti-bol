@@ -1,0 +1,1 @@
+export const DIALECT_REQUIREMENT = 'CRITICAL: Lyrics MUST be in the Mahasuvi/Sirmauri dialect of Himachali Pahari — NOT standard Hindi, NOT Punjabi. Use authentic Pahari words, grammar, and expressions. The dialect must feel authentic to someone from the Shimla/Sirmaur hills.';

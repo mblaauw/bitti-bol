@@ -1,0 +1,1 @@
+export const LYRICS_FORMAT = 'Use Suno v5.5 tags: [Intro], [Verse 1]-[Verse 4], [Chorus] (identical on each repetition), [Bridge] (quiet shift), [Outro] (fade). Include instrument performance tags and vocal direction tags. The hook/chorus must be memorable and repeatable.';
