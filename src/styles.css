@@ -48,9 +48,7 @@ input:focus,textarea:focus{border-color:var(--accent)!important}
   .chk-grid{grid-template-columns:1fr}
 }
 .callout-error{background:#f8e5df;border:1px solid #eec6ba;border-left:3px solid var(--accent);border-radius:8px;padding:11px 13px}
-.grid-layout{flex:1;display:grid;gap:16px;align-items:start;padding:20px 28px;max-width:1420px;width:100%;margin:0 auto;grid-template-areas:"form pipe pipe" "form song scan" "hist song scan";grid-template-rows:auto auto 1fr}
-.grid-layout.editorial{grid-template-columns:300px minmax(0,1fr) 340px}
-.grid-layout.studio{grid-template-columns:320px minmax(0,1fr) 360px}
-@media(max-width:960px){.grid-layout.editorial,.grid-layout.studio{grid-template-columns:1fr!important;grid-template-areas:"form""pipe""song""scan""hist"!important}}
+.grid-layout{flex:1;display:grid;gap:16px;align-items:start;padding:20px 28px;max-width:1420px;width:100%;margin:0 auto;grid-template-areas:"form pipe pipe" "form song scan" "hist song scan";grid-template-rows:auto auto 1fr;grid-template-columns:320px minmax(0,1fr) 360px}
+@media(max-width:960px){.grid-layout{grid-template-columns:1fr!important;grid-template-areas:"form""pipe""song""scan""hist"!important}}
 .callout-error strong{font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);font-weight:600;display:block;margin-bottom:3px}
 .callout-error div:last-child{font-size:12.5px;color:#5e4a42;line-height:1.5}

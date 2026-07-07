@@ -56,10 +56,8 @@ input:focus,textarea:focus{border-color:var(--accent)!important}
   .chk-grid{grid-template-columns:1fr}
 }
 .callout-error{background:#f8e5df;border:1px solid #eec6ba;border-left:3px solid var(--accent);border-radius:8px;padding:11px 13px}
-.grid-layout{flex:1;display:grid;gap:16px;align-items:start;padding:20px 28px;max-width:1420px;width:100%;margin:0 auto;grid-template-areas:"form pipe pipe" "form song scan" "hist song scan";grid-template-rows:auto auto 1fr}
-.grid-layout.editorial{grid-template-columns:300px minmax(0,1fr) 340px}
-.grid-layout.studio{grid-template-columns:320px minmax(0,1fr) 360px}
-@media(max-width:960px){.grid-layout.editorial,.grid-layout.studio{grid-template-columns:1fr!important;grid-template-areas:"form""pipe""song""scan""hist"!important}}
+.grid-layout{flex:1;display:grid;gap:16px;align-items:start;padding:20px 28px;max-width:1420px;width:100%;margin:0 auto;grid-template-areas:"form pipe pipe" "form song scan" "hist song scan";grid-template-rows:auto auto 1fr;grid-template-columns:320px minmax(0,1fr) 360px}
+@media(max-width:960px){.grid-layout{grid-template-columns:1fr!important;grid-template-areas:"form""pipe""song""scan""hist"!important}}
 .callout-error strong{font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);font-weight:600;display:block;margin-bottom:3px}
 .callout-error div:last-child{font-size:12.5px;color:#5e4a42;line-height:1.5}
 </style>
@@ -635,7 +633,6 @@ const showLexicon = signal(false);
 const showExportImport = signal(false);
 const history = signal(initialHistory);
 const copyFeedback = signal({ title: false, style: false, lyrics: false });
-const layoutMode = signal('editorial');
 const editMode = signal(false);
 const hoveredHit = signal(null);
 
@@ -745,8 +742,6 @@ async function runPipeline(prefs) {
 }
 
 function App() {
-  const ed = layoutMode.value === 'editorial';
-  const cls = 'app grid-layout' + (ed ? ' editorial' : ' studio');
   return html`
     <div style="min-height:100vh;display:flex;flex-direction:column">
       <header style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 28px;border-bottom:1px solid var(--border);background:#faf7f0;position:sticky;top:0;z-index:20">
@@ -758,13 +753,6 @@ function App() {
           <span style="font-family:var(--mono);font-size:11px;letter-spacing:.02em;color:var(--text-dim);white-space:nowrap">Himachali Pahari Song Studio</span>
         </div>
         <div style="display:flex;align-items:center;gap:14px">
-          <div style="display:flex;align-items:center;gap:8px;padding-right:14px;border-right:1px solid var(--border)">
-            <span style="font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim)">Layout</span>
-            <div style="display:flex;background:#efe9dc;border:1px solid var(--border-input);border-radius:8px;padding:3px;gap:2px">
-              <button onClick=${() => layoutMode.value = 'editorial'} style="${ed ? 'padding:5px 12px;border:none;border-radius:6px;background:#fff;color:#26211a;font-size:12px;font-weight:600;cursor:pointer;box-shadow:0 1px 2px rgba(38,33,26,0.08)' : 'padding:5px 12px;border:none;border-radius:6px;background:transparent;color:#8a7d68;font-size:12px;font-weight:500;cursor:pointer'}">Manuscript</button>
-              <button onClick=${() => layoutMode.value = 'studio'} style="${!ed ? 'padding:5px 12px;border:none;border-radius:6px;background:#fff;color:#26211a;font-size:12px;font-weight:600;cursor:pointer;box-shadow:0 1px 2px rgba(38,33,26,0.08)' : 'padding:5px 12px;border:none;border-radius:6px;background:transparent;color:#8a7d68;font-size:12px;font-weight:500;cursor:pointer'}">Console</button>
-            </div>
-          </div>
           <button onClick=${() => showLexicon.value = !showLexicon.value} title="Lexicon" style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border-input);background:#fbf9f4;border-radius:8px;cursor:pointer;color:#6b6152">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 0-3 3z"/><path d="M18 7a3 3 0 0 1 3-3v16"/></svg>
           </button>
@@ -773,7 +761,7 @@ function App() {
           </button>
         </div>
       </header>
-      <main class="${cls}">
+      <main class="app grid-layout">
         <${InputForm} />
         <${PipelineCard} />
         <${SongCard} />
@@ -1242,23 +1230,21 @@ function SongCard() {
 
 function StageList() {
   const sts = pipelineSteps.value;
-  const ed = layoutMode.value === 'editorial';
   const pal = (status) => {
     const m = { idle: { dot: '#ece4d3', ic: '#b0a48f', label: '#a89a84' }, active: { dot: '#c0472a', ic: '#fff', label: '#26211a' }, done: { dot: '#4f7a3f', ic: '#fff', label: '#26211a' }, failed: { dot: '#c0472a', ic: '#fff', label: '#c0472a' }, skipped: { dot: '#e4ddcd', ic: '#b0a48f', label: '#b0a48f' } };
     return m[status] || m.idle;
   };
   const iconC = (stg, i) => stg.status === 'done' ? '✓' : stg.status === 'failed' ? '!' : stg.status === 'skipped' ? '–' : stg.status === 'active' ? '' : String(i + 1);
-  const allDone = sts.some(s => s.status !== 'idle');
   return html`
-    <div style="display:${ed ? 'flex' : 'flex'};flex-direction:${ed ? 'row' : 'column'};flex-wrap:${ed ? 'wrap' : 'nowrap'};gap:2px;align-items:${ed ? 'stretch' : 'stretch'}">
+    <div style="display:flex;flex-direction:column;flex-wrap:nowrap;gap:2px;align-items:stretch">
       ${STAGES.map((d, i) => {
         const stg = sts.find(s => s.name === d.key) || { status: 'idle', message: '' };
         const p = pal(stg.status);
         const sub = stg.message || d.blurb;
         return html`
-          <div style="display:flex;align-items:${ed ? 'stretch' : 'flex-start'};flex-direction:${ed ? 'row' : 'column'}">
-            ${i > 0 ? html`<div style="${ed ? 'width:16px;height:2px;background:#e2d9c7;align-self:center;margin:0 2px;flex-shrink:0' : 'width:2px;height:14px;background:#e2d9c7;margin-left:15px'}"></div>` : ''}
-            <div style="display:flex;align-items:center;gap:${ed ? '9px' : '10px'};padding:${ed ? '6px 8px' : '5px 6px'}">
+          <div style="display:flex;align-items:flex-start;flex-direction:column">
+            ${i > 0 ? html`<div style="width:2px;height:14px;background:#e2d9c7;margin-left:15px"></div>` : ''}
+            <div style="display:flex;align-items:center;gap:10px;padding:5px 6px">
               <div style="flex-shrink:0;width:26px;height:26px;border-radius:50%;background:${p.dot};display:flex;align-items:center;justify-content:center;animation:${stg.status === 'active' ? 'bbpulse 1.3s ease-in-out infinite' : 'none'}">
                 ${stg.status === 'active' ? html`<div style="display:block;width:11px;height:11px;border:2px solid rgba(255,255,255,0.45);border-top-color:#fff;border-radius:50%;animation:bbspin .7s linear infinite"></div>` : html`<span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:${p.ic}">${iconC(stg, i)}</span>`}
               </div>

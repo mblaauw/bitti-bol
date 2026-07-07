@@ -1,5 +1,5 @@
 import { html } from '../htm.js';
-import { layoutMode, showSettings, showLexicon } from '../state.js';
+import { showSettings, showLexicon } from '../state.js';
 import { InputForm } from './InputForm.js';
 import { PipelineCard } from './PipelineCard.js';
 import { SongCard } from './SongCard.js';
@@ -8,8 +8,6 @@ import { HistoryPanel } from './HistoryPanel.js';
 import { SettingsModal } from './SettingsModal.js';
 import { LexiconModal } from './LexiconModal.js';
 export function App() {
-  const ed = layoutMode.value === 'editorial';
-  const cls = 'app grid-layout' + (ed ? ' editorial' : ' studio');
   return html`
     <div style="min-height:100vh;display:flex;flex-direction:column">
       <header style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 28px;border-bottom:1px solid var(--border);background:#faf7f0;position:sticky;top:0;z-index:20">
@@ -21,13 +19,6 @@ export function App() {
           <span style="font-family:var(--mono);font-size:11px;letter-spacing:.02em;color:var(--text-dim);white-space:nowrap">Himachali Pahari Song Studio</span>
         </div>
         <div style="display:flex;align-items:center;gap:14px">
-          <div style="display:flex;align-items:center;gap:8px;padding-right:14px;border-right:1px solid var(--border)">
-            <span style="font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim)">Layout</span>
-            <div style="display:flex;background:#efe9dc;border:1px solid var(--border-input);border-radius:8px;padding:3px;gap:2px">
-              <button onClick=${() => layoutMode.value = 'editorial'} style="${ed ? 'padding:5px 12px;border:none;border-radius:6px;background:#fff;color:#26211a;font-size:12px;font-weight:600;cursor:pointer;box-shadow:0 1px 2px rgba(38,33,26,0.08)' : 'padding:5px 12px;border:none;border-radius:6px;background:transparent;color:#8a7d68;font-size:12px;font-weight:500;cursor:pointer'}">Manuscript</button>
-              <button onClick=${() => layoutMode.value = 'studio'} style="${!ed ? 'padding:5px 12px;border:none;border-radius:6px;background:#fff;color:#26211a;font-size:12px;font-weight:600;cursor:pointer;box-shadow:0 1px 2px rgba(38,33,26,0.08)' : 'padding:5px 12px;border:none;border-radius:6px;background:transparent;color:#8a7d68;font-size:12px;font-weight:500;cursor:pointer'}">Console</button>
-            </div>
-          </div>
           <button onClick=${() => showLexicon.value = !showLexicon.value} title="Lexicon" style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border-input);background:#fbf9f4;border-radius:8px;cursor:pointer;color:#6b6152">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 0-3 3z"/><path d="M18 7a3 3 0 0 1 3-3v16"/></svg>
           </button>
@@ -36,7 +27,7 @@ export function App() {
           </button>
         </div>
       </header>
-      <main class="${cls}">
+      <main class="app grid-layout">
         <${InputForm} />
         <${PipelineCard} />
         <${SongCard} />

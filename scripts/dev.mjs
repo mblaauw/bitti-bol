@@ -32,7 +32,11 @@ http.createServer(async (req, res) => {
       opts.body = Buffer.concat(chunks);
     }
     fetch(target, opts).then(r => {
-      res.writeHead(r.status, { ...Object.fromEntries(r.headers), 'access-control-allow-origin': '*' });
+      const h = Object.fromEntries(r.headers);
+      delete h['content-encoding'];
+      delete h['content-length'];
+      delete h['transfer-encoding'];
+      res.writeHead(r.status, { ...h, 'access-control-allow-origin': '*' });
       if (r.body) Readable.fromWeb(r.body).pipe(res);
       else res.end();
     }).catch(e => {

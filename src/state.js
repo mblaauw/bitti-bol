@@ -22,7 +22,6 @@ export const showLexicon = signal(false);
 export const showExportImport = signal(false);
 export const history = signal(initialHistory);
 export const copyFeedback = signal({ title: false, style: false, lyrics: false });
-export const layoutMode = signal('editorial');
 export const editMode = signal(false);
 export const hoveredHit = signal(null);
 
