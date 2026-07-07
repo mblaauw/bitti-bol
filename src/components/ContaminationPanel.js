@@ -17,12 +17,24 @@ export function ContaminationPanel() {
   if (highCount > 0) { badgeBg = 'var(--accent-soft)'; badgeFg = 'var(--accent)'; badgeLabel = highCount + ' high'; }
   else if (medCount > 0) { badgeBg = 'var(--warn-soft)'; badgeFg = 'var(--warn-fg)'; badgeLabel = medCount + ' medium'; }
   const hovered = hoveredHit.value;
+  const fixAll = () => {
+    const sorted = [...hits].sort((a, b) => (b.lineNo - a.lineNo) || (b.col - a.col));
+    let lyrics = songLyrics.value;
+    for (const h of sorted) {
+      lyrics = applyReplacement(lyrics, h.pattern, h.suggestion, h.lineNo, h.col);
+    }
+    songLyrics.value = lyrics;
+    scheduleScan(lyrics);
+  };
   return html`
     <div class="card" style="padding:0;overflow:hidden">
       <div style="padding:16px 18px;border-bottom:1px solid var(--border-light)">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
           <h2 class="panel-title">Dialect scan</h2>
-          <span class="badge" style="background:${badgeBg};color:${badgeFg}">${badgeLabel}</span>
+          <div style="display:flex;align-items:center;gap:8px">
+            ${hits.length > 1 ? html`<button onClick=${fixAll} style="font-size:11px;font-weight:600;padding:4px 11px;border:1px solid #d3c6a8;background:#fff;color:var(--warn-fg);border-radius:var(--radius-sm);cursor:pointer">Fix all (${hits.length})</button>` : ''}
+            <span class="badge" style="background:${badgeBg};color:${badgeFg}">${badgeLabel}</span>
+          </div>
         </div>
         <p style="font-size:11px;color:var(--text-dim);margin-top:6px;line-height:1.5">Flags Hindi / Punjabi words that break Pahari authenticity. Hover a hit to find it in the lyrics.</p>
       </div>
