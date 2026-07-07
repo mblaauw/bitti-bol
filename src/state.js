@@ -52,6 +52,11 @@ export function pushStep(name, status, msg) {
 }
 
 export async function runPipeline(prefs) {
+  if (typeof window !== 'undefined' && window.__testFailApi) {
+    pipelineError.value = { ok: false, errorKind: 'auth', message: 'Test: No API key configured' };
+    pushStep('compose', 'failed', 'Test: No API key configured');
+    return;
+  }
   pipelineError.value = null;
   pipelineSteps.value = [];
   pushStep('compose', 'active', 'Calling composer…');

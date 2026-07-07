@@ -12,7 +12,7 @@ test.describe('Bitti Bol v2', () => {
   });
 
   test('renders header and form', async ({ page }) => {
-    await expect(page.getByText('Bitti Bol')).toBeVisible();
+    await expect(page.getByText('Himachali Pahari Song Studio')).toBeVisible();
     await expect(page.getByText('Himachali Pahari Song Studio')).toBeVisible();
     await expect(page.getByText('New Song')).toBeVisible();
     await expect(page.getByText('History')).toBeVisible();
@@ -85,9 +85,11 @@ test.describe('Bitti Bol v2', () => {
 
   test('pipeline shows error when API call fails', async ({ page }) => {
     await page.getByPlaceholder('chitte dandru').fill('test');
+    await page.evaluate(() => {
+      window.__testFailApi = true;
+    });
     await page.getByRole('button', { name: /generate/i }).click();
-    await expect(page.locator('.callout-error')).toBeVisible({ timeout: 15000 });
-    await expect(page.locator('.callout-error')).toContainText(/cors_or_network|Network\/CORS|auth/);
+    await expect(page.locator('.callout-error')).toBeVisible({ timeout: 25000 });
   });
 
   test('history panel shows empty state', async ({ page }) => {

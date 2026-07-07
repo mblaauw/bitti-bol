@@ -1,8 +1,8 @@
 export const STORAGE_KEY = 'bitti-bol:v2';
 export const LEGACY_KEY = 'bitti-bol-history';
 export const DEFAULT_SETTINGS = {
-  composer: { baseUrl: 'https://opencode.ai/zen/go/v1', apiKey: '', model: 'deepseek-v4-flash', temperature: 0.85, maxTokens: 4000 },
-  critic: { baseUrl: 'https://opencode.ai/zen/go/v1', apiKey: '', model: 'deepseek-v4-flash', temperature: 0.2, maxTokens: 2000 },
+  composer: { baseUrl: 'https://opencode.ai/zen/go/v1', apiKey: '', model: 'deepseek-v4-flash', temperature: 0.85, maxTokens: 16384 },
+  critic: { baseUrl: 'https://opencode.ai/zen/go/v1', apiKey: '', model: 'deepseek-v4-flash', temperature: 0.2, maxTokens: 16384 },
   criticEnabled: true, corsProxy: '',
 };
 
@@ -29,15 +29,25 @@ try {
   if (raw) {
     const parsed = JSON.parse(raw);
     if (parsed && typeof parsed === 'object' && parsed.schemaVersion === 2) {
-      _storage = { ..._storage, ...parsed, settings: { ...DEFAULT_SETTINGS, ...(parsed.settings || {}) } };
+      const savedSettings = parsed.settings || {};
+      _storage = {
+        ..._storage, ...parsed,
+        settings: {
+          ...DEFAULT_SETTINGS,
+          composer: { ...DEFAULT_SETTINGS.composer, ...(savedSettings.composer || {}) },
+          critic: { ...DEFAULT_SETTINGS.critic, ...(savedSettings.critic || {}) },
+          corsProxy: savedSettings.corsProxy ?? DEFAULT_SETTINGS.corsProxy,
+          criticEnabled: savedSettings.criticEnabled ?? DEFAULT_SETTINGS.criticEnabled,
+        },
+      };
       if (Array.isArray(parsed.history)) _v2localHistory = parsed.history;
     }
   }
 } catch {}
 if (typeof window.__BITTIBOL_CONFIG !== 'undefined') {
   const cfg = window.__BITTIBOL_CONFIG;
-  if (cfg.composer) { if (cfg.composer.apiKey) _storage.settings.composer.apiKey = cfg.composer.apiKey; if (cfg.composer.baseUrl) _storage.settings.composer.baseUrl = cfg.composer.baseUrl; if (cfg.composer.model) _storage.settings.composer.model = cfg.composer.model; }
-  if (cfg.critic) { if (cfg.critic.apiKey) _storage.settings.critic.apiKey = cfg.critic.apiKey; if (cfg.critic.baseUrl) _storage.settings.critic.baseUrl = cfg.critic.baseUrl; if (cfg.critic.model) _storage.settings.critic.model = cfg.critic.model; }
+  if (cfg.composer) { for (const k of ['apiKey', 'baseUrl', 'model', 'temperature', 'maxTokens']) { if (cfg.composer[k] != null) _storage.settings.composer[k] = cfg.composer[k]; } }
+  if (cfg.critic) { for (const k of ['apiKey', 'baseUrl', 'model', 'temperature', 'maxTokens']) { if (cfg.critic[k] != null) _storage.settings.critic[k] = cfg.critic[k]; } }
   if (cfg.corsProxy) _storage.settings.corsProxy = cfg.corsProxy;
 }
 export let initialHistory;

@@ -1,76 +1,52 @@
-import fs from 'node:fs';
-import path from 'node:path';
+#!/usr/bin/env node
+// Build: inline all src/ modules into a single dist/bitti-bol.html (file:// compatible).
+// Strips local import/export, hoists the three CDN imports, concatenates in dependency order.
+import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
+import path from 'node:path';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
+const p = (...a) => path.join(root, ...a);
 
-const css = fs.readFileSync(path.join(root, 'src', 'styles.css'), 'utf-8');
+const ORDER = [
+  'src/lexicon.js',
+  'src/constants.js',
+  'src/core/prompts.js',
+  'src/core/scanner.js',
+  'src/core/validators.js',
+  'src/storage.js',
+  'src/state.js',
+  'src/components/App.js',
+  'src/components/ChecksGrid.js',
+  'src/components/ContaminationPanel.js',
+  'src/components/ErrorBanner.js',
+  'src/components/HistoryPanel.js',
+  'src/components/InputForm.js',
+  'src/components/LexiconModal.js',
+  'src/components/LyricsReadMode.js',
+  'src/components/PipelineCard.js',
+  'src/components/SettingsModal.js',
+  'src/components/SongCard.js',
+  'src/components/StageList.js',
+  'src/main.js',
+];
 
-function collectJS(dir) {
-  const files = [];
-  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    const full = path.join(dir, entry.name);
-    if (entry.isDirectory()) files.push(...collectJS(full));
-    else if (entry.name.endsWith('.js')) files.push(full);
+function strip(src) {
+  const out = [];
+  for (const line of src.split('\n')) {
+    if (/^\s*import\s.+from\s+['"].+['"];?\s*$/.test(line)) continue;
+    if (/^\s*import\s+['"].+['"];?\s*$/.test(line)) continue;
+    if (/^\s*export\s*\{[^}]*\}\s*(from\s*['"][^'"]+['"])?\s*;?\s*$/.test(line)) continue;
+    if (/^\s*export\s+default\s+/.test(line)) continue;
+    out.push(line.replace(/^(\s*)export\s+(const|let|var|function|class|async)\b/, '$1$2'));
   }
-  return files;
+  return out.join('\n').replace(/\n{3,}/g, '\n\n').trim();
 }
 
-const jsFiles = collectJS(path.join(root, 'src'));
-// Order: htm.js, constants.js, lexicon.js, core/*, storage.js, state.js, components/*, main.js
-jsFiles.sort((a, b) => {
-  const name = p => p.replace(root + '/src/', '');
-  const order = ['htm.js', 'lexicon.js', 'constants.js', 'core/', 'storage.js', 'state.js', 'components/', 'main.js'];
-  const idx = (n) => { for (let i = 0; i < order.length; i++) { if (n.startsWith(order[i]) || n.includes(order[i])) return i; } return order.length; };
-  return idx(name(a)) - idx(name(b));
-});
-
-// Collect all external imports (merged by module) and all non-import code
-const moduleImports = {}; // module specifier -> Set of imported names
-const importHacks = [];   // default imports (import X from '...')
-const codeLines = [];
-
-for (const f of jsFiles) {
-  const code = fs.readFileSync(f, 'utf-8');
-  for (const rawLine of code.split('\n')) {
-    const line = rawLine;
-    const trimmed = line.trim();
-
-    // Strip local import/export-re-export lines (./ or ../ paths)
-    if ((trimmed.startsWith('import ') || trimmed.startsWith('export ')) && (trimmed.includes('\'./') || trimmed.includes('"./') || trimmed.includes('\'../') || trimmed.includes('"../'))) continue;
-
-    // Collect external imports (bare specifiers), merged by module
-    if (trimmed.startsWith('import ')) {
-      const m = trimmed.match(/import\s+(?:(\{[^}]+\})|(\S+))\s+from\s+['"]([^'"]+)['"]/);
-      if (m) {
-        const module = m[3];
-        if (module === 'preact' || module.startsWith('https://') || module === 'htm') {
-          if (m[2]) { // default import
-            if (!importHacks.includes(trimmed)) importHacks.push(trimmed);
-          } else if (m[1]) { // named imports
-            if (!moduleImports[module]) moduleImports[module] = new Set();
-            const names = m[1].replace(/[{}]/g, '').split(',').map(s => s.trim());
-            for (const n of names) moduleImports[module].add(n);
-          }
-          continue;
-        }
-      }
-    }
-
-    // Remove `export ` prefix but handle `export default` → keep the value
-    const processed = (/^export\s+default\s+/.test(trimmed)) ? trimmed.replace(/^export\s+default\s+/, '').replace(/;\s*$/, '') + ';' : line.replace(/\bexport\s+/, '');
-    codeLines.push(processed);
-  }
-}
-
-const importLines = [];
-for (const [mod, names] of Object.entries(moduleImports)) {
-  const sorted = [...names].sort();
-  importLines.push('import { ' + sorted.join(', ') + ' } from \'' + mod + '\';');
-}
-importLines.push(...importHacks);
-const moduleCode = importLines.join('\n') + '\n' + codeLines.join('\n');
+let bodies = '';
+for (const f of ORDER) bodies += '\n\n' + strip(await readFile(p(f), 'utf8'));
+const css = await readFile(p('src/styles.css'), 'utf8');
 
 const html = `<!DOCTYPE html>
 <html lang="en">
@@ -79,14 +55,13 @@ const html = `<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>${css}</style>
 <title>Bitti Bol — Himachali Pahari Song Studio</title>
 </head>
 <body>
 <div id="app"></div>
 <script src="config.js"></script>
-<script src="lexicon.js"></script>
 <script type="importmap">
 {
   "imports": {
@@ -95,12 +70,16 @@ const html = `<!DOCTYPE html>
   }
 }
 </script>
-<script type="module">${moduleCode}
+<script type="module">import { h, render } from 'preact';
+import { computed, effect, signal } from 'https://esm.sh/@preact/signals@2.0.1?external=preact';
+import htm from 'https://esm.sh/htm@3.1.1';
+const html = htm.bind(h);
+${bodies}
 </script>
 </body>
-</html>`;
+</html>
+`;
 
-const distDir = path.join(root, 'dist');
-if (!fs.existsSync(distDir)) fs.mkdirSync(distDir, { recursive: true });
-fs.writeFileSync(path.join(distDir, 'bitti-bol.html'), html);
-console.log('Built: dist/bitti-bol.html (' + (html.length / 1024).toFixed(1) + ' KB)');
+await mkdir(p('dist'), { recursive: true });
+await writeFile(p('dist/bitti-bol.html'), html);
+console.log('Built dist/bitti-bol.html (' + html.length + ' bytes)');

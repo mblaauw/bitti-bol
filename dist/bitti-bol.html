@@ -5,68 +5,144 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>:root {
-  --bg-body: #f4f0e8; --bg-card: #fbf9f4; --bg-input: #ffffff; --bg-soft: #fbfaf6;
-  --text-main: #3a3128; --text-dim: #a89a84; --text-muted: #b5a993; --text-soft: #9c8f78;
-  --accent: #c0472a; --accent-hover: #a83c22; --success: #4f7a3f; --warn-fg: #8a6d1a;
-  --border: #e6dfd0; --border-light: #eee5d5; --border-input: #e0d8c6;
-  --radius: 8px; --radius-lg: 12px;
-  --font: 'IBM Plex Sans', system-ui, sans-serif; --mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --bg-body: #efe8da; --bg-card: #fcf9f3; --bg-input: #ffffff; --bg-soft: #f6f0e5; --bg-rail: #f3ecdf;
+  --text-main: #3a3128; --text-dim: #a89a84; --text-muted: #b5a993; --text-soft: #9c8f78; --ink: #26211a;
+  --accent: #c0472a; --accent-hover: #a83c22; --accent-soft: #f4ddd2; --accent-tint: #faeee8;
+  --success: #4f7a3f; --success-soft: #e6efdd; --warn-fg: #8a6d1a; --warn-soft: #f5ecd3;
+  --border: #e6dfd0; --border-light: #eee5d5; --border-input: #ddd4c2; --border-strong: #d8cdb6;
+  --radius-sm: 7px; --radius: 9px; --radius-lg: 13px; --radius-xl: 18px;
+  --shadow-card: 0 1px 2px rgba(58,49,40,.04), 0 1px 1px rgba(58,49,40,.03);
+  --shadow-pop: 0 24px 60px rgba(38,33,26,.22);
+  --font: 'IBM Plex Sans', system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --serif: 'IBM Plex Serif', Georgia, 'Times New Roman', serif;
 }
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font);background:var(--bg-body);color:var(--text-main);line-height:1.55;min-height:100vh;-webkit-font-smoothing:antialiased}
-a{color:var(--accent);text-decoration:none}
-a:hover{color:var(--accent-hover);text-decoration:underline}
-textarea,input,select,button{font-family:inherit;font-size:inherit;color:inherit}
-::selection{background:#f2d3c8;color:#26211a}
-::-webkit-scrollbar{width:9px;height:9px}
-::-webkit-scrollbar-thumb{background:#d8cebb;border-radius:6px;border:2px solid var(--bg-body)}
-::-webkit-scrollbar-thumb:hover{background:#c7bca6}
-@keyframes bbpulse{0%,100%{box-shadow:0 0 0 0 rgba(192,71,42,.35)}50%{box-shadow:0 0 0 6px rgba(192,71,42,0)}}
-@keyframes bbspin{to{transform:rotate(360deg)}}
-.card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px}
-.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.card-header h3{font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#26211a}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 16px;border:none;border-radius:var(--radius);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;white-space:nowrap}
-.btn:disabled{opacity:.4;cursor:not-allowed}
-.btn-primary{background:var(--accent);color:#fff}
-.btn-primary:disabled{background:#e0d0c4;color:#a08c7e;opacity:1}
-.form-label{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-soft);margin-bottom:5px}
-.form-input,.form-textarea{width:100%;background:#fff;border:1px solid var(--border-input);border-radius:8px;padding:8px 11px;font-size:13px;outline:none}
-.form-input:focus,.form-textarea:focus{border-color:var(--accent);box-shadow:0 0 0 2px rgba(192,71,42,.12)}
-.form-textarea{resize:vertical;font-size:14px;padding:9px 11px;line-height:1.5}
-.form-hint{font-size:11px;color:var(--text-dim);margin-top:5px}
-.form-hint-sm{font-size:10px;color:var(--text-muted);margin-top:4px}
-.btn-primary:hover:not(:disabled){background:var(--accent-hover)}
-.btn-secondary{background:#fff;color:#6b6152;border:1px solid var(--border-input)}
-.btn-secondary:hover:not(:disabled){background:var(--bg-soft)}
-.btn-ghost{background:transparent;color:var(--text-dim);padding:6px}
-.btn-ghost:hover{color:var(--text-main)}
-.btn-sm{padding:4px 10px;font-size:11px}
-.btn-icon{width:34px;height:34px;padding:0;display:inline-flex;align-items:center;justify-content:center}
-input,textarea,select{font-family:inherit;font-size:inherit;color:inherit;outline:none;transition:border-color .15s}
-input:focus,textarea:focus{border-color:var(--accent)!important}
-.char-count{font-family:var(--mono);font-size:10.5px;font-variant-numeric:tabular-nums}
-.char-count.ok{color:#b0a48f}
-.char-count.warn{color:var(--warn-fg)}
-.char-count.over{color:var(--accent)}
-.chk-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-@media(max-width:960px){
-  .chk-grid{grid-template-columns:1fr}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font); background: var(--bg-body); color: var(--text-main); line-height: 1.55; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent-hover); text-decoration: underline; }
+textarea, input, select, button { font-family: inherit; font-size: inherit; color: inherit; }
+::selection { background: #f2d3c8; color: var(--ink); }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: #d8cebb; border-radius: 6px; border: 2px solid var(--bg-body); }
+::-webkit-scrollbar-thumb:hover { background: #c7bca6; }
+
+@keyframes bbpulse { 0%,100% { box-shadow: 0 0 0 0 rgba(192,71,42,.35); } 50% { box-shadow: 0 0 0 6px rgba(192,71,42,0); } }
+@keyframes bbspin { to { transform: rotate(360deg); } }
+@keyframes bbfade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.bb-fade { animation: bbfade .32s ease both; }
+
+/* ---------- shared surfaces ---------- */
+.card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 18px; box-shadow: var(--shadow-card); }
+.card-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.panel-title { font-size: 12px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--ink); }
+.eyebrow { font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); }
+.badge { font-family: var(--mono); font-size: 10px; letter-spacing: .05em; text-transform: uppercase; font-weight: 600; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
+
+/* ---------- buttons ---------- */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 9px 16px; border: none; border-radius: var(--radius); font-size: 13px; font-weight: 500; cursor: pointer; transition: background .15s, color .15s, border-color .15s, transform .05s; white-space: nowrap; }
+.btn:active:not(:disabled) { transform: translateY(1px); }
+.btn:disabled { cursor: not-allowed; }
+.btn-primary { background: var(--accent); color: #fff; font-weight: 600; }
+.btn-primary:hover:not(:disabled) { background: var(--accent-hover); }
+.btn-primary:disabled { background: #e3d5c9; color: #ab9787; }
+.btn-secondary { background: #fff; color: #6b6152; border: 1px solid var(--border-input); }
+.btn-secondary:hover:not(:disabled) { background: var(--bg-soft); }
+.btn-ghost { background: transparent; color: var(--text-dim); padding: 6px; }
+.btn-ghost:hover { color: var(--text-main); }
+.btn-sm { padding: 5px 11px; font-size: 11px; }
+.icon-btn { width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--border-input); background: #fbf9f4; border-radius: var(--radius); cursor: pointer; color: #6b6152; transition: background .15s, color .15s, border-color .15s; }
+.icon-btn:hover { background: #fff; color: var(--ink); border-color: var(--border-strong); }
+.chip-btn { flex-shrink: 0; font-family: var(--mono); font-size: 11px; padding: 5px 10px; border: 1px solid var(--border-input); background: #fff; border-radius: var(--radius-sm); cursor: pointer; color: #6b6152; transition: background .15s, border-color .15s; }
+.chip-btn:hover { background: var(--bg-soft); border-color: var(--border-strong); }
+
+/* ---------- forms ---------- */
+.form-label { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-soft); margin-bottom: 5px; }
+.form-input, .form-textarea { width: 100%; background: #fff; border: 1px solid var(--border-input); border-radius: var(--radius); padding: 9px 12px; font-size: 13.5px; outline: none; transition: border-color .15s, box-shadow .15s; }
+.form-input:focus, .form-textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(192,71,42,.1); }
+.form-textarea { resize: vertical; font-size: 14px; line-height: 1.5; }
+.form-hint { font-size: 11px; color: var(--text-dim); margin-top: 5px; line-height: 1.45; }
+.form-hint-sm { font-size: 10.5px; color: var(--text-muted); margin-top: 5px; }
+input, textarea, select { outline: none; transition: border-color .15s, box-shadow .15s; }
+
+.char-count { font-family: var(--mono); font-size: 10.5px; font-variant-numeric: tabular-nums; }
+.char-count.ok { color: #b0a48f; }
+.char-count.warn { color: var(--warn-fg); }
+.char-count.over { color: var(--accent); }
+
+.callout-error { background: var(--accent-tint); border: 1px solid #eec6ba; border-left: 3px solid var(--accent); border-radius: var(--radius); padding: 12px 14px; }
+.callout-error strong { font-family: var(--mono); font-size: 10px; letter-spacing: .05em; text-transform: uppercase; color: var(--accent); font-weight: 600; display: block; margin-bottom: 3px; }
+.callout-error div:last-child { font-size: 12.5px; color: #5e4a42; line-height: 1.5; }
+
+/* ---------- app shell ---------- */
+.app-shell { min-height: 100vh; display: flex; flex-direction: column; }
+.app-header { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 15px 30px; border-bottom: 1px solid var(--border); background: rgba(250,247,240,.9); backdrop-filter: blur(8px); position: sticky; top: 0; z-index: 30; }
+
+/* ---------- workspace grid ---------- */
+.app.workspace {
+  flex: 1; display: grid; gap: 22px; align-items: start;
+  padding: 26px 30px 60px; max-width: 1500px; width: 100%; margin: 0 auto;
+  grid-template-columns: 344px minmax(0, 1fr) 340px;
+  grid-template-areas: "compose stage scan";
 }
-.callout-error{background:#f8e5df;border:1px solid #eec6ba;border-left:3px solid var(--accent);border-radius:8px;padding:11px 13px}
-.grid-layout{flex:1;display:grid;gap:16px;align-items:start;padding:20px 28px;max-width:1420px;width:100%;margin:0 auto;grid-template-areas:"form pipe pipe" "form song scan" "hist song scan";grid-template-rows:auto auto 1fr;grid-template-columns:320px minmax(0,1fr) 360px}
-@media(max-width:960px){.grid-layout{grid-template-columns:1fr!important;grid-template-areas:"form""pipe""song""scan""hist"!important}}
-.callout-error strong{font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);font-weight:600;display:block;margin-bottom:3px}
-.callout-error div:last-child{font-size:12.5px;color:#5e4a42;line-height:1.5}
+.col-compose { grid-area: compose; display: flex; flex-direction: column; gap: 18px; position: sticky; top: 88px; }
+.col-stage { grid-area: stage; display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.col-scan { grid-area: scan; position: sticky; top: 88px; min-width: 0; }
+
+@media (max-width: 1180px) {
+  .app.workspace { grid-template-columns: 330px minmax(0, 1fr); grid-template-areas: "compose stage" "compose scan"; }
+  .col-compose { position: sticky; top: 88px; }
+  .col-scan { position: static; }
+}
+@media (max-width: 820px) {
+  .app-header { padding: 14px 18px; }
+  .app.workspace { grid-template-columns: 1fr; grid-template-areas: "compose" "stage" "scan"; padding: 18px 16px 48px; gap: 16px; }
+  .col-compose, .col-scan { position: static; }
+}
+
+/* ---------- pipeline stepper ---------- */
+.chk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 560px) { .chk-grid { grid-template-columns: 1fr; } }
+
+/* ---------- lyrics song sheet ---------- */
+.lyrics-sheet { padding: 26px 30px 30px; font-family: var(--serif); font-size: 16px; line-height: 1.95; color: #33291f; }
+.lyrics-sheet .ly-line { min-height: 1.2em; }
+.lyrics-sheet .ly-line.first { margin-top: 2px; }
+.lyrics-sheet .ly-blank { height: 12px; }
+.ly-section { display: flex; align-items: center; gap: 12px; margin: 22px 0 9px; }
+.ly-section:first-child { margin-top: 0; }
+.ly-section .ly-sec-label { font-family: var(--mono); font-size: 10.5px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); white-space: nowrap; }
+.ly-section .ly-sec-rule { flex: 1; height: 1px; background: #e8dfce; }
+.ly-perf { font-family: var(--mono); font-size: 11.5px; letter-spacing: .02em; color: var(--text-muted); font-style: italic; }
+.ly-chorus-line { border-left: 2px solid var(--accent-soft); padding-left: 16px; margin-left: 1px; font-weight: 500; color: #2c2318; }
+mark.ly-hit { border-radius: 3px; padding: 0 2px; cursor: pointer; color: var(--ink); transition: background .12s, box-shadow .12s; }
+
+/* ---------- scan hit cards ---------- */
+.hit-card { border: 1px solid var(--border-light); border-radius: var(--radius); padding: 10px 12px; background: var(--bg-soft); transition: border-color .12s, background .12s, box-shadow .12s; }
+.hit-card:hover { background: #fff; }
+
+/* ---------- history rows ---------- */
+.hist-row { padding: 10px 12px; border: 1px solid var(--border-light); border-radius: var(--radius); background: var(--bg-soft); cursor: pointer; transition: border-color .12s, background .12s; }
+.hist-row:hover { border-color: var(--border-strong); background: #fff; }
+
+/* ---------- toggle (read/edit) ---------- */
+.seg { display: flex; background: var(--bg-soft); border: 1px solid var(--border-input); border-radius: var(--radius-sm); padding: 2px; }
+.seg button { padding: 5px 13px; border: none; border-radius: 6px; background: transparent; color: #8a7d68; font-size: 12px; font-weight: 500; cursor: pointer; transition: background .12s, color .12s, box-shadow .12s; }
+.seg button.on { background: #fff; color: var(--ink); font-weight: 600; box-shadow: 0 1px 2px rgba(38,33,26,.08); }
+
+/* ---------- modal ---------- */
+.modal { position: fixed; inset: 0; background: rgba(38,33,26,.42); backdrop-filter: blur(3px); display: flex; align-items: flex-start; justify-content: center; padding: 52px 20px; z-index: 100; overflow-y: auto; animation: bbfade .2s ease both; }
+.modal-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-xl); width: 100%; box-shadow: var(--shadow-pop); }
+.modal-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 20px 24px; border-bottom: 1px solid var(--border-light); }
 </style>
 <title>Bitti Bol — Himachali Pahari Song Studio</title>
 </head>
 <body>
 <div id="app"></div>
 <script src="config.js"></script>
-<script src="lexicon.js"></script>
 <script type="importmap">
 {
   "imports": {
@@ -79,6 +155,7 @@ input:focus,textarea:focus{border-color:var(--accent)!important}
 import { computed, effect, signal } from 'https://esm.sh/@preact/signals@2.0.1?external=preact';
 import htm from 'https://esm.sh/htm@3.1.1';
 const html = htm.bind(h);
+
 
 const LEXICON = [
   { pahari: 'dandru', gloss_en: 'teeth (diminutive -ru)', avoid: ['daant'], tags: ['body'], notes: 'Chitte dandru = white teeth, a beauty trope' },
@@ -343,8 +420,6 @@ const LEXICON = [
   { pahari: 'nasha', gloss_en: 'intoxication', avoid: [], tags: ['emotion'], notes: 'Often metaphorical for love' },
   { pahari: 'chaska', gloss_en: 'addiction / habit (especially pleasurable)', avoid: [], tags: ['emotion'] },
 ];
-LEXICON;
-
 
 const CONTAMINATION_RULES = [
   { pattern: '\\bde naal\\b', language: 'punjabi', severity: 'high', suggestion: 'manjh', explanation: 'Punjabi "de naal" means "with"; use Pahari "manjh" or postpositional forms' },
@@ -422,39 +497,6 @@ const PROMPT_FRAGMENTS = {
   criticOutput: 'Respond with JSON: {"is_authentic": bool, "confidence": 0-1, "issues": [{"excerpt": "...", "problem": "...", "suggestion": "..."}]}',
 };
 
-
-async function llmCall(cfg, slot, systemPrompt, userPrompt, { expectJson = true } = {}) {
-  const isComposer = slot === 'composer'; const timeoutMs = isComposer ? 90000 : 60000;
-  if (!cfg || !cfg.apiKey) return { ok: false, errorKind: 'auth', message: 'No API key configured for ' + slot + ' — set it in Settings.' };
-  if (!cfg.baseUrl) return { ok: false, errorKind: 'auth', message: 'No base URL configured for ' + slot + ' — set it in Settings.' };
-  const baseUrl = cfg.baseUrl.replace(/\/+$/, '');
-  let url = baseUrl + '/chat/completions';
-  if (cfg.corsProxy) { url = cfg.corsProxy + encodeURIComponent(url); }
-  const body = { model: cfg.model || 'deepseek-v4-flash', messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: userPrompt }], temperature: cfg.temperature ?? (isComposer ? 0.85 : 0.2), max_tokens: cfg.maxTokens ?? (isComposer ? 4000 : 2000) };
-  if (expectJson) body.response_format = { type: 'json_object' };
-  const controller = new AbortController(); const timer = setTimeout(() => controller.abort(), timeoutMs);
-  try {
-    const resp = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + cfg.apiKey }, body: JSON.stringify(body), signal: controller.signal });
-    clearTimeout(timer);
-    if (resp.status === 401 || resp.status === 403) { const msg = await resp.text().catch(() => ''); return { ok: false, errorKind: 'auth', message: 'Key rejected (' + resp.status + '). Verify your API key.' + (msg ? ' ' + msg.slice(0, 200) : '') }; }
-    if (resp.status === 429) return { ok: false, errorKind: 'rate_limit', message: 'Rate limited. Wait a moment and retry.' };
-    if (!resp.ok) { const msg = await resp.text().catch(() => ''); return { ok: false, errorKind: 'provider_error', message: 'Provider error (' + resp.status + ')' + (msg ? ': ' + msg.slice(0, 300) : '') }; }
-    const data = await resp.json(); const content = data?.choices?.[0]?.message?.content; const finish = data?.choices?.[0]?.finish_reason;
-    if (!content) { if (finish === 'length') return { ok: false, errorKind: 'bad_json', message: 'Response empty (max_tokens too short or reasoning ate tokens). Try increasing max_tokens.' }; return { ok: false, errorKind: 'bad_json', message: 'Empty response from model.' }; }
-    if (!expectJson) return { ok: true, data: content };
-    let json;
-    try { const cleaned = content.replace(/^```(?:json)?\s*/, '').replace(/\s*```$/, '').trim(); json = JSON.parse(cleaned); } catch (e) { return { ok: false, errorKind: 'bad_json', message: 'Failed to parse response as JSON. Raw: ' + content.slice(0, 300) }; }
-    return { ok: true, data: json };
-  } catch (e) {
-    clearTimeout(timer);
-    if (e.name === 'AbortError') return { ok: false, errorKind: 'timeout', message: 'Request timed out after ' + (timeoutMs / 1000) + 's.' };
-    const msg = e.message || String(e);
-    if (msg.includes('Failed to fetch') || msg.includes('NetworkError') || msg.includes('CORS') || msg.includes('network')) return { ok: false, errorKind: 'cors_or_network', message: 'Network/CORS error. The provider may not allow browser calls. Set a proxy base URL in Settings.' };
-    return { ok: false, errorKind: 'provider_error', message: msg };
-  }
-}
-
-
 function assemblePrompt(prefs, userLexicon = [], includeLexicon = true) {
   const fullLex = [...LEXICON, ...(userLexicon || [])];
   const lexBlock = includeLexicon ? fullLex.map(e => e.pahari + ' = ' + e.gloss_en + (e.avoid?.length ? ' (avoid: ' + e.avoid.join(', ') + ')' : '')).join('\n') : '';
@@ -474,7 +516,6 @@ function assembleCriticPrompt(lyrics) {
   const rulesBlock = CONTAMINATION_RULES.filter(r => r.severity === 'high').map(r => r.pattern + ' (' + r.language + ' ' + r.severity + ') → ' + r.suggestion).join('\n');
   return { system: PROMPT_FRAGMENTS.criticPersona + '\n\nLexicon:\n' + lexBlock + '\n\nKnown contamination patterns:\n' + rulesBlock + '\n\n' + PROMPT_FRAGMENTS.criticOutput, user: 'Validate these lyrics:\n\n' + lyrics.slice(0, 3000) };
 }
-
 
 function runContaminationScan(lyrics) {
   const hits = []; const lines = (lyrics || '').split('\n');
@@ -533,7 +574,6 @@ function segmentLyrics(lyrics, hits) {
   });
 }
 
-
 function validateMechanical(lyrics, style) {
   const warnings = [];
   const lc = lyrics.length;
@@ -568,8 +608,8 @@ function validateMechanical(lyrics, style) {
 const STORAGE_KEY = 'bitti-bol:v2';
 const LEGACY_KEY = 'bitti-bol-history';
 const DEFAULT_SETTINGS = {
-  composer: { baseUrl: 'https://opencode.ai/zen/go/v1', apiKey: '', model: 'deepseek-v4-flash', temperature: 0.85, maxTokens: 4000 },
-  critic: { baseUrl: 'https://opencode.ai/zen/go/v1', apiKey: '', model: 'deepseek-v4-flash', temperature: 0.2, maxTokens: 2000 },
+  composer: { baseUrl: 'https://opencode.ai/zen/go/v1', apiKey: '', model: 'deepseek-v4-flash', temperature: 0.85, maxTokens: 16384 },
+  critic: { baseUrl: 'https://opencode.ai/zen/go/v1', apiKey: '', model: 'deepseek-v4-flash', temperature: 0.2, maxTokens: 16384 },
   criticEnabled: true, corsProxy: '',
 };
 
@@ -596,15 +636,25 @@ try {
   if (raw) {
     const parsed = JSON.parse(raw);
     if (parsed && typeof parsed === 'object' && parsed.schemaVersion === 2) {
-      _storage = { ..._storage, ...parsed, settings: { ...DEFAULT_SETTINGS, ...(parsed.settings || {}) } };
+      const savedSettings = parsed.settings || {};
+      _storage = {
+        ..._storage, ...parsed,
+        settings: {
+          ...DEFAULT_SETTINGS,
+          composer: { ...DEFAULT_SETTINGS.composer, ...(savedSettings.composer || {}) },
+          critic: { ...DEFAULT_SETTINGS.critic, ...(savedSettings.critic || {}) },
+          corsProxy: savedSettings.corsProxy ?? DEFAULT_SETTINGS.corsProxy,
+          criticEnabled: savedSettings.criticEnabled ?? DEFAULT_SETTINGS.criticEnabled,
+        },
+      };
       if (Array.isArray(parsed.history)) _v2localHistory = parsed.history;
     }
   }
 } catch {}
 if (typeof window.__BITTIBOL_CONFIG !== 'undefined') {
   const cfg = window.__BITTIBOL_CONFIG;
-  if (cfg.composer) { if (cfg.composer.apiKey) _storage.settings.composer.apiKey = cfg.composer.apiKey; if (cfg.composer.baseUrl) _storage.settings.composer.baseUrl = cfg.composer.baseUrl; if (cfg.composer.model) _storage.settings.composer.model = cfg.composer.model; }
-  if (cfg.critic) { if (cfg.critic.apiKey) _storage.settings.critic.apiKey = cfg.critic.apiKey; if (cfg.critic.baseUrl) _storage.settings.critic.baseUrl = cfg.critic.baseUrl; if (cfg.critic.model) _storage.settings.critic.model = cfg.critic.model; }
+  if (cfg.composer) { for (const k of ['apiKey', 'baseUrl', 'model', 'temperature', 'maxTokens']) { if (cfg.composer[k] != null) _storage.settings.composer[k] = cfg.composer[k]; } }
+  if (cfg.critic) { for (const k of ['apiKey', 'baseUrl', 'model', 'temperature', 'maxTokens']) { if (cfg.critic[k] != null) _storage.settings.critic[k] = cfg.critic[k]; } }
   if (cfg.corsProxy) _storage.settings.corsProxy = cfg.corsProxy;
 }
 let initialHistory;
@@ -612,7 +662,6 @@ if (_v2localHistory.length) { initialHistory = _v2localHistory; }
 else { initialHistory = migrateV1History(); }
 
 function saveStorage() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(_storage)); } catch {} }
-
 
 const settings = signal(_storage.settings);
 const formTopic = signal('');
@@ -663,6 +712,11 @@ function pushStep(name, status, msg) {
 }
 
 async function runPipeline(prefs) {
+  if (typeof window !== 'undefined' && window.__testFailApi) {
+    pipelineError.value = { ok: false, errorKind: 'auth', message: 'Test: No API key configured' };
+    pushStep('compose', 'failed', 'Test: No API key configured');
+    return;
+  }
   pipelineError.value = null;
   pipelineSteps.value = [];
   pushStep('compose', 'active', 'Calling composer…');
@@ -743,30 +797,43 @@ async function runPipeline(prefs) {
 
 function App() {
   return html`
-    <div style="min-height:100vh;display:flex;flex-direction:column">
-      <header style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 28px;border-bottom:1px solid var(--border);background:#faf7f0;position:sticky;top:0;z-index:20">
-        <div style="display:flex;align-items:baseline;gap:14px;min-width:0">
-          <div style="display:flex;align-items:baseline;gap:2px">
-            <span style="font-size:22px;font-weight:700;letter-spacing:-.02em;color:var(--accent)">Bitti</span>
-            <span style="font-size:22px;font-weight:700;letter-spacing:-.02em;color:#26211a"> Bol</span>
+    <div class="app-shell">
+      <header class="app-header">
+        <div style="display:flex;align-items:center;gap:16px;min-width:0">
+          <div style="display:flex;align-items:center;gap:11px">
+            <div style="width:34px;height:34px;border-radius:10px;background:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 8px rgba(192,71,42,.28)">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+            </div>
+            <div style="display:flex;flex-direction:column;line-height:1.1">
+              <div style="display:flex;align-items:baseline;gap:2px">
+                <span style="font-size:20px;font-weight:700;letter-spacing:-.02em;color:var(--accent)">Bitti</span>
+                <span style="font-size:20px;font-weight:700;letter-spacing:-.02em;color:var(--ink)">Bol</span>
+              </div>
+              <span style="font-family:var(--mono);font-size:10px;letter-spacing:.04em;color:var(--text-dim);white-space:nowrap">Himachali Pahari Song Studio</span>
+            </div>
           </div>
-          <span style="font-family:var(--mono);font-size:11px;letter-spacing:.02em;color:var(--text-dim);white-space:nowrap">Himachali Pahari Song Studio</span>
         </div>
-        <div style="display:flex;align-items:center;gap:14px">
-          <button onClick=${() => showLexicon.value = !showLexicon.value} title="Lexicon" style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border-input);background:#fbf9f4;border-radius:8px;cursor:pointer;color:#6b6152">
+        <div style="display:flex;align-items:center;gap:10px">
+          <button class="icon-btn" onClick=${() => showLexicon.value = !showLexicon.value} title="Lexicon">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 0-3 3z"/><path d="M18 7a3 3 0 0 1 3-3v16"/></svg>
           </button>
-          <button onClick=${() => showSettings.value = true} title="Settings" style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border-input);background:#fbf9f4;border-radius:8px;cursor:pointer;color:#6b6152">
+          <button class="icon-btn" onClick=${() => showSettings.value = true} title="Settings">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
           </button>
         </div>
       </header>
-      <main class="app grid-layout">
-        <${InputForm} />
-        <${PipelineCard} />
-        <${SongCard} />
-        <${ContaminationPanel} />
-        <${HistoryPanel} />
+      <main class="app workspace">
+        <div class="col-compose">
+          <${InputForm} />
+          <${PipelineCard} />
+          <${HistoryPanel} />
+        </div>
+        <div class="col-stage">
+          <${SongCard} />
+        </div>
+        <div class="col-scan">
+          <${ContaminationPanel} />
+        </div>
       </main>
     </div>
     ${showSettings.value ? html`<${SettingsModal} />` : ''}
@@ -782,27 +849,27 @@ function ChecksGrid() {
   const repair = rep.repair;
   const mechWarnings = (mech && mech.warnings || []).map(w => ({
     message: w.message,
-    dotStyle: 'flex-shrink:0;width:7px;height:7px;border-radius:50%;margin-top:5px;background:' + (w.severity === 'high' ? '#c0472a' : '#a9791a'),
+    dotStyle: 'flex-shrink:0;width:7px;height:7px;border-radius:50%;margin-top:6px;background:' + (w.severity === 'high' ? '#c0472a' : '#a9791a'),
   }));
-  const criticIssues = (critic && critic.issues || []).slice(0, 4).map(iss => ({ text: (iss.excerpt ? iss.excerpt + ' \u2014 ' : '') + (iss.problem || '') + (iss.suggestion ? ' \u2192 ' + iss.suggestion : '') }));
-  const criticVerdict = critic ? (critic.is_authentic ? '\u2713 Authentic \u00b7 confidence ' + (critic.confidence || 0).toFixed(2) : '\u2717 Issues found \u00b7 confidence ' + (critic.confidence || 0).toFixed(2)) : '';
+  const criticIssues = (critic && critic.issues || []).slice(0, 4).map(iss => ({ text: (iss.excerpt ? iss.excerpt + ' — ' : '') + (iss.problem || '') + (iss.suggestion ? ' → ' + iss.suggestion : '') }));
+  const criticVerdict = critic ? (critic.is_authentic ? '✓ Authentic · confidence ' + (critic.confidence || 0).toFixed(2) : '✗ Issues found · confidence ' + (critic.confidence || 0).toFixed(2)) : '';
   return html`
-    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:18px 20px">
-      <div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px">Checks</div>
+    <div class="card" style="padding:20px 22px">
+      <div class="eyebrow" style="margin-bottom:14px">Checks</div>
       <div class="chk-grid">
-        <div style="background:var(--bg-soft);border:1px solid var(--border-light);border-radius:9px;padding:12px 14px">
-          <div style="font-size:11px;font-weight:600;color:#6b6152;margin-bottom:7px">Suno structure</div>
-          ${mechWarnings.length === 0 ? html`<div style="font-size:12.5px;color:#4f7a3f;display:flex;align-items:center;gap:6px"><span style="font-weight:700">\u2713</span> All mechanical checks passed</div>` : html`
-            <div style="display:flex;flex-direction:column;gap:6px">${mechWarnings.map(w => html`<div style="display:flex;gap:7px;font-size:11.5px;line-height:1.45;color:#5e5344"><span style="${w.dotStyle}"></span><span>${w.message}</span></div>`)}</div>
+        <div style="background:var(--bg-soft);border:1px solid var(--border-light);border-radius:var(--radius);padding:14px 16px">
+          <div style="font-size:11px;font-weight:700;letter-spacing:.02em;color:#6b6152;margin-bottom:9px;text-transform:uppercase">Suno structure</div>
+          ${mechWarnings.length === 0 ? html`<div style="font-size:12.5px;color:var(--success);display:flex;align-items:center;gap:6px"><span style="font-weight:700">✓</span> All mechanical checks passed</div>` : html`
+            <div style="display:flex;flex-direction:column;gap:7px">${mechWarnings.map(w => html`<div style="display:flex;gap:8px;font-size:11.5px;line-height:1.45;color:#5e5344"><span style="${w.dotStyle}"></span><span>${w.message}</span></div>`)}</div>
           `}
         </div>
-        <div style="background:var(--bg-soft);border:1px solid var(--border-light);border-radius:9px;padding:12px 14px">
-          <div style="font-size:11px;font-weight:600;color:#6b6152;margin-bottom:7px">LLM critic</div>
+        <div style="background:var(--bg-soft);border:1px solid var(--border-light);border-radius:var(--radius);padding:14px 16px">
+          <div style="font-size:11px;font-weight:700;letter-spacing:.02em;color:#6b6152;margin-bottom:9px;text-transform:uppercase">LLM critic</div>
           ${critic ? html`
-            <div style="font-size:12.5px;font-weight:600;color:${critic.is_authentic ? '#4f7a3f' : '#c0472a'}">${criticVerdict}</div>
-            ${criticIssues.map(iss => html`<div style="font-size:11px;color:#8a7d68;margin-top:5px;line-height:1.4">\u00b7 ${iss.text}</div>`)}
+            <div style="font-size:12.5px;font-weight:600;color:${critic.is_authentic ? 'var(--success)' : 'var(--accent)'}">${criticVerdict}</div>
+            ${criticIssues.map(iss => html`<div style="font-size:11px;color:#8a7d68;margin-top:6px;line-height:1.4">· ${iss.text}</div>`)}
           ` : html`<div style="font-size:12px;color:#b0a48f">Not run for this song.</div>`}
-          ${repair && repair.applied ? html`<div style="margin-top:9px;padding-top:9px;border-top:1px solid var(--border-light);font-size:11.5px;color:#4f7a3f">Repair applied \u00b7 high hits ${repair.beforeHigh} \u2192 ${repair.afterHigh}</div>` : ''}
+          ${repair && repair.applied ? html`<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border-light);font-size:11.5px;color:var(--success)">Repair applied · high hits ${repair.beforeHigh} → ${repair.afterHigh}</div>` : ''}
         </div>
       </div>
     </div>
@@ -812,60 +879,56 @@ function ChecksGrid() {
 function ContaminationPanel() {
   const hits = scanHits.value;
   if (!hits.length && !songLyrics.value) return html`
-    <section style="grid-area:scan;min-width:0">
-      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;position:sticky;top:92px;padding:26px 18px;text-align:center">
-        <div style="font-size:13px;font-weight:600;color:#b0a48f">Dialect scan</div>
-        <div style="font-size:11.5px;color:#b0a48f;margin-top:6px">Results appear after generation.</div>
-      </div>
-    </section>
+    <div class="card" style="padding:26px 20px;text-align:center">
+      <div class="panel-title" style="color:var(--text-muted)">Dialect scan</div>
+      <div style="font-size:11.5px;color:#b0a48f;margin-top:7px;line-height:1.5">Results appear after<br/>generation.</div>
+    </div>
   `;
   const highCount = hits.filter(h => h.severity === 'high').length;
   const medCount = hits.length - highCount;
-  let badgeBg = '#e6efdd', badgeFg = '#4f7a3f', badgeLabel = 'clean';
-  if (highCount > 0) { badgeBg = '#f6e0d9'; badgeFg = '#c0472a'; badgeLabel = highCount + ' high'; }
-  else if (medCount > 0) { badgeBg = '#f5ecd3'; badgeFg = '#8a6d1a'; badgeLabel = medCount + ' medium'; }
+  let badgeBg = 'var(--success-soft)', badgeFg = 'var(--success)', badgeLabel = 'clean';
+  if (highCount > 0) { badgeBg = 'var(--accent-soft)'; badgeFg = 'var(--accent)'; badgeLabel = highCount + ' high'; }
+  else if (medCount > 0) { badgeBg = 'var(--warn-soft)'; badgeFg = 'var(--warn-fg)'; badgeLabel = medCount + ' medium'; }
   const hovered = hoveredHit.value;
   return html`
-    <section style="grid-area:scan;min-width:0">
-      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;position:sticky;top:92px">
-        <div style="padding:16px 18px;border-bottom:1px solid var(--border-light)">
-          <div style="display:flex;align-items:center;justify-content:space-between">
-            <h2 style="font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#26211a">Dialect scan</h2>
-            <span style="font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;font-weight:600;padding:3px 9px;border-radius:20px;background:${badgeBg};color:${badgeFg}">${badgeLabel}</span>
-          </div>
-          <p style="font-size:11px;color:var(--text-dim);margin-top:5px;line-height:1.45">Flags Hindi / Punjabi words that break Pahari authenticity. Hover a hit to find it in the lyrics.</p>
+    <div class="card" style="padding:0;overflow:hidden">
+      <div style="padding:16px 18px;border-bottom:1px solid var(--border-light)">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+          <h2 class="panel-title">Dialect scan</h2>
+          <span class="badge" style="background:${badgeBg};color:${badgeFg}">${badgeLabel}</span>
         </div>
-        ${hits.length === 0 ? html`
-          <div style="padding:26px 18px;text-align:center">
-            <div style="width:38px;height:38px;border-radius:50%;background:#e6efdd;display:flex;align-items:center;justify-content:center;margin:0 auto 10px"><span style="color:#4f7a3f;font-size:19px;font-weight:700">\u2713</span></div>
-            <div style="font-size:13px;font-weight:600;color:#4f7a3f">Reads as authentic Pahari</div>
-            <div style="font-size:11.5px;color:var(--text-dim);margin-top:3px">No Hindi or Punjabi drift detected</div>
-          </div>
-        ` : html`
-          <div style="padding:12px;display:flex;flex-direction:column;gap:8px;max-height:calc(100vh - 260px);overflow-y:auto">
-            ${hits.map((h, i) => {
-              const hi = h.severity === 'high';
-              const on = i === hovered;
-              const accent = hi ? '#c0472a' : '#a9791a';
-              return html`
-                <div onMouseEnter=${() => hoveredHit.value = i} onMouseLeave=${() => hoveredHit.value = null} style="border:1px solid ${on ? accent : 'var(--border-light)'};border-left:3px solid ${accent};border-radius:8px;padding:9px 11px;background:${on ? '#fff' : 'var(--bg-soft)'};transition:border-color .12s,background .12s">
-                  <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:4px">
-                    <span style="font-family:var(--mono);font-size:13px;font-weight:600;color:#26211a">${h.match}</span>
-                    <span style="font-family:var(--mono);font-size:9px;letter-spacing:.04em;text-transform:uppercase;font-weight:600;color:#fff;background:${accent};padding:1px 6px;border-radius:4px">${h.language}</span>
-                    <span style="font-family:var(--mono);font-size:10px;color:#b0a48f">line ${h.lineNo}</span>
-                  </div>
-                  <div style="font-size:11px;color:var(--text-soft);line-height:1.4;font-family:var(--mono)">${h.line.length > 54 ? h.line.slice(0, 54) + '\u2026' : h.line}</div>
-                  <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:7px">
-                    <span style="font-size:12px;color:#4f7a3f;font-family:var(--mono)">\u2192 ${h.suggestion}</span>
-                    <button onClick=${() => { songLyrics.value = applyReplacement(songLyrics.value, h.pattern, h.suggestion, h.lineNo, h.col); scheduleScan(songLyrics.value); }} style="flex-shrink:0;font-size:11px;font-weight:600;padding:4px 11px;border:1px solid #d3c6a8;background:#fff;color:var(--warn-fg);border-radius:6px;cursor:pointer">Apply fix</button>
-                  </div>
-                </div>
-              `;
-            })}
-          </div>
-        `}
+        <p style="font-size:11px;color:var(--text-dim);margin-top:6px;line-height:1.5">Flags Hindi / Punjabi words that break Pahari authenticity. Hover a hit to find it in the lyrics.</p>
       </div>
-    </section>
+      ${hits.length === 0 ? html`
+        <div style="padding:30px 18px;text-align:center">
+          <div style="width:42px;height:42px;border-radius:50%;background:var(--success-soft);display:flex;align-items:center;justify-content:center;margin:0 auto 12px"><span style="color:var(--success);font-size:21px;font-weight:700">✓</span></div>
+          <div style="font-size:13.5px;font-weight:600;color:var(--success)">Reads as authentic Pahari</div>
+          <div style="font-size:11.5px;color:var(--text-dim);margin-top:4px">No Hindi or Punjabi drift detected</div>
+        </div>
+      ` : html`
+        <div style="padding:12px;display:flex;flex-direction:column;gap:8px;max-height:calc(100vh - 210px);overflow-y:auto">
+          ${hits.map((h, i) => {
+            const hi = h.severity === 'high';
+            const on = i === hovered;
+            const accent = hi ? '#c0472a' : '#a9791a';
+            return html`
+              <div class="hit-card" onMouseEnter=${() => hoveredHit.value = i} onMouseLeave=${() => hoveredHit.value = null} style="border-color:${on ? accent : 'var(--border-light)'};border-left:3px solid ${accent};box-shadow:${on ? '0 2px 8px rgba(58,49,40,.08)' : 'none'}">
+                <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:5px">
+                  <span style="font-family:var(--mono);font-size:13px;font-weight:600;color:var(--ink)">${h.match}</span>
+                  <span style="font-family:var(--mono);font-size:9px;letter-spacing:.04em;text-transform:uppercase;font-weight:600;color:#fff;background:${accent};padding:1px 6px;border-radius:4px">${h.language}</span>
+                  <span style="font-family:var(--mono);font-size:10px;color:#b0a48f;margin-left:auto">line ${h.lineNo}</span>
+                </div>
+                <div style="font-size:11px;color:var(--text-soft);line-height:1.4;font-family:var(--mono)">${h.line.length > 54 ? h.line.slice(0, 54) + '…' : h.line}</div>
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px">
+                  <span style="font-size:12px;color:var(--success);font-family:var(--mono)">→ ${h.suggestion}</span>
+                  <button onClick=${() => { songLyrics.value = applyReplacement(songLyrics.value, h.pattern, h.suggestion, h.lineNo, h.col); scheduleScan(songLyrics.value); }} style="flex-shrink:0;font-size:11px;font-weight:600;padding:4px 11px;border:1px solid #d3c6a8;background:#fff;color:var(--warn-fg);border-radius:var(--radius-sm);cursor:pointer">Apply fix</button>
+                </div>
+              </div>
+            `;
+          })}
+        </div>
+      `}
+    </div>
   `;
 }
 
@@ -883,83 +946,82 @@ function ErrorBanner() {
 
 function HistoryPanel() {
   const items = history.value;
-  if (!items.length) return html`
-    <section style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:18px;min-width:0">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-        <div style="display:flex;align-items:baseline;gap:8px">
-          <h2 style="font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#26211a">History</h2>
-        </div>
+  const header = (count) => html`
+    <div class="card-header" style="margin-bottom:${count ? '12px' : '10px'}">
+      <div style="display:flex;align-items:baseline;gap:8px">
+        <h2 class="panel-title">History</h2>
+        ${count ? html`<span style="font-family:var(--mono);font-size:11px;color:var(--text-muted)">${count}</span>` : ''}
       </div>
-      <p style="font-size:12px;color:#b0a48f;line-height:1.5">No songs yet. Your generated songs collect here \u2014 a growing shelf of Pahari verse.</p>
+      ${count ? html`
+      <div style="display:flex;gap:5px">
+        <button class="icon-btn" style="width:28px;height:28px" title="Export songbook" onClick=${() => {
+          const blob = new Blob([JSON.stringify({ schemaVersion: 2, settings: settings.value, history: history.value, userLexicon: userLexiconSig.value }, null, 2)], { type: 'application/json' });
+          const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'bitti-bol-songbook.json'; a.click();
+        }}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m8 11 4 4 4-4"/><path d="M5 21h14"/></svg></button>
+        <button class="icon-btn" style="width:28px;height:28px" title="Import songbook" onClick=${() => {
+          const input = document.createElement('input'); input.type = 'file'; input.accept = '.json';
+          input.onchange = async () => {
+            try {
+              const text = await input.files[0].text();
+              const data = JSON.parse(text);
+              if (data.schemaVersion !== 2) { alert('Invalid schema version'); return; }
+              if (data.history) {
+                const byId = {};
+                history.value.forEach(h => byId[h.id] = h);
+                for (const h of data.history) byId[h.id || crypto.randomUUID()] = h;
+                history.value = Object.values(byId).slice(0, 50);
+              }
+              if (data.settings) {
+                settings.value = {
+                  ...settings.value, ...data.settings,
+                  composer: { ...(settings.value.composer || {}), ...(data.settings.composer || {}) },
+                  critic: { ...(settings.value.critic || {}), ...(data.settings.critic || {}) },
+                };
+              }
+              if (data.userLexicon) {
+                const byWord = {};
+                userLexiconSig.value.forEach(e => byWord[e.pahari] = e);
+                for (const e of data.userLexicon) byWord[e.pahari] = e;
+                userLexiconSig.value = Object.values(byWord);
+              }
+              saveStorage();
+            } catch (e) { alert('Import failed: ' + e.message); }
+          };
+          input.click();
+        }}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="m8 7 4-4 4 4"/><path d="M5 21h14"/></svg></button>
+      </div>` : ''}
+    </div>
+  `;
+  if (!items.length) return html`
+    <section class="card">
+      ${header(0)}
+      <p style="font-size:12px;color:#b0a48f;line-height:1.55">No songs yet. Your generated songs collect here — a growing shelf of Pahari verse.</p>
     </section>
   `;
   return html`
-    <section style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:18px;min-width:0">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-        <div style="display:flex;align-items:baseline;gap:8px">
-          <h2 style="font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#26211a">History</h2>
-          <span style="font-family:var(--mono);font-size:11px;color:var(--text-muted)">${items.length}</span>
-        </div>
-        <div style="display:flex;gap:4px">
-          <button onClick=${() => {
-            const blob = new Blob([JSON.stringify({ schemaVersion: 2, settings: settings.value, history: history.value, userLexicon: userLexiconSig.value }, null, 2)], { type: 'application/json' });
-            const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'bitti-bol-songbook.json'; a.click();
-          }} title="Export songbook" style="width:28px;height:28px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border-input);background:#fff;border-radius:6px;cursor:pointer;color:var(--text-soft)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m8 11 4 4 4-4"/><path d="M5 21h14"/></svg></button>
-          <button onClick=${() => {
-            const input = document.createElement('input'); input.type = 'file'; input.accept = '.json';
-            input.onchange = async () => {
-              try {
-                const text = await input.files[0].text();
-                const data = JSON.parse(text);
-                if (data.schemaVersion !== 2) { alert('Invalid schema version'); return; }
-                if (data.history) {
-                  const byId = {};
-                  history.value.forEach(h => byId[h.id] = h);
-                  for (const h of data.history) byId[h.id || crypto.randomUUID()] = h;
-                  history.value = Object.values(byId).slice(0, 50);
-                }
-                if (data.settings) {
-                  settings.value = {
-                    ...settings.value, ...data.settings,
-                    composer: { ...(settings.value.composer || {}), ...(data.settings.composer || {}) },
-                    critic: { ...(settings.value.critic || {}), ...(data.settings.critic || {}) },
-                  };
-                }
-                if (data.userLexicon) {
-                  const byWord = {};
-                  userLexiconSig.value.forEach(e => byWord[e.pahari] = e);
-                  for (const e of data.userLexicon) byWord[e.pahari] = e;
-                  userLexiconSig.value = Object.values(byWord);
-                }
-                saveStorage();
-              } catch (e) { alert('Import failed: ' + e.message); }
-            };
-            input.click();
-          }} title="Import songbook" style="width:28px;height:28px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border-input);background:#fff;border-radius:6px;cursor:pointer;color:var(--text-soft)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="m8 7 4-4 4 4"/><path d="M5 21h14"/></svg></button>
-        </div>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:7px;max-height:400px;overflow-y:auto">
+    <section class="card">
+      ${header(items.length)}
+      <div style="display:flex;flex-direction:column;gap:7px;max-height:360px;overflow-y:auto">
         ${items.map(s => {
           const highH = (s.report && s.report.scan || []).filter(h => h.severity === 'high').length;
           const critc = s.report && s.report.critic;
-          // Precedence: critic verdict > high-hit count > defaults to true
           const authentic = critc ? critc.is_authentic : (highH === 0);
           let dateStr = '';
           try { dateStr = new Date(s.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }); } catch {}
           return html`
-            <div onClick=${() => {
+            <div class="hist-row" onClick=${() => {
               songTitle.value = s.title; songLyrics.value = s.lyrics; songStyle.value = s.style;
               songReport.value = s.report || null;
               scanHits.value = runContaminationScan(s.lyrics);
               editMode.value = false;
-            }} style="padding:9px 11px;border:1px solid var(--border-light);border-radius:9px;background:var(--bg-soft);cursor:pointer;transition:border-color .12s,background .12s">
-              <div style="display:flex;align-items:center;gap:9px;min-width:0">
-                <span style="flex-shrink:0;width:8px;height:8px;border-radius:50%;background:${authentic ? '#4f7a3f' : '#c0472a'}" title="${authentic ? 'passed dialect checks' : 'had high-severity hits'}"></span>
+            }}>
+              <div style="display:flex;align-items:center;gap:10px;min-width:0">
+                <span style="flex-shrink:0;width:8px;height:8px;border-radius:50%;background:${authentic ? 'var(--success)' : 'var(--accent)'}" title="${authentic ? 'passed dialect checks' : 'had high-severity hits'}"></span>
                 <div style="min-width:0;flex:1">
-                  <div style="font-size:13px;font-weight:600;color:#26211a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${s.title}</div>
-                  <div style="font-family:var(--mono);font-size:10px;color:#b0a48f;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${(s.topic || '').slice(0, 28)} \u00b7 ${dateStr}</div>
+                  <div style="font-size:13px;font-weight:600;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${s.title}</div>
+                  <div style="font-family:var(--mono);font-size:10px;color:#b0a48f;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${(s.topic || '').slice(0, 28)} · ${dateStr}</div>
                 </div>
-                <button onClick=${e => { e.stopPropagation(); history.value = history.value.filter(h => h.id !== s.id); }} style="flex-shrink:0;width:22px;height:22px;display:flex;align-items:center;justify-content:center;border:none;background:none;color:#c7bca6;cursor:pointer;border-radius:5px;font-size:14px">\u2715</button>
+                <button onClick=${e => { e.stopPropagation(); history.value = history.value.filter(h => h.id !== s.id); }} style="flex-shrink:0;width:22px;height:22px;display:flex;align-items:center;justify-content:center;border:none;background:none;color:#c7bca6;cursor:pointer;border-radius:5px;font-size:14px">✕</button>
               </div>
             </div>
           `;
@@ -978,49 +1040,58 @@ function InputForm() {
   };
   return html`<section class="card">
       <div class="card-header">
-        <h2>New Song</h2>
-        <span style="font-family:var(--mono);font-size:10px;color:var(--text-muted)">01</span>
+        <h2 class="panel-title">New Song</h2>
+        <span class="eyebrow">compose</span>
       </div>
-      <div style="display:flex;flex-direction:column;gap:11px">
+      <div style="display:flex;flex-direction:column;gap:13px">
         <div>
           <label class="form-label">Topic <span style="color:var(--accent)">*</span></label>
-          <textarea class="form-textarea" value=${formTopic} onInput=${e => formTopic.value = e.target.value} placeholder="chitte dandru · mountain love · apple harvest" style="min-height:54px"></textarea>
+          <textarea class="form-textarea" value=${formTopic.value} onInput=${e => formTopic.value = e.target.value} placeholder="chitte dandru · mountain love · apple harvest" style="min-height:58px;font-size:15px"></textarea>
           <p class="form-hint">Type in any language — lyrics come back in Mahasuvi Pahari.</p>
         </div>
-        <div>
-          <label class="form-label">Mood</label>
-          <input class="form-input" value=${formMood} onInput=${e => formMood.value = e.target.value} placeholder="romantic · longing · celebratory"/>
-        </div>
-        <div>
-          <label class="form-label">Occasion</label>
-          <input class="form-input" value=${formOccasion} onInput=${e => formOccasion.value = e.target.value} placeholder="wedding · festival · harvest"/>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div>
+            <label class="form-label">Mood</label>
+            <input class="form-input" value=${formMood.value} onInput=${e => formMood.value = e.target.value} placeholder="romantic · longing"/>
+          </div>
+          <div>
+            <label class="form-label">Occasion</label>
+            <input class="form-input" value=${formOccasion.value} onInput=${e => formOccasion.value = e.target.value} placeholder="wedding · festival"/>
+          </div>
         </div>
         <div>
           <label class="form-label">Instruments</label>
-          <input class="form-input" value=${formInstruments} onInput=${e => formInstruments.value = e.target.value} placeholder="bansuri · dhol · chimta · acoustic guitar"/>
+          <input class="form-input" value=${formInstruments.value} onInput=${e => formInstruments.value = e.target.value} placeholder="bansuri · dhol · chimta · acoustic guitar"/>
           <p class="form-hint-sm">Base: acoustic guitar, bansuri, dhol, chimta</p>
         </div>
         <div>
           <label class="form-label">Notes</label>
-          <textarea class="form-textarea" value=${formNotes} onInput=${e => formNotes.value = e.target.value} placeholder="Any extra guidance\u2026" style="min-height:40px"></textarea>
+          <textarea class="form-textarea" value=${formNotes.value} onInput=${e => formNotes.value = e.target.value} placeholder="Any extra guidance…" style="min-height:40px;font-size:13.5px"></textarea>
         </div>
       </div>
-      <button class="btn btn-primary" style="width:100%;margin-top:16px" onClick=${handleGenerate} disabled=${isBusy.value || !formTopic.value.trim()}>${isBusy.value ? 'Generating\u2026' : 'Generate song'}</button>
+      <button class="btn btn-primary" style="width:100%;margin-top:16px;padding:11px" onClick=${handleGenerate} disabled=${isBusy.value || !formTopic.value.trim()}>
+        ${isBusy.value ? 'Generating…' : html`<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:2px"><path d="M5 3l14 9-14 9V3z"/></svg> Generate song`}
+      </button>
     </section>`;
 }
 
+const lexSearch = signal('');
+
 function LexiconModal() {
   if (!showLexicon.value) return null;
-  const entries = [
+  const q = lexSearch.value.trim().toLowerCase();
+  const all = [
     ...LEXICON.map(e => ({ pahari: e.pahari, gloss: e.gloss_en, avoid: (e.avoid || []).join(', '), isUser: false })),
     ...userLexiconSig.value.map((e, i) => ({ pahari: e.pahari, gloss: e.gloss_en, avoid: (e.avoid || []).join(', '), isUser: true, onDelete: () => { userLexiconSig.value = userLexiconSig.value.filter((_, j) => j !== i); } })),
   ];
+  const entries = q ? all.filter(e => (e.pahari + ' ' + e.gloss + ' ' + e.avoid).toLowerCase().includes(q)) : all;
+  const th = (label, extra = '') => html`<th style="text-align:left;padding:9px 8px;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-soft);border-bottom:1px solid var(--border);${extra}">${label}</th>`;
   return html`
-    <div class="modal" onClick=${e => { if (e.target === e.currentTarget) showLexicon.value = false; }} style="position:fixed;inset:0;background:rgba(38,33,26,0.42);backdrop-filter:blur(2px);display:flex;align-items:flex-start;justify-content:center;padding:52px 20px;z-index:100;overflow-y:auto">
-      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;width:100%;max-width:680px;box-shadow:0 24px 60px rgba(38,33,26,0.22)">
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:20px 22px;border-bottom:1px solid var(--border-light)">
+    <div class="modal" onClick=${e => { if (e.target === e.currentTarget) showLexicon.value = false; }}>
+      <div class="modal-box" style="max-width:680px">
+        <div class="modal-head">
           <div>
-            <h2 style="font-size:16px;font-weight:700;color:#26211a">Lexicon</h2>
+            <h2 style="font-size:16px;font-weight:700;color:var(--ink)">Lexicon</h2>
             <p style="font-size:11px;color:var(--text-dim);margin-top:2px">Vocabulary fed to the composer & the contamination scan</p>
           </div>
           <div style="display:flex;gap:8px">
@@ -1029,27 +1100,27 @@ function LexiconModal() {
               const gloss = prompt('English meaning:'); if (!gloss) return;
               const avoid = prompt('Words to avoid (comma-separated):') || '';
               userLexiconSig.value = [...userLexiconSig.value, { pahari, gloss_en: gloss, avoid: avoid ? avoid.split(',').map(x => x.trim()).filter(Boolean) : [] }];
-            }} style="border:1px solid #d3c6a8;background:#fff;color:var(--warn-fg);border-radius:7px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer">+ Add word</button>
-            <button onClick=${() => showLexicon.value = false} style="width:30px;height:30px;border:1px solid var(--border-input);background:#fff;border-radius:7px;cursor:pointer;color:#6b6152;font-size:14px">\u2715</button>
+            }} style="border:1px solid #d3c6a8;background:#fff;color:var(--warn-fg);border-radius:var(--radius-sm);padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer">+ Add word</button>
+            <button class="icon-btn" style="width:30px;height:30px" onClick=${() => showLexicon.value = false}>✕</button>
           </div>
         </div>
-        <div style="padding:8px 22px 22px;max-height:60vh;overflow-y:auto">
+        <div style="padding:16px 24px 8px">
+          <div style="position:relative">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;left:11px;top:50%;transform:translateY(-50%)"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+            <input value=${lexSearch.value} onInput=${e => lexSearch.value = e.target.value} placeholder="Search Pahari, meaning, or avoided words…" style="width:100%;background:#fff;border:1px solid var(--border-input);border-radius:var(--radius);padding:9px 12px 9px 34px;font-size:13px;outline:none"/>
+          </div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--text-muted);margin-top:8px">${entries.length} of ${all.length} entries</div>
+        </div>
+        <div style="padding:0 22px 22px;max-height:56vh;overflow-y:auto">
           <table style="width:100%;border-collapse:collapse;font-size:13px">
-            <thead>
-              <tr>
-                <th style="text-align:left;padding:9px 8px;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-soft);border-bottom:1px solid var(--border)">Pahari</th>
-                <th style="text-align:left;padding:9px 8px;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-soft);border-bottom:1px solid var(--border)">Meaning</th>
-                <th style="text-align:left;padding:9px 8px;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-soft);border-bottom:1px solid var(--border)">Avoid</th>
-                <th style="width:40px;border-bottom:1px solid var(--border)"></th>
-              </tr>
-            </thead>
+            <thead><tr>${th('Pahari')}${th('Meaning')}${th('Avoid')}${th('', 'width:40px')}</tr></thead>
             <tbody>
               ${entries.map(e => html`
                 <tr>
-                  <td style="padding:8px;border-bottom:1px solid #f0e9db;vertical-align:top"><span style="font-family:var(--mono);font-weight:600;color:#26211a">${e.pahari}</span>${e.isUser ? html`<span style="margin-left:6px;font-size:9px;background:#f6e3db;color:var(--accent);padding:1px 5px;border-radius:4px;font-weight:600">user</span>` : ''}</td>
-                  <td style="padding:8px;border-bottom:1px solid #f0e9db;vertical-align:top;color:#5e5344">${e.gloss}</td>
-                  <td style="padding:8px;border-bottom:1px solid #f0e9db;vertical-align:top;color:var(--text-dim);font-family:var(--mono);font-size:11.5px">${e.avoid}</td>
-                  <td style="padding:8px;border-bottom:1px solid #f0e9db;vertical-align:top;text-align:right">${e.isUser ? html`<button onClick=${e.onDelete} style="border:none;background:none;color:#c7bca6;cursor:pointer;font-size:13px">\u2715</button>` : ''}</td>
+                  <td style="padding:9px 8px;border-bottom:1px solid #f0e9db;vertical-align:top"><span style="font-family:var(--mono);font-weight:600;color:var(--ink)">${e.pahari}</span>${e.isUser ? html`<span style="margin-left:6px;font-size:9px;background:var(--accent-soft);color:var(--accent);padding:1px 5px;border-radius:4px;font-weight:600">user</span>` : ''}</td>
+                  <td style="padding:9px 8px;border-bottom:1px solid #f0e9db;vertical-align:top;color:#5e5344">${e.gloss}</td>
+                  <td style="padding:9px 8px;border-bottom:1px solid #f0e9db;vertical-align:top;color:var(--text-dim);font-family:var(--mono);font-size:11.5px">${e.avoid}</td>
+                  <td style="padding:9px 8px;border-bottom:1px solid #f0e9db;vertical-align:top;text-align:right">${e.isUser ? html`<button onClick=${e.onDelete} style="border:none;background:none;color:#c7bca6;cursor:pointer;font-size:13px">✕</button>` : ''}</td>
                 </tr>
               `)}
             </tbody>
@@ -1060,22 +1131,38 @@ function LexiconModal() {
   `;
 }
 
+const STRUCTURAL = /^\[\s*(intro|verse|chorus|pre[-\s]?chorus|bridge|outro|hook|refrain|interlude|coda|ending|end)\b/i;
+function isChorus(text) { return /^\[\s*chorus/i.test(text || ''); }
+
 function LyricsReadMode() {
   if (!songLyrics.value) return null;
   const segs = segmentLyrics(songLyrics.value, scanHits.value);
   const hovered = hoveredHit.value;
+  let section = '';
+  let firstContent = true;
+
   return html`
-    <div style="padding:22px 26px;font-family:var(--mono);font-size:13px;line-height:1.9;color:#33291f;background:linear-gradient(var(--bg-card),var(--bg-card))">
+    <div class="lyrics-sheet">
       ${segs.map(ln => {
-        if (ln.type === 'tag') return html`<div style="display:flex;align-items:center;gap:10px;margin:16px 0 6px"><span style="font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);white-space:nowrap">${ln.text}</span><span style="flex:1;height:1px;background:#e8dfce"></span></div>`;
-        if (ln.type === 'blank') return html`<div style="height:10px"></div>`;
-        return html`<div style="min-height:1.9em">${ln.segments.map(sg => {
+        if (ln.type === 'tag') {
+          if (STRUCTURAL.test(ln.text)) {
+            section = isChorus(ln.text) ? 'chorus' : 'other';
+            const label = ln.text.replace(/^\[|\]$/g, '');
+            return html`<div class="ly-section"><span class="ly-sec-label">${label}</span><span class="ly-sec-rule"></span></div>`;
+          }
+          // performance / vocal direction tag
+          return html`<div class="ly-line"><span class="ly-perf">${ln.text}</span></div>`;
+        }
+        if (ln.type === 'blank') return html`<div class="ly-blank"></div>`;
+        const cls = 'ly-line' + (section === 'chorus' ? ' ly-chorus-line' : '') + (firstContent ? ' first' : '');
+        firstContent = false;
+        return html`<div class="${cls}">${ln.segments.map(sg => {
           if (!sg.hit) return html`<span>${sg.text}</span>`;
           const hi = sg.severity === 'high';
           const on = sg.idx === hovered;
           const uc = hi ? '#c0472a' : '#a9791a';
           const bg = on ? (hi ? '#f0c6b7' : '#ecd6a4') : (hi ? '#f7ddd3' : '#f4e8cc');
-          return html`<mark onMouseEnter=${() => hoveredHit.value = sg.idx} onMouseLeave=${() => hoveredHit.value = null} style="background:${bg};border-bottom:2px solid ${uc};border-radius:3px;padding:0 2px;cursor:pointer;color:#26211a;box-shadow:${on ? '0 0 0 2px ' + uc : 'none'};transition:background .12s,box-shadow .12s">${sg.text}</mark>`;
+          return html`<mark class="ly-hit" onMouseEnter=${() => hoveredHit.value = sg.idx} onMouseLeave=${() => hoveredHit.value = null} style="background:${bg};border-bottom:2px solid ${uc};box-shadow:${on ? '0 0 0 2px ' + uc : 'none'}">${sg.text}</mark>`;
         })}</div>`;
       })}
     </div>
@@ -1086,17 +1173,18 @@ function PipelineCard() {
   const sts = pipelineSteps.value;
   const anyDone = sts.some(s => s.status !== 'idle');
   const anyActive = sts.some(s => s.status === 'active');
-  let label = 'Idle', bg = '#efe9dc', fg = '#a89a84';
-  if (pipelineError.value) { label = 'Failed'; bg = '#f6e0d9'; fg = '#c0472a'; }
-  else if (anyActive) { label = 'Running'; bg = '#f6e3db'; fg = '#c0472a'; }
-  else if (anyDone) { label = 'Complete'; bg = '#e6efdd'; fg = '#4f7a3f'; }
+  let label = 'Idle', bg = '#ece5d6', fg = '#a89a84';
+  if (pipelineError.value) { label = 'Failed'; bg = 'var(--accent-soft)'; fg = 'var(--accent)'; }
+  else if (anyActive) { label = 'Running'; bg = 'var(--accent-soft)'; fg = 'var(--accent)'; }
+  else if (anyDone) { label = 'Complete'; bg = 'var(--success-soft)'; fg = 'var(--success)'; }
   return html`
-    <section style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:18px;min-width:0">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-        <h2 style="font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#26211a">Generation pipeline</h2>
-        <span style="font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;font-weight:600;padding:3px 9px;border-radius:20px;background:${bg};color:${fg}">${label}</span>
+    <section class="card">
+      <div class="card-header" style="margin-bottom:4px">
+        <h2 class="panel-title">Pipeline</h2>
+        <span class="badge" style="background:${bg};color:${fg}">${label}</span>
       </div>
-      ${!anyDone && !anyActive && !pipelineError.value ? html`<p style="font-size:11.5px;color:#b0a48f;line-height:1.5">Five stages run in sequence. Each reports its own result \u2014 nothing hides behind a spinner.</p>` : html`<${StageList} />`}
+      <p style="font-size:11px;color:var(--text-dim);line-height:1.45;margin-bottom:12px">Five stages run in sequence — each reports its own result.</p>
+      <${StageList} />
       <${ErrorBanner} />
     </section>
   `;
@@ -1112,49 +1200,53 @@ function SettingsModal() {
     obj[keys[keys.length - 1]] = value;
     settings.value = newS;
   };
-  const slot = (name, label) => html`
-    <div class="card" style="border:1px solid var(--border-light);border-radius:10px;padding:15px 16px;background:var(--bg-soft)">
-      <div style="font-size:12px;font-weight:700;color:#26211a;margin-bottom:11px">${label}</div>
-      <div style="display:flex;flex-direction:column;gap:10px">
-        <div><div style="font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-soft);margin-bottom:4px">Base URL</div><input value=${s[name].baseUrl} onInput=${e => setNested(name + '.baseUrl', e.target.value)} style="width:100%;background:#fff;border:1px solid var(--border-input);border-radius:7px;padding:7px 10px;font-size:12.5px;font-family:var(--mono);outline:none"/></div>
-        <div><div style="font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-soft);margin-bottom:4px">API key</div><input type="password" value=${s[name].apiKey} onInput=${e => setNested(name + '.apiKey', e.target.value)} placeholder="sk-\u2026" style="width:100%;background:#fff;border:1px solid var(--border-input);border-radius:7px;padding:7px 10px;font-size:12.5px;font-family:var(--mono);outline:none"/></div>
+  const field = (label, node) => html`<div><div style="font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-soft);margin-bottom:5px">${label}</div>${node}</div>`;
+  const slot = (name, label, sub) => html`
+    <div class="card" style="padding:16px 17px;background:var(--bg-soft);box-shadow:none">
+      <div style="margin-bottom:12px">
+        <div style="font-size:12.5px;font-weight:700;color:var(--ink)">${label}</div>
+        <div style="font-size:11px;color:var(--text-dim);margin-top:1px">${sub}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:11px">
+        ${field('Base URL', html`<input value=${s[name].baseUrl} onInput=${e => setNested(name + '.baseUrl', e.target.value)} style="width:100%;background:#fff;border:1px solid var(--border-input);border-radius:var(--radius-sm);padding:8px 11px;font-size:12.5px;font-family:var(--mono);outline:none"/>`)}
+        ${field('API key', html`<input type="password" value=${s[name].apiKey} onInput=${e => setNested(name + '.apiKey', e.target.value)} placeholder="sk-…" style="width:100%;background:#fff;border:1px solid var(--border-input);border-radius:var(--radius-sm);padding:8px 11px;font-size:12.5px;font-family:var(--mono);outline:none"/>`)}
         <div style="display:flex;gap:10px">
-          <div style="flex:2"><div style="font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-soft);margin-bottom:4px">Model</div><input value=${s[name].model} onInput=${e => setNested(name + '.model', e.target.value)} placeholder="deepseek-v4-flash" style="width:100%;background:#fff;border:1px solid var(--border-input);border-radius:7px;padding:7px 10px;font-size:12.5px;font-family:var(--mono);outline:none"/></div>
-          <div style="flex:1"><div style="font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-soft);margin-bottom:4px">Temp</div><input type="number" step="0.05" min="0" max="2" value=${s[name].temperature} onInput=${e => setNested(name + '.temperature', parseFloat(e.target.value) || 0.85)} style="width:100%;background:#fff;border:1px solid var(--border-input);border-radius:7px;padding:7px 10px;font-size:12.5px;font-family:var(--mono);outline:none"/></div>
-          <div style="flex:1"><div style="font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-soft);margin-bottom:4px">Max tok</div><input type="number" step="100" min="100" max="16000" value=${s[name].maxTokens} onInput=${e => setNested(name + '.maxTokens', parseInt(e.target.value) || 4000)} style="width:100%;background:#fff;border:1px solid var(--border-input);border-radius:7px;padding:7px 10px;font-size:12.5px;font-family:var(--mono);outline:none"/></div>
+          <div style="flex:2">${field('Model', html`<input value=${s[name].model} onInput=${e => setNested(name + '.model', e.target.value)} placeholder="deepseek-v4-flash" style="width:100%;background:#fff;border:1px solid var(--border-input);border-radius:var(--radius-sm);padding:8px 11px;font-size:12.5px;font-family:var(--mono);outline:none"/>`)}</div>
+          <div style="flex:1">${field('Temp', html`<input type="number" step="0.05" min="0" max="2" value=${s[name].temperature} onInput=${e => setNested(name + '.temperature', parseFloat(e.target.value) || 0.85)} style="width:100%;background:#fff;border:1px solid var(--border-input);border-radius:var(--radius-sm);padding:8px 11px;font-size:12.5px;font-family:var(--mono);outline:none"/>`)}</div>
+          <div style="flex:1">${field('Max tok', html`<input type="number" step="100" min="100" max="65536" value=${s[name].maxTokens} onInput=${e => setNested(name + '.maxTokens', parseInt(e.target.value) || 16384)} style="width:100%;background:#fff;border:1px solid var(--border-input);border-radius:var(--radius-sm);padding:8px 11px;font-size:12.5px;font-family:var(--mono);outline:none"/>`)}</div>
         </div>
       </div>
     </div>
   `;
   return html`
-    <div onClick=${e => { if (e.target === e.currentTarget) showSettings.value = false; }} style="position:fixed;inset:0;background:rgba(38,33,26,0.42);backdrop-filter:blur(2px);display:flex;align-items:flex-start;justify-content:center;padding:52px 20px;z-index:100;overflow-y:auto">
-      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;width:100%;max-width:540px;box-shadow:0 24px 60px rgba(38,33,26,0.22)">
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:20px 22px;border-bottom:1px solid var(--border-light)">
+    <div class="modal" onClick=${e => { if (e.target === e.currentTarget) showSettings.value = false; }}>
+      <div class="modal-box" style="max-width:540px">
+        <div class="modal-head">
           <div>
-            <h2 style="font-size:16px;font-weight:700;color:#26211a">Settings</h2>
+            <h2 style="font-size:16px;font-weight:700;color:var(--ink)">Settings</h2>
             <p style="font-size:11px;color:var(--text-dim);margin-top:2px">LLM endpoints for composer and critic</p>
           </div>
-          <button onClick=${() => showSettings.value = false} style="width:30px;height:30px;border:1px solid var(--border-input);background:#fff;border-radius:7px;cursor:pointer;color:#6b6152;font-size:14px">\u2715</button>
+          <button class="icon-btn" style="width:30px;height:30px" onClick=${() => showSettings.value = false}>✕</button>
         </div>
-        <div style="padding:20px 22px;display:flex;flex-direction:column;gap:16px">
-          <div style="background:#f8e5df;border:1px solid #eec6ba;border-radius:8px;padding:10px 12px;font-size:11.5px;color:#8a5648;line-height:1.5">API keys are stored in this browser's localStorage in plaintext. Don't use a shared device.</div>
-          <label style="display:flex;align-items:center;gap:9px;font-size:13px;color:#3a3128;cursor:pointer">
-            <input type="checkbox" checked=${s.criticEnabled} onChange=${e => setNested('criticEnabled', e.target.checked)} style="width:16px;height:16px;accent-color:#c0472a"/>
+        <div style="padding:20px 24px;display:flex;flex-direction:column;gap:16px">
+          <div style="background:var(--accent-tint);border:1px solid #eec6ba;border-radius:var(--radius);padding:10px 13px;font-size:11.5px;color:#8a5648;line-height:1.5">API keys are stored in this browser's localStorage in plaintext. Don't use a shared device.</div>
+          <label style="display:flex;align-items:center;gap:10px;font-size:13px;color:#3a3128;cursor:pointer">
+            <input type="checkbox" checked=${s.criticEnabled} onChange=${e => setNested('criticEnabled', e.target.checked)} style="width:16px;height:16px;accent-color:var(--accent)"/>
             Run the LLM critic pass after generation
           </label>
-          <div style="border:1px solid var(--border-light);border-radius:10px;padding:12px 14px;background:var(--bg-soft)">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+          <div style="border:1px solid var(--border-light);border-radius:var(--radius);padding:13px 15px;background:var(--bg-soft)">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:7px">
               <div style="font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-soft)">CORS Proxy</div>
               <span style="font-size:10px;color:var(--text-muted)">optional</span>
             </div>
-            <input value=${s.corsProxy} onInput=${e => setNested('corsProxy', e.target.value)} placeholder="https://your-proxy.com/?" style="width:100%;background:#fff;border:1px solid var(--border-input);border-radius:7px;padding:7px 10px;font-size:12.5px;font-family:var(--mono);outline:none"/>
-            <p style="font-size:10.5px;color:var(--text-dim);margin-top:5px;line-height:1.45">Needed from <code style="background:#efebde;padding:1px 4px;border-radius:4px;font-size:10px">file://</code> where CORS blocks fetch. ⚠ Only use a proxy you control — it sees your API key.</p>
+            <input value=${s.corsProxy} onInput=${e => setNested('corsProxy', e.target.value)} placeholder="https://your-proxy.com/?" style="width:100%;background:#fff;border:1px solid var(--border-input);border-radius:var(--radius-sm);padding:8px 11px;font-size:12.5px;font-family:var(--mono);outline:none"/>
+            <p style="font-size:10.5px;color:var(--text-dim);margin-top:6px;line-height:1.45">Needed from <code style="background:#efebde;padding:1px 4px;border-radius:4px;font-size:10px">file://</code> where CORS blocks fetch. ⚠ Only use a proxy you control — it sees your API key.</p>
           </div>
-          ${slot('composer', 'Composer slot \u00b7 writes the song')}
-          ${slot('critic', 'Critic slot \u00b7 verifies dialect')}
+          ${slot('composer', 'Composer Slot', 'Writes the song')}
+          ${slot('critic', 'Critic Slot', 'Verifies dialect')}
           <div style="display:flex;gap:10px;padding-top:2px">
-            <button onClick=${() => showSettings.value = false} style="flex:1;background:var(--accent);color:#fff;border:none;border-radius:8px;padding:10px;font-size:13px;font-weight:600;cursor:pointer">Done</button>
-            <button onClick=${() => { if (confirm('Reset settings to defaults?')) settings.value = JSON.parse(JSON.stringify(DEFAULT_SETTINGS)); }} style="background:#fff;color:#6b6152;border:1px solid var(--border-input);border-radius:8px;padding:10px 16px;font-size:13px;cursor:pointer">Reset</button>
+            <button class="btn btn-primary" style="flex:1;padding:11px" onClick=${() => showSettings.value = false}>Done</button>
+            <button class="btn btn-secondary" style="padding:11px 18px" onClick=${() => { if (confirm('Reset settings to defaults?')) settings.value = JSON.parse(JSON.stringify(DEFAULT_SETTINGS)); }}>Reset</button>
           </div>
         </div>
       </div>
@@ -1165,12 +1257,14 @@ function SettingsModal() {
 function SongCard() {
   const hasSong = songTitle.value || songLyrics.value || songStyle.value;
   if (!hasSong) return html`
-    <section style="grid-area:song;min-width:0">
-      <div style="background:var(--bg-card);border:1px dashed #ddd3c0;border-radius:12px;padding:56px 32px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px;min-height:360px">
-        <svg width="72" height="46" viewBox="0 0 72 46" fill="none"><path d="M2 44 L24 12 L38 32 L50 6 L70 44 Z" fill="#efe7d7" stroke="#d8cebb" stroke-width="1.5" stroke-linejoin="round"/><circle cx="50" cy="6" r="3" fill="#c0472a"/></svg>
+    <section style="min-width:0">
+      <div style="background:var(--bg-card);border:1px dashed var(--border-strong);border-radius:var(--radius-xl);padding:72px 40px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:20px;min-height:440px;box-shadow:var(--shadow-card)">
+        <div style="width:76px;height:76px;border-radius:50%;background:var(--accent-tint);display:flex;align-items:center;justify-content:center">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+        </div>
         <div>
-          <h3 style="font-size:19px;font-weight:600;color:#26211a;letter-spacing:-.01em">Compose a Pahari folk song</h3>
-          <p style="font-size:13.5px;color:var(--text-dim);margin-top:6px;max-width:340px">Set a topic on the left and generate. Lyrics arrive in Mahasuvi Pahari, checked line-by-line for dialect drift.</p>
+          <h3 style="font-family:var(--serif);font-size:24px;font-weight:600;color:var(--ink);letter-spacing:-.01em">Compose a Pahari folk song</h3>
+          <p style="font-size:14px;color:var(--text-dim);margin-top:8px;max-width:380px;line-height:1.55">Set a topic on the left and generate. Lyrics arrive in Mahasuvi Pahari, checked line-by-line for dialect drift.</p>
         </div>
       </div>
     </section>
@@ -1183,43 +1277,43 @@ function SongCard() {
   const scCls = styleLen > 1000 ? 'over' : styleLen > 900 ? 'warn' : 'ok';
   const lcCls = lyricsLen > 5000 ? 'over' : lyricsLen > 4500 ? 'warn' : 'ok';
   return html`
-    <section style="grid-area:song;min-width:0;display:flex;flex-direction:column;gap:16px">
-      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:20px 22px">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:14px">
+    <section class="bb-fade" style="min-width:0;display:flex;flex-direction:column;gap:18px">
+      <div class="card" style="padding:24px 26px">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
           <div style="min-width:0;flex:1">
-            <div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px">Title</div>
-            <h1 style="font-size:29px;font-weight:700;letter-spacing:-.02em;color:#26211a;line-height:1.15;word-break:break-word">${songTitle.value}</h1>
+            <div class="eyebrow" style="margin-bottom:8px">Title</div>
+            <h1 style="font-family:var(--serif);font-size:33px;font-weight:600;letter-spacing:-.015em;color:var(--ink);line-height:1.14;word-break:break-word">${songTitle.value}</h1>
           </div>
-          <button onClick=${() => copy('title', songTitle.value)} style="flex-shrink:0;font-family:var(--mono);font-size:11px;padding:5px 10px;border:1px solid var(--border-input);background:#fff;border-radius:7px;cursor:pointer;color:#6b6152">${copyFeedback.value.title ? 'copied' : 'copy'}</button>
+          <button class="chip-btn" onClick=${() => copy('title', songTitle.value)}>${copyFeedback.value.title ? 'copied' : 'copy'}</button>
         </div>
-        <div style="margin-top:18px;padding-top:16px;border-top:1px solid var(--border-light)">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:7px">
-            <div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted)">Style prompt</div>
+        <div style="margin-top:20px;padding-top:18px;border-top:1px solid var(--border-light)">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+            <div class="eyebrow">Style prompt</div>
             <div style="display:flex;align-items:center;gap:10px">
               <span class="char-count ${scCls}">${styleLen} / 1000</span>
-              <button onClick=${() => copy('style', songStyle.value)} style="flex-shrink:0;font-family:var(--mono);font-size:11px;padding:5px 10px;border:1px solid var(--border-input);background:#fff;border-radius:7px;cursor:pointer;color:#6b6152">${copyFeedback.value.style ? 'copied' : 'copy'}</button>
+              <button class="chip-btn" onClick=${() => copy('style', songStyle.value)}>${copyFeedback.value.style ? 'copied' : 'copy'}</button>
             </div>
           </div>
-          <textarea value=${songStyle} onInput=${e => songStyle.value = e.target.value} style="width:100%;min-height:64px;resize:vertical;font-family:var(--mono);font-size:12.5px;line-height:1.6;background:var(--bg-soft);border:1px solid var(--border-light);border-radius:8px;padding:11px 13px;outline:none;color:#3a3128"></textarea>
+          <textarea value=${songStyle.value} onInput=${e => songStyle.value = e.target.value} style="width:100%;min-height:66px;resize:vertical;font-family:var(--mono);font-size:12.5px;line-height:1.6;background:var(--bg-soft);border:1px solid var(--border-light);border-radius:var(--radius);padding:12px 14px;outline:none;color:#3a3128"></textarea>
         </div>
       </div>
 
-      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;overflow:hidden">
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 20px;border-bottom:1px solid var(--border-light)">
+      <div class="card" style="padding:0;overflow:hidden">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 22px;border-bottom:1px solid var(--border-light)">
           <div style="display:flex;align-items:center;gap:12px">
-            <div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted)">Lyrics</div>
+            <div class="eyebrow">Lyrics</div>
             <span class="char-count ${lcCls}">${lyricsLen} / 5000</span>
           </div>
           <div style="display:flex;align-items:center;gap:8px">
-            <div style="display:flex;background:#efe9dc;border:1px solid var(--border-input);border-radius:7px;padding:2px">
-              <button onClick=${() => editMode.value = false} style="padding:5px 12px;border:none;border-radius:6px;background:${!editMode.value ? '#fff' : 'transparent'};color:${!editMode.value ? '#26211a' : '#8a7d68'};font-size:12px;font-weight:${!editMode.value ? '600' : '500'};cursor:pointer;box-shadow:${!editMode.value ? '0 1px 2px rgba(38,33,26,0.08)' : 'none'}">Read</button>
-              <button onClick=${() => editMode.value = true} style="padding:5px 12px;border:none;border-radius:6px;background:${editMode.value ? '#fff' : 'transparent'};color:${editMode.value ? '#26211a' : '#8a7d68'};font-size:12px;font-weight:${editMode.value ? '600' : '500'};cursor:pointer;box-shadow:${editMode.value ? '0 1px 2px rgba(38,33,26,0.08)' : 'none'}">Edit</button>
+            <div class="seg">
+              <button class=${!editMode.value ? 'on' : ''} onClick=${() => editMode.value = false}>Read</button>
+              <button class=${editMode.value ? 'on' : ''} onClick=${() => editMode.value = true}>Edit</button>
             </div>
-            <button onClick=${() => copy('lyrics', songLyrics.value)} style="font-family:var(--mono);font-size:11px;padding:5px 10px;border:1px solid var(--border-input);background:#fff;border-radius:7px;cursor:pointer;color:#6b6152">${copyFeedback.value.lyrics ? 'copied' : 'copy'}</button>
+            <button class="chip-btn" onClick=${() => copy('lyrics', songLyrics.value)}>${copyFeedback.value.lyrics ? 'copied' : 'copy'}</button>
           </div>
         </div>
         ${editMode.value ? html`
-          <textarea value=${songLyrics} onInput=${e => { songLyrics.value = e.target.value; scheduleScan(e.target.value); }} spellcheck="false" style="width:100%;min-height:420px;resize:vertical;border:none;outline:none;background:var(--bg-soft);font-family:var(--mono);font-size:13px;line-height:1.85;padding:20px 24px;color:#3a3128"></textarea>
+          <textarea value=${songLyrics.value} onInput=${e => { songLyrics.value = e.target.value; scheduleScan(e.target.value); }} spellcheck="false" style="width:100%;min-height:440px;resize:vertical;border:none;outline:none;background:var(--bg-soft);font-family:var(--mono);font-size:13px;line-height:1.85;padding:22px 26px;color:#3a3128"></textarea>
         ` : html`<${LyricsReadMode} />`}
       </div>
 
@@ -1231,27 +1325,36 @@ function SongCard() {
 function StageList() {
   const sts = pipelineSteps.value;
   const pal = (status) => {
-    const m = { idle: { dot: '#ece4d3', ic: '#b0a48f', label: '#a89a84' }, active: { dot: '#c0472a', ic: '#fff', label: '#26211a' }, done: { dot: '#4f7a3f', ic: '#fff', label: '#26211a' }, failed: { dot: '#c0472a', ic: '#fff', label: '#c0472a' }, skipped: { dot: '#e4ddcd', ic: '#b0a48f', label: '#b0a48f' } };
+    const m = {
+      idle:    { dot: '#ece4d3', ring: 'transparent', ic: '#b0a48f', label: '#a89a84', sub: '#c0b39c' },
+      active:  { dot: 'var(--accent)', ring: 'var(--accent-soft)', ic: '#fff', label: 'var(--ink)', sub: 'var(--accent)' },
+      done:    { dot: 'var(--success)', ring: 'transparent', ic: '#fff', label: 'var(--ink)', sub: '#8a9a78' },
+      failed:  { dot: 'var(--accent)', ring: 'transparent', ic: '#fff', label: 'var(--accent)', sub: 'var(--accent)' },
+      skipped: { dot: '#e4ddcd', ring: 'transparent', ic: '#b0a48f', label: '#b0a48f', sub: '#c0b39c' },
+    };
     return m[status] || m.idle;
   };
-  const iconC = (stg, i) => stg.status === 'done' ? '✓' : stg.status === 'failed' ? '!' : stg.status === 'skipped' ? '–' : stg.status === 'active' ? '' : String(i + 1);
+  const iconC = (stg, i) => stg.status === 'done' ? '✓' : stg.status === 'failed' ? '!' : stg.status === 'skipped' ? '–' : String(i + 1);
   return html`
-    <div style="display:flex;flex-direction:column;flex-wrap:nowrap;gap:2px;align-items:stretch">
+    <div style="display:flex;flex-direction:column">
       ${STAGES.map((d, i) => {
         const stg = sts.find(s => s.name === d.key) || { status: 'idle', message: '' };
         const p = pal(stg.status);
         const sub = stg.message || d.blurb;
+        const last = i === STAGES.length - 1;
         return html`
-          <div style="display:flex;align-items:flex-start;flex-direction:column">
-            ${i > 0 ? html`<div style="width:2px;height:14px;background:#e2d9c7;margin-left:15px"></div>` : ''}
-            <div style="display:flex;align-items:center;gap:10px;padding:5px 6px">
-              <div style="flex-shrink:0;width:26px;height:26px;border-radius:50%;background:${p.dot};display:flex;align-items:center;justify-content:center;animation:${stg.status === 'active' ? 'bbpulse 1.3s ease-in-out infinite' : 'none'}">
-                ${stg.status === 'active' ? html`<div style="display:block;width:11px;height:11px;border:2px solid rgba(255,255,255,0.45);border-top-color:#fff;border-radius:50%;animation:bbspin .7s linear infinite"></div>` : html`<span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:${p.ic}">${iconC(stg, i)}</span>`}
+          <div style="display:flex;align-items:stretch;gap:12px">
+            <div style="display:flex;flex-direction:column;align-items:center">
+              <div style="flex-shrink:0;width:26px;height:26px;border-radius:50%;background:${p.dot};box-shadow:0 0 0 4px ${p.ring};display:flex;align-items:center;justify-content:center;transition:background .2s;animation:${stg.status === 'active' ? 'bbpulse 1.3s ease-in-out infinite' : 'none'}">
+                ${stg.status === 'active'
+                  ? html`<div style="width:11px;height:11px;border:2px solid rgba(255,255,255,0.45);border-top-color:#fff;border-radius:50%;animation:bbspin .7s linear infinite"></div>`
+                  : html`<span style="font-family:var(--mono);font-size:12px;font-weight:600;color:${p.ic}">${iconC(stg, i)}</span>`}
               </div>
-              <div style="min-width:0">
-                <div style="font-size:12.5px;font-weight:600;color:${p.label};line-height:1.2">${d.label}</div>
-                <div style="font-size:10.5px;color:#b0a48f;line-height:1.35">${sub}</div>
-              </div>
+              ${!last ? html`<div style="width:2px;flex:1;min-height:12px;background:#e5dcca;margin:3px 0"></div>` : ''}
+            </div>
+            <div style="min-width:0;padding-bottom:${last ? '0' : '11px'};padding-top:2px">
+              <div style="font-size:12.5px;font-weight:600;color:${p.label};line-height:1.2">${d.label}</div>
+              <div style="font-size:11px;color:${p.sub};line-height:1.4;margin-top:1px">${sub}</div>
             </div>
           </div>
         `;
@@ -1260,7 +1363,6 @@ function StageList() {
   `;
 }
 
-
 if (typeof window !== 'undefined') {
   window.__testSetSong = (title, lyrics, style) => {
     songTitle.value = title; songLyrics.value = lyrics; songStyle.value = style;
@@ -1268,7 +1370,6 @@ if (typeof window !== 'undefined') {
 }
 
 render(html`<${App} />`, document.getElementById('app'));
-
 </script>
 </body>
 </html>

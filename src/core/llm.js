@@ -1,11 +1,11 @@
 export async function llmCall(cfg, slot, systemPrompt, userPrompt, { expectJson = true } = {}) {
-  const isComposer = slot === 'composer'; const timeoutMs = isComposer ? 90000 : 60000;
+  const timeoutMs = 180000;
   if (!cfg || !cfg.apiKey) return { ok: false, errorKind: 'auth', message: 'No API key configured for ' + slot + ' — set it in Settings.' };
   if (!cfg.baseUrl) return { ok: false, errorKind: 'auth', message: 'No base URL configured for ' + slot + ' — set it in Settings.' };
   const baseUrl = cfg.baseUrl.replace(/\/+$/, '');
   let url = baseUrl + '/chat/completions';
   if (cfg.corsProxy) { url = cfg.corsProxy + encodeURIComponent(url); }
-  const body = { model: cfg.model || 'deepseek-v4-flash', messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: userPrompt }], temperature: cfg.temperature ?? (isComposer ? 0.85 : 0.2), max_tokens: cfg.maxTokens ?? (isComposer ? 4000 : 2000) };
+  const body = { model: cfg.model || 'deepseek-v4-flash', messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: userPrompt }], temperature: cfg.temperature ?? (isComposer ? 0.85 : 0.2), max_tokens: cfg.maxTokens ?? 16384 };
   if (expectJson) body.response_format = { type: 'json_object' };
   const controller = new AbortController(); const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
