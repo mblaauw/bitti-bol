@@ -22,14 +22,14 @@ export const showLexicon = signal(false);
 export const showExportImport = signal(false);
 export const history = signal(initialHistory);
 export const copyFeedback = signal({ title: false, style: false, lyrics: false });
-export const editMode = signal(false);
+export const editMode = signal(_storage.editMode ?? false);
 export const hoveredHit = signal(null);
 export const audioGen = signal({ status: 'idle', taskId: null, tracks: [], error: null, generations: [], activeGen: -1 });
 export const showSunoConfirm = signal(false);
 export const pendingSunoArgs = signal(null);
 export const selectedHistoryId = signal(null);
 
-effect(() => { _storage.settings = settings.value; _storage.history = history.value; _storage.userLexicon = userLexiconSig.value; saveStorage(); });
+effect(() => { _storage.settings = settings.value; _storage.history = history.value; _storage.userLexicon = userLexiconSig.value; _storage.editMode = editMode.value; saveStorage(); });
 
 let scanTimer = null;
 export function scheduleScan(text) {
@@ -217,7 +217,7 @@ ${issues.join('\n')}
 ${PROMPT_FRAGMENTS.outputContract}`;
 
     const rr = await llmCall(withProxy(settings.value.composer), 'composer',
-      PROMPT_FRAGMENTS.iterativeImprovement + '\n' + PROMPT_FRAGMENTS.dialectRequirement, rp);
+      PROMPT_FRAGMENTS.dialectRequirement, rp);
     if (rr.ok && rr.data && rr.data.lyrics && rr.data.lyrics.length) {
       finalLyrics = rr.data.lyrics;
       iterations = 1;

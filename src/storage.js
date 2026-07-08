@@ -23,7 +23,7 @@ function migrateV1History() {
   } catch { return []; }
 }
 
-export let _storage = { schemaVersion: 2, settings: JSON.parse(JSON.stringify(DEFAULT_SETTINGS)), userLexicon: [] };
+export let _storage = { schemaVersion: 2, settings: JSON.parse(JSON.stringify(DEFAULT_SETTINGS)), userLexicon: [], editMode: false };
 let _v2localHistory = [];
 try {
   const raw = localStorage.getItem(STORAGE_KEY);

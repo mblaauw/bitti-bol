@@ -56,5 +56,5 @@ ${fragments.outputContract}`];
     userLines.push('\n\nUSER LEXICON (preferred terms):\n' + userLexicon.map(e => e.pahari + ' = ' + e.gloss_en).join('\n'));
   }
 
-  return { system: 'You are a master Himachali Pahari folk songwriter.', user: userLines.join('\n') };
+  return { system: 'You are a helpful assistant.', user: userLines.join('\n') };
 }
