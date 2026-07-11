@@ -158,299 +158,868 @@ const html = htm.bind(h);
 
 
 const LEXICON = [
-  { pahari: 'dandru', gloss_en: 'teeth (diminutive -ru)', avoid: ['daant'], tags: ['body'], notes: 'Chitte dandru = white teeth, a beauty trope' },
-  { pahari: 'akhyun', gloss_en: 'eyes (plural)', avoid: ['aankhen'], tags: ['body'] },
-  { pahari: 'nain', gloss_en: 'eyes (poetic)', avoid: [], tags: ['body'], notes: 'Used in romantic/poetic contexts' },
-  { pahari: 'mukharu', gloss_en: 'face (diminutive)', avoid: ['chehra', 'muh'], tags: ['body'] },
-  { pahari: 'gallu', gloss_en: 'cheek (diminutive)', avoid: ['gaal'], tags: ['body'] },
-  { pahari: 'naak', gloss_en: 'nose', avoid: [], tags: ['body'] },
-  { pahari: 'kaan', gloss_en: 'ear', avoid: [], tags: ['body'] },
-  { pahari: 'haath', gloss_en: 'hand', avoid: [], tags: ['body'] },
-  { pahari: 'pair', gloss_en: 'foot / feet', avoid: ['paon', 'per'], tags: ['body'] },
-  { pahari: 'baal', gloss_en: 'hair', avoid: [], tags: ['body'] },
-  { pahari: 'sheeshu', gloss_en: 'head', avoid: ['sir'], tags: ['body'] },
-  { pahari: 'goru', gloss_en: 'fair / light-skinned (diminutive)', avoid: ['gora'], tags: ['beauty'], notes: 'Fair complexion trope in folk songs' },
-  { pahari: 'kaalu', gloss_en: 'dark / dusky (diminutive)', avoid: ['kala'], tags: ['beauty'] },
-  { pahari: 'bitti', gloss_en: 'girl / daughter', avoid: ['larki', 'beti'], tags: ['people'] },
-  { pahari: 'bittu', gloss_en: 'boy / son', avoid: ['larka', 'beta'], tags: ['people'] },
-  { pahari: 'baabu', gloss_en: 'father', avoid: ['pita', 'papa'], tags: ['kinship'] },
-  { pahari: 'aama', gloss_en: 'mother', avoid: ['mata', 'maa'], tags: ['kinship'] },
-  { pahari: 'bhailu', gloss_en: 'brother', avoid: ['bhai'], tags: ['kinship'] },
-  { pahari: 'bhabhi', gloss_en: 'brother\'s wife', avoid: [], tags: ['kinship'] },
-  { pahari: 'baani', gloss_en: 'sister', avoid: ['behen'], tags: ['kinship'] },
-  { pahari: 'mausi', gloss_en: 'mother\'s sister', avoid: [], tags: ['kinship'] },
-  { pahari: 'chaachu', gloss_en: 'father\'s younger brother', avoid: [], tags: ['kinship'] },
-  { pahari: 'taau', gloss_en: 'father\'s elder brother', avoid: [], tags: ['kinship'] },
-  { pahari: 'bua', gloss_en: 'father\'s sister', avoid: [], tags: ['kinship'] },
-  { pahari: 'dadi', gloss_en: 'paternal grandmother', avoid: [], tags: ['kinship'] },
-  { pahari: 'naani', gloss_en: 'maternal grandmother', avoid: [], tags: ['kinship'] },
-  { pahari: 'jwaai', gloss_en: 'son-in-law', avoid: [], tags: ['kinship'] },
-  { pahari: 'bauri', gloss_en: 'bride / newlywed woman', avoid: ['dulhan'], tags: ['people'] },
-  { pahari: 'lendu', gloss_en: 'groom', avoid: ['dulha'], tags: ['people'] },
-  { pahari: 'saagi', gloss_en: 'friend (female)', avoid: ['saheli'], tags: ['people'] },
-  { pahari: 'yaar', gloss_en: 'friend (male)', avoid: ['dost'], tags: ['people'] },
-  { pahari: 'log', gloss_en: 'people / folk', avoid: [], tags: ['people'] },
-  { pahari: 'jaat', gloss_en: 'caste / kind / type', avoid: [], tags: ['people'] },
-  { pahari: 'kundu', gloss_en: 'where', avoid: ['kahan'], tags: ['grammar'] },
-  { pahari: 'kuthu', gloss_en: 'where (variant)', avoid: ['kidhar'], tags: ['grammar'] },
-  { pahari: 'minjo', gloss_en: 'to me', avoid: ['mainu', 'mujhe'], tags: ['grammar'] },
-  { pahari: 'tinjo', gloss_en: 'to you (singular)', avoid: ['tenu', 'tujhe'], tags: ['grammar'] },
-  { pahari: 'unjo', gloss_en: 'to him/her', avoid: ['ohnu', 'use'], tags: ['grammar'] },
-  { pahari: 'aapdu', gloss_en: 'our / our own', avoid: ['apna'], tags: ['grammar'], notes: 'Reflexive possessive, "aapdu graan" = our village' },
-  { pahari: 'manjh', gloss_en: 'in / inside', avoid: ['ch', 'vich', 'de naal'], tags: ['grammar'], notes: 'Use "manjh" not "ch" or "vich" for "in"' },
-  { pahari: 'ri', gloss_en: 'genitive feminine suffix', avoid: ['di'], tags: ['grammar'], notes: '"ri" not "di" for feminine genitive' },
-  { pahari: 'ra', gloss_en: 'genitive masculine suffix', avoid: ['da'], tags: ['grammar'], notes: '"ra" not "da" for masculine genitive' },
-  { pahari: 're', gloss_en: 'genitive oblique suffix', avoid: ['de'], tags: ['grammar'], notes: '"re" not "de" for oblique genitive' },
-  { pahari: 'jo', gloss_en: 'that / which / who', avoid: ['jo (acceptable)'], tags: ['grammar'] },
-  { pahari: 'ni', gloss_en: 'feminine marker / emphasis particle', avoid: [], tags: ['grammar'], notes: 'As in "lai lo ni" — emphatic feminine particle' },
-  { pahari: 'ta', gloss_en: 'then / so (connective)', avoid: ['to', 'phir'], tags: ['grammar'] },
-  { pahari: 'bhi', gloss_en: 'also / too', avoid: ['vi'], tags: ['grammar'] },
-  { pahari: 'hi', gloss_en: 'only / exactly', avoid: [], tags: ['grammar'] },
-  { pahari: 'ho', gloss_en: 'vocative / exclamation', avoid: ['o', 'are'], tags: ['grammar'], notes: 'Used before names: "Ho bitti..." = Oh girl...' },
-  { pahari: 'ae', gloss_en: 'is (present copula)', avoid: ['hai'], tags: ['grammar'] },
-  { pahari: 'thae', gloss_en: 'was (past copula)', avoid: ['tha'], tags: ['grammar'] },
-  { pahari: 'cha', gloss_en: 'is (emphatic copula)', avoid: [], tags: ['grammar'], notes: 'Shortened from "chha"' },
-  { pahari: 'jaalu', gloss_en: 'when', avoid: ['jadon', 'jab'], tags: ['grammar'] },
-  { pahari: 'taalu', gloss_en: 'then (at that time)', avoid: ['tadon', 'tab'], tags: ['grammar'] },
-  { pahari: 'kinna', gloss_en: 'how much / how many', avoid: ['kitna'], tags: ['grammar'] },
-  { pahari: 'itna', gloss_en: 'this much', avoid: [], tags: ['grammar'] },
-  { pahari: 'jyun', gloss_en: 'like / as / similar to', avoid: ['jaise', 'jiven'], tags: ['grammar'] },
-  { pahari: 'tyun', gloss_en: 'like that / in that manner', avoid: ['taise', 'tiven'], tags: ['grammar'] },
-  { pahari: 'ghughuti', gloss_en: 'a bird (songbird / dove)', avoid: ['chidiya'], tags: ['nature'] },
-  { pahari: 'banjar', gloss_en: 'barren / fallow land', avoid: [], tags: ['nature'] },
-  { pahari: 'bagaich', gloss_en: 'garden', avoid: ['bagh'], tags: ['nature'] },
-  { pahari: 'deodar', gloss_en: 'Himalayan cedar tree', avoid: [], tags: ['nature'] },
-  { pahari: 'pahad', gloss_en: 'mountain', avoid: ['pahad (acceptable)'], tags: ['nature'] },
-  { pahari: 'dhaar', gloss_en: 'mountain ridge / crest', avoid: [], tags: ['nature'] },
-  { pahari: 'jangle', gloss_en: 'forest', avoid: ['jungle (acceptable)'], tags: ['nature'] },
-  { pahari: 'baanu', gloss_en: 'oak tree', avoid: [], tags: ['nature'] },
-  { pahari: 'buransh', gloss_en: 'rhododendron flower', avoid: [], tags: ['nature'], notes: 'State flower, iconic in songs' },
-  { pahari: 'khaalu', gloss_en: 'ravine / deep valley', avoid: [], tags: ['nature'] },
-  { pahari: 'gadera', gloss_en: 'mountain stream', avoid: ['nadi (small)'], tags: ['nature'] },
-  { pahari: 'naun', gloss_en: 'river (large)', avoid: ['nadi'], tags: ['nature'] },
-  { pahari: 'chashma', gloss_en: 'spring / water source', avoid: [], tags: ['nature'] },
-  { pahari: 'ghaas', gloss_en: 'grass', avoid: [], tags: ['nature'] },
-  { pahari: 'phool', gloss_en: 'flower', avoid: [], tags: ['nature'] },
-  { pahari: 'kaante', gloss_en: 'thorns', avoid: [], tags: ['nature'] },
-  { pahari: 'badal', gloss_en: 'cloud', avoid: [], tags: ['nature'] },
-  { pahari: 'barkha', gloss_en: 'rain / monsoon', avoid: ['baarish'], tags: ['nature'] },
-  { pahari: 'baraf', gloss_en: 'snow / ice', avoid: [], tags: ['nature'] },
-  { pahari: 'dhupp', gloss_en: 'sunshine / sunlight', avoid: ['dhoop'], tags: ['nature'] },
-  { pahari: 'chaan', gloss_en: 'shade / shadow', avoid: ['chhaya'], tags: ['nature'] },
-  { pahari: 'hawa', gloss_en: 'wind / breeze', avoid: [], tags: ['nature'] },
-  { pahari: 'aakash', gloss_en: 'sky', avoid: ['asman'], tags: ['nature'] },
-  { pahari: 'taare', gloss_en: 'stars', avoid: ['sitaare'], tags: ['nature'] },
-  { pahari: 'chaand', gloss_en: 'moon', avoid: [], tags: ['nature'] },
-  { pahari: 'suuraj', gloss_en: 'sun', avoid: ['suraj'], tags: ['nature'] },
+  // --- BODY ---
+  { pahari: 'akhi', gloss_en: 'eyes (singular / general)', avoid: ['aankhen'], tags: ['body', 'Kullui', 'Seraji'] },
+  { pahari: 'akhyun', gloss_en: 'eyes (plural)', avoid: ['aankhen'], tags: ['body', 'Sirmauri', 'Mahasuvi'] },
+  { pahari: 'nain', gloss_en: 'eyes (poetic)', avoid: [], tags: ['body', 'Pahari-General'], notes: 'Used in romantic/poetic contexts' },
+  { pahari: 'muh', gloss_en: 'face / mouth', avoid: ['chehra'], tags: ['body', 'Kullui', 'Seraji'] },
+  { pahari: 'mukharu', gloss_en: 'face (diminutive)', avoid: ['chehra', 'muh'], tags: ['body', 'Sirmauri', 'Mahasuvi'] },
+  { pahari: 'gal', gloss_en: 'cheek', avoid: ['gaal'], tags: ['body', 'Kullui', 'Seraji'] },
+  { pahari: 'gallu', gloss_en: 'cheek (diminutive)', avoid: ['gaal'], tags: ['body', 'Sirmauri', 'Mahasuvi'] },
+  { pahari: 'dandru', gloss_en: 'teeth (diminutive -ru)', avoid: ['daant'], tags: ['body', 'Pahari-General'], notes: 'Chitte dandru = white teeth, a beauty trope' },
+  { pahari: 'sir', gloss_en: 'head', avoid: ['sheeshu'], tags: ['body', 'Kullui', 'Seraji'] },
+  { pahari: 'sheeshu', gloss_en: 'head', avoid: ['sir'], tags: ['body', 'Sirmauri'] },
+  { pahari: 'naak', gloss_en: 'nose', avoid: [], tags: ['body', 'Pahari-General'] },
+  { pahari: 'kaan', gloss_en: 'ear', avoid: [], tags: ['body', 'Pahari-General'] },
+  { pahari: 'haath', gloss_en: 'hand', avoid: [], tags: ['body', 'Pahari-General'] },
+  { pahari: 'pair', gloss_en: 'foot / feet', avoid: ['paon', 'per'], tags: ['body', 'Pahari-General'] },
+  { pahari: 'baal', gloss_en: 'hair', avoid: [], tags: ['body', 'Pahari-General'] },
+
+  // --- BEAUTY / ADJ ---
+  { pahari: 'goru', gloss_en: 'fair / light-skinned (diminutive)', avoid: ['gora'], tags: ['beauty', 'Pahari-General'], notes: 'Fair complexion trope in folk songs' },
+  { pahari: 'kaalu', gloss_en: 'dark / dusky (diminutive)', avoid: ['kala'], tags: ['beauty', 'Pahari-General'] },
+  { pahari: 'sohna', gloss_en: 'beautiful / handsome', avoid: ['sundar'], tags: ['adj', 'beauty', 'Kullui', 'Seraji'] },
+  { pahari: 'chittu', gloss_en: 'white / bright white', avoid: ['safed'], tags: ['adj', 'beauty', 'Pahari-General'] },
+  { pahari: 'kaalu2', gloss_en: 'black / dark', avoid: ['kala'], tags: ['adj', 'Pahari-General'] },
+  { pahari: 'laal', gloss_en: 'red', avoid: [], tags: ['adj', 'Pahari-General'] },
+  { pahari: 'pillu', gloss_en: 'yellow (diminutive)', avoid: ['peela'], tags: ['adj', 'Pahari-General'] },
+  { pahari: 'nilu', gloss_en: 'blue (diminutive)', avoid: ['neela'], tags: ['adj', 'Pahari-General'] },
+  { pahari: 'hari', gloss_en: 'green (feminine)', avoid: ['hari (acceptable)'], tags: ['adj', 'Pahari-General'] },
+  { pahari: 'sheeli', gloss_en: 'cold / cool', avoid: ['thandi'], tags: ['adj', 'Kullui', 'Sirmauri'] },
+  { pahari: 'tattu', gloss_en: 'hot (diminutive)', avoid: ['garam'], tags: ['adj', 'Pahari-General'] },
+  { pahari: 'uchcha', gloss_en: 'high / tall', avoid: ['uncha'], tags: ['adj', 'Pahari-General'] },
+  { pahari: 'nichcha', gloss_en: 'low / short', avoid: ['nicha'], tags: ['adj', 'Pahari-General'] },
+  { pahari: 'lammu', gloss_en: 'long', avoid: ['lamba'], tags: ['adj', 'Pahari-General'] },
+  { pahari: 'choddu', gloss_en: 'wide / broad', avoid: ['chauda'], tags: ['adj', 'Pahari-General'] },
+  { pahari: 'patlu', gloss_en: 'thin / slender', avoid: ['patla'], tags: ['adj', 'beauty', 'Pahari-General'] },
+  { pahari: 'motu', gloss_en: 'fat / thick', avoid: ['mota'], tags: ['adj', 'Pahari-General'] },
+  { pahari: 'badhiya', gloss_en: 'good / excellent', avoid: ['achha'], tags: ['adj', 'Pahari-General'] },
+  { pahari: 'bura', gloss_en: 'bad', avoid: [], tags: ['adj', 'Pahari-General'] },
+  { pahari: 'sunna2', gloss_en: 'empty / deserted', avoid: ['suna'], tags: ['adj', 'Pahari-General'] },
+  { pahari: 'gahru', gloss_en: 'deep', avoid: ['gahra'], tags: ['adj', 'Pahari-General'] },
+  { pahari: 'chhichhora', gloss_en: 'shallow / superficial', avoid: [], tags: ['adj', 'Pahari-General'] },
+  { pahari: 'meetha', gloss_en: 'sweet', avoid: [], tags: ['adj', 'Pahari-General'] },
+  { pahari: 'khatta', gloss_en: 'sour / bitter (emotional tone)', avoid: [], tags: ['adj', 'Pahari-General'] },
+  { pahari: 'pyaaru', gloss_en: 'beloved / dear', avoid: ['pyaara'], tags: ['adj', 'Pahari-General'] },
+  { pahari: 'nyaaru', gloss_en: 'unique / separate / distinct', avoid: ['alag', 'nyara'], tags: ['adj', 'Pahari-General'] },
+  { pahari: 'bholu', gloss_en: 'innocent / simple (diminutive)', avoid: ['bhola'], tags: ['adj', 'Pahari-General'] },
+  { pahari: 'juthi', gloss_en: 'false / fake / a lie', avoid: ['jhootha'], tags: ['adj', 'Kullui', 'Seraji'], notes: 'Kullui emphasis: "Juthi bolna" = to lie' },
+
+  // --- PEOPLE / KINSHIP ---
+  { pahari: 'kudi', gloss_en: 'girl / daughter', avoid: ['larki', 'beti', 'bitti'], tags: ['people', 'Kullui', 'Seraji'] },
+  { pahari: 'bitti', gloss_en: 'girl / daughter', avoid: ['larki', 'beti'], tags: ['people', 'Sirmauri', 'Mahasuvi'] },
+  { pahari: 'munda', gloss_en: 'boy / son', avoid: ['larka', 'beta', 'bittu'], tags: ['people', 'Kullui', 'Seraji'] },
+  { pahari: 'bittu', gloss_en: 'boy / son', avoid: ['larka', 'beta'], tags: ['people', 'Sirmauri', 'Mahasuvi'] },
+  { pahari: 'baap', gloss_en: 'father', avoid: ['pita', 'papa', 'baabu'], tags: ['kinship', 'Kullui', 'Seraji'] },
+  { pahari: 'baabu', gloss_en: 'father', avoid: ['pita', 'papa'], tags: ['kinship', 'Sirmauri', 'Mahasuvi'] },
+  { pahari: 'amma', gloss_en: 'mother', avoid: ['mata', 'maa', 'aama'], tags: ['kinship', 'Kullui', 'Seraji'] },
+  { pahari: 'aama', gloss_en: 'mother', avoid: ['mata', 'maa'], tags: ['kinship', 'Sirmauri', 'Mahasuvi'] },
+  { pahari: 'bhai', gloss_en: 'brother', avoid: ['bhailu'], tags: ['kinship', 'Kullui', 'Seraji'] },
+  { pahari: 'bhailu', gloss_en: 'brother', avoid: ['bhai'], tags: ['kinship', 'Sirmauri', 'Mahasuvi'] },
+  { pahari: 'bhabo', gloss_en: 'brother\'s wife', avoid: ['bhabhi'], tags: ['kinship', 'Kullui', 'Seraji'] },
+  { pahari: 'bhabhi', gloss_en: 'brother\'s wife', avoid: [], tags: ['kinship', 'Sirmauri', 'Mahasuvi'] },
+  { pahari: 'diya', gloss_en: 'sister', avoid: ['behen', 'baani'], tags: ['kinship', 'Kullui', 'Seraji'] },
+  { pahari: 'baani', gloss_en: 'sister', avoid: ['behen'], tags: ['kinship', 'Sirmauri', 'Mahasuvi'] },
+  { pahari: 'babra', gloss_en: 'father\'s younger brother', avoid: ['chaachu'], tags: ['kinship', 'Kullui', 'Seraji'] },
+  { pahari: 'chaachu', gloss_en: 'father\'s younger brother', avoid: [], tags: ['kinship', 'Sirmauri', 'Mahasuvi'] },
+  { pahari: 'taau', gloss_en: 'father\'s elder brother', avoid: [], tags: ['kinship', 'Pahari-General'] },
+  { pahari: 'mausi', gloss_en: 'mother\'s sister', avoid: [], tags: ['kinship', 'Pahari-General'] },
+  { pahari: 'bua', gloss_en: 'father\'s sister', avoid: [], tags: ['kinship', 'Pahari-General'] },
+  { pahari: 'dadi', gloss_en: 'paternal grandmother', avoid: [], tags: ['kinship', 'Pahari-General'] },
+  { pahari: 'naani', gloss_en: 'maternal grandmother', avoid: [], tags: ['kinship', 'Pahari-General'] },
+  { pahari: 'jwaai', gloss_en: 'son-in-law', avoid: [], tags: ['kinship', 'Pahari-General'] },
+  { pahari: 'dulhan', gloss_en: 'bride / newlywed woman', avoid: ['bauri'], tags: ['people', 'Kullui', 'Seraji'] },
+  { pahari: 'bauri', gloss_en: 'bride / newlywed woman', avoid: ['dulhan'], tags: ['people', 'Sirmauri', 'Mahasuvi'] },
+  { pahari: 'dulha', gloss_en: 'groom', avoid: ['lendu'], tags: ['people', 'Kullui', 'Seraji'] },
+  { pahari: 'lendu', gloss_en: 'groom', avoid: ['dulha'], tags: ['people', 'Sirmauri', 'Mahasuvi'] },
+  { pahari: 'sakhi', gloss_en: 'friend (female)', avoid: ['saheli', 'saagi'], tags: ['people', 'Kullui', 'Seraji'] },
+  { pahari: 'saagi', gloss_en: 'friend (female)', avoid: ['saheli'], tags: ['people', 'Sirmauri', 'Mahasuvi'] },
+  { pahari: 'yaar', gloss_en: 'friend (male)', avoid: ['dost'], tags: ['people', 'Pahari-General'] },
+  { pahari: 'log', gloss_en: 'people / folk', avoid: [], tags: ['people', 'Pahari-General'] },
+  { pahari: 'jaat', gloss_en: 'caste / kind / type', avoid: [], tags: ['people', 'Pahari-General'] },
+
+  // --- GRAMMAR ---
+  { pahari: 'manu', gloss_en: 'to me / I, me (Kullui pronoun)', avoid: ['minjo', 'mainu', 'mujhe', 'mai', 'haan'], tags: ['grammar', 'Kullui', 'Seraji'] },
+  { pahari: 'minjo', gloss_en: 'to me', avoid: ['mainu', 'mujhe'], tags: ['grammar', 'Sirmauri', 'Mahasuvi'] },
+  { pahari: 'tenu', gloss_en: 'to you (singular)', avoid: ['tinjo', 'tujhe'], tags: ['grammar', 'Kullui', 'Seraji'] },
+  { pahari: 'tinjo', gloss_en: 'to you (singular)', avoid: ['tenu', 'tujhe'], tags: ['grammar', 'Sirmauri', 'Mahasuvi'] },
+  { pahari: 'ohnu', gloss_en: 'to him/her', avoid: ['unjo', 'use'], tags: ['grammar', 'Kullui', 'Seraji'] },
+  { pahari: 'unjo', gloss_en: 'to him/her', avoid: ['ohnu', 'use'], tags: ['grammar', 'Sirmauri', 'Mahasuvi'] },
+  { pahari: 'aapna', gloss_en: 'our / our own', avoid: ['aapdu', 'apna'], tags: ['grammar', 'Kullui', 'Seraji'], notes: 'Reflexive possessive, "aapna gaon" = our village' },
+  { pahari: 'aapdu', gloss_en: 'our / our own', avoid: ['apna'], tags: ['grammar', 'Sirmauri', 'Mahasuvi'], notes: 'Reflexive possessive, "aapdu graan" = our village' },
+  { pahari: 'vich', gloss_en: 'in / inside', avoid: ['manjh', 'ch'], tags: ['grammar', 'Kullui', 'Seraji'], notes: 'Kullui uses "vich" (Kullu vich = in Kullu)' },
+  { pahari: 'manjh', gloss_en: 'in / inside', avoid: ['ch', 'vich'], tags: ['grammar', 'Sirmauri', 'Mahasuvi'], notes: 'Sirmauri/Mahasuvi uses "manjh"' },
+  { pahari: 'di', gloss_en: 'genitive feminine suffix', avoid: ['ri'], tags: ['grammar', 'Kullui', 'Seraji'], notes: 'Kullui uses "di" (Kullui di boli)' },
+  { pahari: 'ri', gloss_en: 'genitive feminine suffix', avoid: ['di'], tags: ['grammar', 'Sirmauri', 'Mahasuvi'], notes: 'Sirmauri uses "ri"' },
+  { pahari: 'da', gloss_en: 'genitive masculine suffix', avoid: ['ra'], tags: ['grammar', 'Kullui', 'Seraji'], notes: 'Kullui uses "da" (Munda da)' },
+  { pahari: 'ra', gloss_en: 'genitive masculine suffix', avoid: ['da'], tags: ['grammar', 'Sirmauri', 'Mahasuvi'], notes: 'Sirmauri uses "ra"' },
+  { pahari: 'de', gloss_en: 'genitive oblique suffix', avoid: ['re'], tags: ['grammar', 'Kullui', 'Seraji'], notes: 'Kullui uses "de" (Log de)' },
+  { pahari: 're', gloss_en: 'genitive oblique suffix', avoid: ['de'], tags: ['grammar', 'Sirmauri', 'Mahasuvi'], notes: 'Sirmauri uses "re"' },
+  { pahari: 'kidda', gloss_en: 'where', avoid: ['kahan', 'kundu', 'kuthu'], tags: ['grammar', 'Kullui', 'Seraji'] },
+  { pahari: 'kuthu', gloss_en: 'where (variant)', avoid: ['kidhar', 'kidda'], tags: ['grammar', 'Sirmauri', 'Mahasuvi'] },
+  { pahari: 'kundu', gloss_en: 'where', avoid: ['kahan'], tags: ['grammar', 'Sirmauri'] },
+  { pahari: 'jado', gloss_en: 'when', avoid: ['jaalu', 'jadon', 'jab'], tags: ['grammar', 'Kullui', 'Seraji'] },
+  { pahari: 'jaalu', gloss_en: 'when', avoid: ['jadon', 'jab'], tags: ['grammar', 'Sirmauri', 'Mahasuvi'] },
+  { pahari: 'tado', gloss_en: 'then (at that time)', avoid: ['taalu', 'tadon', 'tab'], tags: ['grammar', 'Kullui', 'Seraji'] },
+  { pahari: 'taalu', gloss_en: 'then (at that time)', avoid: ['tadon', 'tab'], tags: ['grammar', 'Sirmauri', 'Mahasuvi'] },
+  { pahari: 'jo', gloss_en: 'that / which / who', avoid: ['jo (acceptable)'], tags: ['grammar', 'Pahari-General'] },
+  { pahari: 'ni', gloss_en: 'feminine marker / emphasis particle', avoid: [], tags: ['grammar', 'Pahari-General'], notes: 'As in "lai lo ni" — emphatic feminine particle' },
+  { pahari: 'ta', gloss_en: 'then / so (connective)', avoid: ['to', 'phir'], tags: ['grammar', 'Pahari-General'] },
+  { pahari: 'bhi', gloss_en: 'also / too', avoid: ['vi'], tags: ['grammar', 'Pahari-General'] },
+  { pahari: 'hi', gloss_en: 'only / exactly', avoid: [], tags: ['grammar', 'Pahari-General'] },
+  { pahari: 'ho', gloss_en: 'vocative / exclamation', avoid: ['o', 'are'], tags: ['grammar', 'Pahari-General'], notes: 'Used before names: "Ho bitti..." = Oh girl...' },
+  { pahari: 'ae', gloss_en: 'is (present copula)', avoid: ['hai'], tags: ['grammar', 'Pahari-General'] },
+  { pahari: 'si', gloss_en: 'was (past copula)', avoid: ['thae', 'tha'], tags: ['grammar', 'Kullui', 'Seraji'] },
+  { pahari: 'thae', gloss_en: 'was (past copula)', avoid: ['tha'], tags: ['grammar', 'Sirmauri', 'Mahasuvi'] },
+  { pahari: 'cha', gloss_en: 'is (emphatic copula)', avoid: [], tags: ['grammar', 'Pahari-General'], notes: 'Shortened from "chha"' },
+  { pahari: 'kinna', gloss_en: 'how much / how many', avoid: ['kitna'], tags: ['grammar', 'Pahari-General'] },
+  { pahari: 'itna', gloss_en: 'this much', avoid: [], tags: ['grammar', 'Pahari-General'] },
+  { pahari: 'jyun', gloss_en: 'like / as / similar to', avoid: ['jaise', 'jiven'], tags: ['grammar', 'Pahari-General'] },
+  { pahari: 'tyun', gloss_en: 'like that / in that manner', avoid: ['taise', 'tiven'], tags: ['grammar', 'Pahari-General'] },
+  { pahari: 'main', gloss_en: 'I', avoid: [], tags: ['grammar', 'Pahari-General'] },
+
+  { pahari: 'tu', gloss_en: 'you (intimate singular)', avoid: [], tags: ['grammar', 'Pahari-General'] },
+  { pahari: 'tum', gloss_en: 'you (semi-formal)', avoid: [], tags: ['grammar', 'Pahari-General'] },
+  { pahari: 'tusaan', gloss_en: 'you (formal / plural / you all)', avoid: ['aap', 'tum', 'tumlog'], tags: ['grammar', 'Kullui', 'Seraji'] },
+  { pahari: 'aap', gloss_en: 'you (formal)', avoid: [], tags: ['grammar', 'Pahari-General'] },
+  { pahari: 'yo', gloss_en: 'this / he / she (proximate)', avoid: ['yeh'], tags: ['grammar', 'Pahari-General'] },
+  { pahari: 'so', gloss_en: 'that / he / she (distant)', avoid: ['woh'], tags: ['grammar', 'Pahari-General'] },
+  { pahari: 'asan', gloss_en: 'we', avoid: ['ham', 'hum'], tags: ['grammar', 'Kullui', 'Seraji'] },
+  { pahari: 'ham', gloss_en: 'we', avoid: ['hum'], tags: ['grammar', 'Sirmauri', 'Mahasuvi'] },
+
+  { pahari: 'tumlog', gloss_en: 'you all / you people', avoid: ['tum log (acceptable)'], tags: ['grammar', 'Sirmauri', 'Mahasuvi'] },
+  { pahari: 'ye', gloss_en: 'these / they (proximate)', avoid: [], tags: ['grammar', 'Pahari-General'] },
+  { pahari: 'se', gloss_en: 'those / they (distant)', avoid: ['woh (plural)'], tags: ['grammar', 'Pahari-General'] },
+
+  // --- NATURE ---
+  { pahari: 'kail', gloss_en: 'blue pine tree', avoid: [], tags: ['nature', 'Kullui', 'Seraji'], notes: 'Very common in Kullu/Manali, distinct from Deodar' },
+  { pahari: 'baanu', gloss_en: 'oak tree', avoid: [], tags: ['nature', 'Sirmauri', 'Mahasuvi'] },
+  { pahari: 'banjar', gloss_en: 'barren / fallow land', avoid: [], tags: ['nature', 'Pahari-General'] },
+  { pahari: 'bagaich', gloss_en: 'garden', avoid: ['bagh'], tags: ['nature', 'Pahari-General'] },
+  { pahari: 'deodar', gloss_en: 'Himalayan cedar tree', avoid: [], tags: ['nature', 'Pahari-General'] },
+  { pahari: 'pahad', gloss_en: 'mountain', avoid: ['pahad (acceptable)'], tags: ['nature', 'Pahari-General'] },
+  { pahari: 'dhaar', gloss_en: 'mountain ridge / crest', avoid: [], tags: ['nature', 'Pahari-General'] },
+  { pahari: 'jangle', gloss_en: 'forest', avoid: ['jungle (acceptable)'], tags: ['nature', 'Pahari-General'] },
+  { pahari: 'buransh', gloss_en: 'rhododendron flower', avoid: [], tags: ['nature', 'Pahari-General'], notes: 'State flower, iconic in songs' },
+  { pahari: 'khaalu', gloss_en: 'ravine / deep valley', avoid: [], tags: ['nature', 'Pahari-General'] },
+  { pahari: 'gadera', gloss_en: 'mountain stream', avoid: ['nadi (small)'], tags: ['nature', 'Pahari-General'] },
+  { pahari: 'naun', gloss_en: 'river (large)', avoid: ['nadi'], tags: ['nature', 'Pahari-General'] },
+  { pahari: 'Beas', gloss_en: 'Beas River (lifeline of Kullu)', avoid: ['Vyas'], tags: ['nature', 'Kullui', 'Seraji'], notes: 'Referred to simply as Naun or Beas' },
+  { pahari: 'chashma', gloss_en: 'spring / water source', avoid: [], tags: ['nature', 'Pahari-General'] },
+  { pahari: 'ghaas', gloss_en: 'grass', avoid: [], tags: ['nature', 'Pahari-General'] },
+  { pahari: 'phool', gloss_en: 'flower', avoid: [], tags: ['nature', 'Pahari-General'] },
+  { pahari: 'kaante', gloss_en: 'thorns', avoid: [], tags: ['nature', 'Pahari-General'] },
+  { pahari: 'badal', gloss_en: 'cloud', avoid: [], tags: ['nature', 'Pahari-General'] },
+  { pahari: 'barkha', gloss_en: 'rain / monsoon', avoid: ['baarish'], tags: ['nature', 'Pahari-General'] },
+  { pahari: 'baraf', gloss_en: 'snow / ice', avoid: [], tags: ['nature', 'Pahari-General'] },
+  { pahari: 'dhupp', gloss_en: 'sunshine / sunlight', avoid: ['dhoop'], tags: ['nature', 'Pahari-General'] },
+  { pahari: 'chaan', gloss_en: 'shade / shadow', avoid: ['chhaya'], tags: ['nature', 'Pahari-General'] },
+  { pahari: 'hawa', gloss_en: 'wind / breeze', avoid: [], tags: ['nature', 'Pahari-General'] },
+  { pahari: 'aakash', gloss_en: 'sky', avoid: ['asman'], tags: ['nature', 'Pahari-General'] },
+  { pahari: 'taare', gloss_en: 'stars', avoid: ['sitaare'], tags: ['nature', 'Pahari-General'] },
+  { pahari: 'chaand', gloss_en: 'moon', avoid: [], tags: ['nature', 'Pahari-General'] },
+  { pahari: 'suuraj', gloss_en: 'sun', avoid: ['suraj'], tags: ['nature', 'Pahari-General'] },
+  { pahari: 'ghughuti', gloss_en: 'a bird (songbird / dove)', avoid: ['chidiya'], tags: ['nature', 'Sirmauri', 'Mahasuvi'] },
   { pahari: 'khet', gloss_en: 'field', avoid: [], tags: ['nature', 'agriculture'] },
   { pahari: 'pashu', gloss_en: 'animal / livestock', avoid: ['janwar'], tags: ['nature', 'agriculture'] },
-  { pahari: 'shimle', gloss_en: 'Shimla (oblique case)', avoid: ['shimla'], tags: ['place'] },
-  { pahari: 'dharampur', gloss_en: 'a town / village name', avoid: [], tags: ['place'] },
-  { pahari: 'kamru', gloss_en: 'a mythological fort / place', avoid: [], tags: ['place'] },
-  { pahari: 'graan', gloss_en: 'village', avoid: ['pind', 'gaon'], tags: ['place'] },
-  { pahari: 'shahar', gloss_en: 'city / town', avoid: ['sheher'], tags: ['place'] },
-  { pahari: 'sadku', gloss_en: 'road / street', avoid: ['sadak'], tags: ['place'], notes: 'Oblique form used: "sadku pe" = on the road' },
-  { pahari: 'bazaar', gloss_en: 'market', avoid: [], tags: ['place'] },
-  { pahari: 'mandir', gloss_en: 'temple', avoid: [], tags: ['place'] },
-  { pahari: 'deotha', gloss_en: 'village deity shrine', avoid: [], tags: ['place', 'culture'] },
-  { pahari: 'chauraha', gloss_en: 'crossroads', avoid: [], tags: ['place'] },
-  { pahari: 'chopal', gloss_en: 'village gathering ground', avoid: [], tags: ['place', 'culture'] },
-  { pahari: 'dera', gloss_en: 'homestead / temporary dwelling', avoid: [], tags: ['place'] },
-  { pahari: 'kothi', gloss_en: 'house / mansion', avoid: ['ghar'], tags: ['place'], notes: '"Aaja meri kothi" = come to my house (romantic)' },
-  { pahari: 'gaushala', gloss_en: 'cowshed', avoid: [], tags: ['place'] },
-  { pahari: 'naule', gloss_en: 'stepwell / water tank', avoid: [], tags: ['place'] },
-  { pahari: 'rouni', gloss_en: 'night', avoid: ['raat'], tags: ['time'] },
-  { pahari: 'dihu', gloss_en: 'day', avoid: ['din'], tags: ['time'] },
-  { pahari: 'saun', gloss_en: 'monsoon month (Shravan)', avoid: ['sawan'], tags: ['time'] },
-  { pahari: 'baishakh', gloss_en: 'harvest month (April-May)', avoid: [], tags: ['time'] },
-  { pahari: 'asaad', gloss_en: 'summer month (June-July)', avoid: [], tags: ['time'] },
-  { pahari: 'maagh', gloss_en: 'winter month (Jan-Feb)', avoid: [], tags: ['time'] },
-  { pahari: 'phagun', gloss_en: 'spring month (Feb-Mar)', avoid: [], tags: ['time'] },
-  { pahari: 'syau', gloss_en: 'winter / cold season', avoid: ['sardi'], tags: ['time'] },
-  { pahari: 'garmi', gloss_en: 'summer / hot season', avoid: [], tags: ['time'] },
-  { pahari: 'subah', gloss_en: 'morning', avoid: ['saver'], tags: ['time'] },
-  { pahari: 'saajh', gloss_en: 'evening / dusk', avoid: ['shaam'], tags: ['time'] },
-  { pahari: 'bhor', gloss_en: 'dawn / daybreak', avoid: [], tags: ['time'], notes: 'Poetic: "bhor ri bela" = time of dawn' },
-  { pahari: 'aaj', gloss_en: 'today', avoid: [], tags: ['time'] },
-  { pahari: 'kaal', gloss_en: 'tomorrow / yesterday', avoid: ['kal'], tags: ['time'], notes: 'Context determines future/past' },
-  { pahari: 'parson', gloss_en: 'day after tomorrow / day before yesterday', avoid: [], tags: ['time'] },
-  { pahari: 'biraan', gloss_en: 'late / delay', avoid: ['der'], tags: ['time'] },
-  { pahari: 'maya', gloss_en: 'love / affection', avoid: ['pyaar', 'mohabbat'], tags: ['emotion'] },
-  { pahari: 'prem', gloss_en: 'deep love (poetic)', avoid: [], tags: ['emotion'] },
-  { pahari: 'raud', gloss_en: 'anger / rage', avoid: ['gussa'], tags: ['emotion'] },
-  { pahari: 'dukh', gloss_en: 'sorrow / pain', avoid: ['dard'], tags: ['emotion'] },
-  { pahari: 'khushi', gloss_en: 'happiness', avoid: [], tags: ['emotion'] },
-  { pahari: 'hansna', gloss_en: 'to laugh', avoid: [], tags: ['emotion'] },
-  { pahari: 'rouna', gloss_en: 'to cry / weep', avoid: ['rona'], tags: ['emotion'] },
-  { pahari: 'umang', gloss_en: 'enthusiasm / excitement', avoid: ['josh'], tags: ['emotion'] },
-  { pahari: 'dhakka', gloss_en: 'fear / dread', avoid: ['dar'], tags: ['emotion'] },
-  { pahari: 'shaunk', gloss_en: 'passion / fondness', avoid: ['shauk'], tags: ['emotion'] },
-  { pahari: 'aas', gloss_en: 'hope / longing', avoid: ['umeed'], tags: ['emotion'] },
-  { pahari: 'yaad', gloss_en: 'memory / remembrance', avoid: [], tags: ['emotion'] },
-  { pahari: 'sapna', gloss_en: 'dream', avoid: [], tags: ['emotion'] },
-  { pahari: 'chain', gloss_en: 'peace / calm', avoid: ['sukoon'], tags: ['emotion'] },
-  { pahari: 'zehar', gloss_en: 'poison / something intoxicating', avoid: ['zahar'], tags: ['emotion'], notes: '"Tera hasna zehar lagda" = your smile intoxicates me' },
-  { pahari: 'herda', gloss_en: 'watching / looking', avoid: ['dekhda'], tags: ['verb'] },
-  { pahari: 'karna', gloss_en: 'to do', avoid: [], tags: ['verb'] },
-  { pahari: 'bonna', gloss_en: 'to become / to happen', avoid: ['hona'], tags: ['verb'] },
-  { pahari: 'jaana', gloss_en: 'to go', avoid: [], tags: ['verb'] },
-  { pahari: 'auna', gloss_en: 'to come', avoid: ['aana'], tags: ['verb'] },
-  { pahari: 'khaana', gloss_en: 'to eat', avoid: [], tags: ['verb'] },
-  { pahari: 'pina', gloss_en: 'to drink', avoid: ['peena'], tags: ['verb'] },
-  { pahari: 'khotna', gloss_en: 'to dig', avoid: ['khodna'], tags: ['verb'] },
-  { pahari: 'kaatna', gloss_en: 'to cut', avoid: [], tags: ['verb'] },
-  { pahari: 'uthna', gloss_en: 'to rise / wake up', avoid: [], tags: ['verb'] },
-  { pahari: 'baitna', gloss_en: 'to sit', avoid: ['baithna'], tags: ['verb'] },
-  { pahari: 'souna', gloss_en: 'to sleep', avoid: ['sona'], tags: ['verb'] },
-  { pahari: 'jagna', gloss_en: 'to stay awake / be alert', avoid: [], tags: ['verb'] },
-  { pahari: 'douna', gloss_en: 'to run', avoid: ['daudna'], tags: ['verb'] },
-  { pahari: 'bolna', gloss_en: 'to speak / say', avoid: [], tags: ['verb'] },
-  { pahari: 'gaana', gloss_en: 'to sing', avoid: ['gana'], tags: ['verb'] },
-  { pahari: 'naachna', gloss_en: 'to dance', avoid: [], tags: ['verb'] },
-  { pahari: 'puchhna', gloss_en: 'to ask', avoid: ['puchna'], tags: ['verb'] },
-  { pahari: 'dasna', gloss_en: 'to tell', avoid: ['batana'], tags: ['verb'] },
-  { pahari: 'sunna', gloss_en: 'to listen / hear', avoid: [], tags: ['verb'] },
-  { pahari: 'takna', gloss_en: 'to gaze / stare', avoid: ['dekhna (stare)'], tags: ['verb'] },
-  { pahari: 'kurlana', gloss_en: 'to yearn / pine for someone', avoid: ['tarsna'], tags: ['verb', 'emotion'] },
-  { pahari: 'jhalakna', gloss_en: 'to shimmer / sparkle', avoid: ['chamakna'], tags: ['verb'] },
-  { pahari: 'bilkhna', gloss_en: 'to sob / lament deeply', avoid: [], tags: ['verb'] },
-  { pahari: 'rudna', gloss_en: 'to be stuck / entangled (emotional)', avoid: [], tags: ['verb'], notes: '"Dil rudya re" = heart is entangled' },
-  { pahari: 'sheeli', gloss_en: 'cold / cool', avoid: ['thandi'], tags: ['adj'] },
-  { pahari: 'tattu', gloss_en: 'hot (diminutive)', avoid: ['garam'], tags: ['adj'] },
-  { pahari: 'chittu', gloss_en: 'white / bright white', avoid: ['safed'], tags: ['adj', 'beauty'] },
-  { pahari: 'kaalu2', gloss_en: 'black / dark', avoid: ['kala'], tags: ['adj'] },
-  { pahari: 'laal', gloss_en: 'red', avoid: [], tags: ['adj'] },
-  { pahari: 'pillu', gloss_en: 'yellow (diminutive)', avoid: ['peela'], tags: ['adj'] },
-  { pahari: 'nilu', gloss_en: 'blue (diminutive)', avoid: ['neela'], tags: ['adj'] },
-  { pahari: 'hari', gloss_en: 'green (feminine)', avoid: ['hari (acceptable)'], tags: ['adj'] },
-  { pahari: 'uchcha', gloss_en: 'high / tall', avoid: ['uncha'], tags: ['adj'] },
-  { pahari: 'nichcha', gloss_en: 'low / short', avoid: ['nicha'], tags: ['adj'] },
-  { pahari: 'lammu', gloss_en: 'long', avoid: ['lamba'], tags: ['adj'] },
-  { pahari: 'choddu', gloss_en: 'wide / broad', avoid: ['chauda'], tags: ['adj'] },
-  { pahari: 'patlu', gloss_en: 'thin / slender', avoid: ['patla'], tags: ['adj', 'beauty'] },
-  { pahari: 'motu', gloss_en: 'fat / thick', avoid: ['mota'], tags: ['adj'] },
-  { pahari: 'badhiya', gloss_en: 'good / excellent', avoid: ['achha'], tags: ['adj'] },
-  { pahari: 'bura', gloss_en: 'bad', avoid: [], tags: ['adj'] },
-  { pahari: 'sunna2', gloss_en: 'empty / deserted', avoid: ['suna'], tags: ['adj'] },
-  { pahari: 'gahru', gloss_en: 'deep', avoid: ['gahra'], tags: ['adj'] },
-  { pahari: 'chhichhora', gloss_en: 'shallow / superficial', avoid: [], tags: ['adj'] },
-  { pahari: 'meetha', gloss_en: 'sweet', avoid: [], tags: ['adj'] },
-  { pahari: 'khatta', gloss_en: 'sour / bitter (emotional tone)', avoid: [], tags: ['adj'] },
-  { pahari: 'pyaaru', gloss_en: 'beloved / dear', avoid: ['pyaara'], tags: ['adj'] },
-  { pahari: 'nyaaru', gloss_en: 'unique / separate / distinct', avoid: ['alag', 'nyara'], tags: ['adj'] },
-  { pahari: 'sohna', gloss_en: 'beautiful / handsome', avoid: ['sundar'], tags: ['adj', 'beauty'] },
-  { pahari: 'bholu', gloss_en: 'innocent / simple (diminutive)', avoid: ['bhola'], tags: ['adj'] },
-  { pahari: 'chunnru', gloss_en: 'a red dupatta / scarf (diminutive)', avoid: ['dupatta'], tags: ['clothing'] },
-  { pahari: 'jhumku', gloss_en: 'earring (diminutive)', avoid: ['bali'], tags: ['clothing'] },
-  { pahari: 'dhaantu', gloss_en: 'traditional Pahari silver necklace', avoid: [], tags: ['clothing'] },
-  { pahari: 'nath', gloss_en: 'nose ring', avoid: [], tags: ['clothing'] },
-  { pahari: 'bindru', gloss_en: 'bindi / forehead dot (diminutive)', avoid: ['bindi'], tags: ['clothing'] },
-  { pahari: 'kangan', gloss_en: 'bangles / bracelets', avoid: ['chudi'], tags: ['clothing'] },
-  { pahari: 'pajeb', gloss_en: 'anklets', avoid: ['payal'], tags: ['clothing'] },
-  { pahari: 'topi', gloss_en: 'traditional Pahari cap', avoid: [], tags: ['clothing'] },
-  { pahari: 'saalu', gloss_en: 'woolen shawl (traditional)', avoid: ['shawl'], tags: ['clothing'] },
-  { pahari: 'dhoti', gloss_en: 'traditional lower garment (men)', avoid: [], tags: ['clothing'] },
-  { pahari: 'kurta', gloss_en: 'traditional upper garment', avoid: [], tags: ['clothing'] },
-  { pahari: 'patka', gloss_en: 'waist sash / cummerbund', avoid: [], tags: ['clothing'] },
-  { pahari: 'mela', gloss_en: 'village fair', avoid: ['mela (acceptable)'], tags: ['culture'] },
-  { pahari: 'naati', gloss_en: 'Pahari folk dance / song genre', avoid: ['bhangra'], tags: ['music'] },
-  { pahari: 'jatar', gloss_en: 'village deity festival / pilgrimage', avoid: [], tags: ['culture'] },
-  { pahari: 'puja', gloss_en: 'worship / prayer ritual', avoid: [], tags: ['culture'] },
-  { pahari: 'devta', gloss_en: 'village deity / god', avoid: ['bhagwan'], tags: ['culture'] },
-  { pahari: 'shamshan', gloss_en: 'cremation ground', avoid: [], tags: ['culture'] },
-  { pahari: 'vivah', gloss_en: 'marriage / wedding', avoid: ['shaadi'], tags: ['culture'] },
-  { pahari: 'byaa', gloss_en: 'wedding (colloquial)', avoid: [], tags: ['culture'] },
-  { pahari: 'tith', gloss_en: 'auspicious date / festival day', avoid: ['tyohaar'], tags: ['culture'] },
-  { pahari: 'bali', gloss_en: 'sacrifice (ritual offering)', avoid: [], tags: ['culture'] },
-  { pahari: 'dhaam', gloss_en: 'community feast', avoid: [], tags: ['culture'] },
-  { pahari: 'lukdi', gloss_en: 'torch / firebrand (festival use)', avoid: [], tags: ['culture'] },
-  { pahari: 'dhol', gloss_en: 'large drum', avoid: [], tags: ['music'] },
-  { pahari: 'nagada', gloss_en: 'kettle drum', avoid: [], tags: ['music'] },
-  { pahari: 'shehnai', gloss_en: 'traditional wind instrument', avoid: [], tags: ['music'] },
-  { pahari: 'karnal', gloss_en: 'traditional long trumpet', avoid: [], tags: ['music'] },
-  { pahari: 'fasal', gloss_en: 'crop / harvest', avoid: [], tags: ['agriculture'] },
-  { pahari: 'gahu', gloss_en: 'wheat', avoid: ['gehu'], tags: ['agriculture'] },
-  { pahari: 'makki', gloss_en: 'corn / maize', avoid: [], tags: ['agriculture'] },
-  { pahari: 'jau', gloss_en: 'barley', avoid: [], tags: ['agriculture'] },
-  { pahari: 'dhaan', gloss_en: 'paddy / rice plant', avoid: ['chawal'], tags: ['agriculture'] },
-  { pahari: 'seb', gloss_en: 'apple', avoid: [], tags: ['agriculture'], notes: 'Iconic Himachal crop' },
-  { pahari: 'bagicha', gloss_en: 'orchard', avoid: [], tags: ['agriculture'] },
-  { pahari: 'hal', gloss_en: 'plough', avoid: [], tags: ['agriculture'] },
-  { pahari: 'bail', gloss_en: 'ox / bullock', avoid: ['bael'], tags: ['agriculture'] },
-  { pahari: 'gaai', gloss_en: 'cow', avoid: ['gaye'], tags: ['agriculture'] },
-  { pahari: 'bhains', gloss_en: 'buffalo', avoid: [], tags: ['agriculture'] },
-  { pahari: 'bhed', gloss_en: 'sheep', avoid: ['bhed (acceptable)'], tags: ['agriculture'] },
-  { pahari: 'bakri', gloss_en: 'goat', avoid: [], tags: ['agriculture'] },
-  { pahari: 'goth', gloss_en: 'cattle shed / byre', avoid: [], tags: ['agriculture'] },
-  { pahari: 'chaara', gloss_en: 'fodder / animal feed', avoid: [], tags: ['agriculture'] },
-  { pahari: 'ghaasni', gloss_en: 'grass cutting (task)', avoid: [], tags: ['agriculture'] },
-  { pahari: 'lakdi', gloss_en: 'firewood', avoid: ['lakdi (acceptable)'], tags: ['daily life'] },
-  { pahari: 'chulha', gloss_en: 'traditional stove', avoid: [], tags: ['daily life'] },
-  { pahari: 'dhuwaan', gloss_en: 'smoke', avoid: ['dhuan'], tags: ['daily life'] },
-  { pahari: 'paani', gloss_en: 'water', avoid: [], tags: ['daily life'] },
-  { pahari: 'roti', gloss_en: 'flatbread / food (general)', avoid: [], tags: ['daily life'] },
-  { pahari: 'daal', gloss_en: 'lentils', avoid: [], tags: ['daily life'] },
-  { pahari: 'siddu', gloss_en: 'traditional stuffed steamed bread', avoid: [], tags: ['daily life'] },
-  { pahari: 'chah', gloss_en: 'tea', avoid: ['chai'], tags: ['daily life'] },
-  { pahari: 'bidi', gloss_en: 'rolled cigarette / beedi', avoid: [], tags: ['daily life'] },
-  { pahari: 'hookah', gloss_en: 'water pipe (traditional smoking)', avoid: [], tags: ['daily life'] },
-  { pahari: 'main', gloss_en: 'I', avoid: [], tags: ['grammar'] },
-  { pahari: 'tu', gloss_en: 'you (intimate singular)', avoid: [], tags: ['grammar'] },
-  { pahari: 'tum', gloss_en: 'you (semi-formal)', avoid: [], tags: ['grammar'] },
-  { pahari: 'aap', gloss_en: 'you (formal)', avoid: [], tags: ['grammar'] },
-  { pahari: 'yo', gloss_en: 'this / he / she (proximate)', avoid: ['yeh'], tags: ['grammar'] },
-  { pahari: 'so', gloss_en: 'that / he / she (distant)', avoid: ['woh'], tags: ['grammar'] },
-  { pahari: 'ham', gloss_en: 'we', avoid: ['hum'], tags: ['grammar'] },
-  { pahari: 'tumlog', gloss_en: 'you all / you people', avoid: ['tum log (acceptable)'], tags: ['grammar'] },
-  { pahari: 'ye', gloss_en: 'these / they (proximate)', avoid: [], tags: ['grammar'] },
-  { pahari: 'se', gloss_en: 'those / they (distant)', avoid: ['woh (plural)'], tags: ['grammar'] },
-  { pahari: 'katha', gloss_en: 'talk / story / matter', avoid: ['gallan', 'baat'], tags: ['noun'] },
-  { pahari: 'baat', gloss_en: 'matter / topic / conversation', avoid: [], tags: ['noun'], notes: '"Kya baat" is acceptable loan blend' },
-  { pahari: 'sach', gloss_en: 'truth', avoid: [], tags: ['noun'] },
-  { pahari: 'jhuth', gloss_en: 'lie / falsehood', avoid: ['jhooth'], tags: ['noun'] },
-  { pahari: 'janjal', gloss_en: 'trouble / entanglement', avoid: ['museebat'], tags: ['noun'] },
-  { pahari: 'takdir', gloss_en: 'fate / destiny', avoid: ['kismat'], tags: ['noun'] },
-  { pahari: 'dua', gloss_en: 'blessing / prayer', avoid: [], tags: ['noun'] },
-  { pahari: 'ger', gloss_en: 'to move / to wander (verb root)', avoid: ['ghum'], tags: ['verb'], notes: '"Geri na" = don\'t wander' },
-  { pahari: 'pahari', gloss_en: 'of the mountains / Pahari people', avoid: [], tags: ['identity'] },
-  { pahari: 'pahadan', gloss_en: 'mountain woman / Pahari woman', avoid: [], tags: ['identity'], notes: 'Feminine form' },
-  { pahari: 'raja', gloss_en: 'king (in folk tales)', avoid: [], tags: ['culture'] },
-  { pahari: 'rani', gloss_en: 'queen', avoid: [], tags: ['culture'] },
-  { pahari: 'jadoo', gloss_en: 'magic', avoid: [], tags: ['noun'] },
-  { pahari: 'nasha', gloss_en: 'intoxication', avoid: [], tags: ['emotion'], notes: 'Often metaphorical for love' },
-  { pahari: 'chaska', gloss_en: 'addiction / habit (especially pleasurable)', avoid: [], tags: ['emotion'] },
+
+  // --- PLACE ---
+  { pahari: 'gaon', gloss_en: 'village', avoid: ['pind', 'graan'], tags: ['place', 'Kullui', 'Seraji'] },
+  { pahari: 'pind', gloss_en: 'village', avoid: ['gaon', 'graan'], tags: ['place', 'Kullui', 'Seraji'], notes: 'Influenced by Kangri/Punjabi' },
+  { pahari: 'graan', gloss_en: 'village', avoid: ['pind', 'gaon'], tags: ['place', 'Sirmauri', 'Mahasuvi'] },
+  { pahari: 'Kullu', gloss_en: 'Kullu (town/valley)', avoid: ['Kulu'], tags: ['place', 'Kullui', 'Seraji'] },
+  { pahari: 'shahar', gloss_en: 'city / town', avoid: ['sheher'], tags: ['place', 'Pahari-General'] },
+  { pahari: 'rasta', gloss_en: 'road / street', avoid: ['sadku', 'sadak'], tags: ['place', 'Kullui', 'Seraji'] },
+  { pahari: 'sadku', gloss_en: 'road / street', avoid: ['sadak'], tags: ['place', 'Sirmauri', 'Mahasuvi'], notes: 'Oblique form used: "sadku pe" = on the road' },
+  { pahari: 'bazaar', gloss_en: 'market', avoid: [], tags: ['place', 'Pahari-General'] },
+  { pahari: 'mandir', gloss_en: 'temple', avoid: [], tags: ['place', 'Pahari-General'] },
+  { pahari: 'Devta', gloss_en: 'village deity shrine / god', avoid: ['deotha', 'bhagwan'], tags: ['place', 'culture', 'Kullui', 'Seraji'], notes: 'Uppercase "Devta" is standard in Kullu culture' },
+  { pahari: 'deotha', gloss_en: 'village deity shrine', avoid: [], tags: ['place', 'culture', 'Sirmauri'] },
+  { pahari: 'chauraha', gloss_en: 'crossroads', avoid: [], tags: ['place', 'Pahari-General'] },
+  { pahari: 'chopal', gloss_en: 'village gathering ground', avoid: [], tags: ['place', 'culture', 'Pahari-General'] },
+  { pahari: 'dera', gloss_en: 'homestead / temporary dwelling', avoid: [], tags: ['place', 'Pahari-General'] },
+  { pahari: 'bera', gloss_en: 'house / home', avoid: ['ghar', 'kothi'], tags: ['place', 'Kullui', 'Seraji'] },
+  { pahari: 'kothi', gloss_en: 'house / mansion', avoid: ['ghar'], tags: ['place', 'Sirmauri', 'Mahasuvi'], notes: '"Aaja meri kothi" = come to my house (romantic)' },
+  { pahari: 'gaushala', gloss_en: 'cowshed', avoid: [], tags: ['place', 'Pahari-General'] },
+  { pahari: 'naule', gloss_en: 'stepwell / water tank', avoid: [], tags: ['place', 'Sirmauri', 'Mahasuvi'] },
+  { pahari: 'shimle', gloss_en: 'Shimla (oblique case)', avoid: ['shimla'], tags: ['place', 'Sirmauri'] },
+  { pahari: 'dharampur', gloss_en: 'a town / village name', avoid: [], tags: ['place', 'Sirmauri'] },
+  { pahari: 'kamru', gloss_en: 'a mythological fort / place', avoid: [], tags: ['place', 'Sirmauri'] },
+
+  // --- TIME ---
+  { pahari: 'raat', gloss_en: 'night', avoid: ['rouni'], tags: ['time', 'Kullui', 'Seraji'] },
+  { pahari: 'rouni', gloss_en: 'night', avoid: ['raat'], tags: ['time', 'Sirmauri', 'Mahasuvi'] },
+  { pahari: 'din', gloss_en: 'day', avoid: ['dihu'], tags: ['time', 'Kullui', 'Seraji'] },
+  { pahari: 'dihu', gloss_en: 'day', avoid: ['din'], tags: ['time', 'Sirmauri', 'Mahasuvi'] },
+  { pahari: 'saun', gloss_en: 'monsoon month (Shravan)', avoid: ['sawan'], tags: ['time', 'Pahari-General'] },
+  { pahari: 'baishakh', gloss_en: 'harvest month (April-May)', avoid: [], tags: ['time', 'Pahari-General'] },
+  { pahari: 'asaad', gloss_en: 'summer month (June-July)', avoid: [], tags: ['time', 'Pahari-General'] },
+  { pahari: 'maagh', gloss_en: 'winter month (Jan-Feb)', avoid: [], tags: ['time', 'Pahari-General'] },
+  { pahari: 'phagun', gloss_en: 'spring month (Feb-Mar)', avoid: [], tags: ['time', 'Pahari-General'] },
+  { pahari: 'sardi', gloss_en: 'winter / cold season', avoid: ['syau'], tags: ['time', 'Kullui', 'Seraji'] },
+  { pahari: 'syau', gloss_en: 'winter / cold season', avoid: ['sardi'], tags: ['time', 'Sirmauri', 'Mahasuvi'] },
+  { pahari: 'garmi', gloss_en: 'summer / hot season', avoid: [], tags: ['time', 'Pahari-General'] },
+  { pahari: 'subah', gloss_en: 'morning', avoid: ['saver'], tags: ['time', 'Pahari-General'] },
+  { pahari: 'saajh', gloss_en: 'evening / dusk', avoid: ['shaam'], tags: ['time', 'Pahari-General'] },
+  { pahari: 'bhor', gloss_en: 'dawn / daybreak', avoid: [], tags: ['time', 'Pahari-General'], notes: 'Poetic: "bhor di bela" = time of dawn' },
+  { pahari: 'aaj', gloss_en: 'today', avoid: [], tags: ['time', 'Pahari-General'] },
+  { pahari: 'kaal', gloss_en: 'tomorrow / yesterday', avoid: ['kal'], tags: ['time', 'Kullui', 'Seraji'], notes: 'Context determines future/past' },
+  { pahari: 'parson', gloss_en: 'day after tomorrow / day before yesterday', avoid: [], tags: ['time', 'Pahari-General'] },
+  { pahari: 'biraan', gloss_en: 'late / delay', avoid: ['der'], tags: ['time', 'Pahari-General'] },
+
+  // --- EMOTION ---
+  { pahari: 'maya', gloss_en: 'love / affection', avoid: ['pyaar', 'mohabbat'], tags: ['emotion', 'Pahari-General'] },
+  { pahari: 'prem', gloss_en: 'deep love (poetic)', avoid: [], tags: ['emotion', 'Pahari-General'] },
+  { pahari: 'raud', gloss_en: 'anger / rage', avoid: ['gussa'], tags: ['emotion', 'Pahari-General'] },
+  { pahari: 'dukh', gloss_en: 'sorrow / pain', avoid: ['dard'], tags: ['emotion', 'Pahari-General'] },
+  { pahari: 'khushi', gloss_en: 'happiness', avoid: [], tags: ['emotion', 'Pahari-General'] },
+  { pahari: 'hansna', gloss_en: 'to laugh', avoid: [], tags: ['emotion', 'Pahari-General'] },
+  { pahari: 'rouna', gloss_en: 'to cry / weep', avoid: ['rona'], tags: ['emotion', 'Pahari-General'] },
+  { pahari: 'umang', gloss_en: 'enthusiasm / excitement', avoid: ['josh'], tags: ['emotion', 'Pahari-General'] },
+  { pahari: 'dhakka', gloss_en: 'fear / dread', avoid: ['dar'], tags: ['emotion', 'Pahari-General'] },
+  { pahari: 'shaunk', gloss_en: 'passion / fondness', avoid: ['shauk'], tags: ['emotion', 'Pahari-General'] },
+  { pahari: 'aas', gloss_en: 'hope / longing', avoid: ['umeed'], tags: ['emotion', 'Pahari-General'] },
+  { pahari: 'yaad', gloss_en: 'memory / remembrance', avoid: [], tags: ['emotion', 'Pahari-General'] },
+  { pahari: 'sapna', gloss_en: 'dream', avoid: [], tags: ['emotion', 'Pahari-General'] },
+  { pahari: 'chain', gloss_en: 'peace / calm', avoid: ['sukoon'], tags: ['emotion', 'Pahari-General'] },
+  { pahari: 'zehar', gloss_en: 'poison / something intoxicating', avoid: ['zahar'], tags: ['emotion', 'Pahari-General'], notes: '"Tera hasna zehar lagda" = your smile intoxicates me' },
+  { pahari: 'nasha', gloss_en: 'intoxication', avoid: [], tags: ['emotion', 'Pahari-General'], notes: 'Often metaphorical for love' },
+  { pahari: 'chaska', gloss_en: 'addiction / habit (especially pleasurable)', avoid: [], tags: ['emotion', 'Pahari-General'] },
+
+  // --- VERB ---
+  { pahari: 'dekhda', gloss_en: 'watching / looking', avoid: ['herda'], tags: ['verb', 'Kullui', 'Seraji'] },
+  { pahari: 'herda', gloss_en: 'watching / looking', avoid: ['dekhda'], tags: ['verb', 'Sirmauri', 'Mahasuvi'] },
+  { pahari: 'karna', gloss_en: 'to do', avoid: [], tags: ['verb', 'Pahari-General'] },
+  { pahari: 'hona', gloss_en: 'to become / to happen', avoid: ['bonna'], tags: ['verb', 'Kullui', 'Seraji'] },
+  { pahari: 'bonna', gloss_en: 'to become / to happen', avoid: ['hona'], tags: ['verb', 'Sirmauri', 'Mahasuvi'] },
+  { pahari: 'jaana', gloss_en: 'to go', avoid: [], tags: ['verb', 'Pahari-General'] },
+  { pahari: 'auna', gloss_en: 'to come', avoid: ['aana'], tags: ['verb', 'Kullui', 'Sirmauri'] },
+  { pahari: 'khaana', gloss_en: 'to eat', avoid: [], tags: ['verb', 'Pahari-General'] },
+  { pahari: 'pina', gloss_en: 'to drink', avoid: ['peena'], tags: ['verb', 'Pahari-General'] },
+  { pahari: 'khodna', gloss_en: 'to dig', avoid: ['khotna'], tags: ['verb', 'Kullui', 'Seraji'] },
+  { pahari: 'khotna', gloss_en: 'to dig', avoid: ['khodna'], tags: ['verb', 'Sirmauri', 'Mahasuvi'] },
+  { pahari: 'kaatna', gloss_en: 'to cut', avoid: [], tags: ['verb', 'Pahari-General'] },
+  { pahari: 'uthna', gloss_en: 'to rise / wake up', avoid: [], tags: ['verb', 'Pahari-General'] },
+  { pahari: 'baitna', gloss_en: 'to sit', avoid: ['baithna'], tags: ['verb', 'Pahari-General'] },
+  { pahari: 'souna', gloss_en: 'to sleep', avoid: ['sona'], tags: ['verb', 'Pahari-General'] },
+  { pahari: 'jagna', gloss_en: 'to stay awake / be alert', avoid: [], tags: ['verb', 'Pahari-General'] },
+  { pahari: 'daudna', gloss_en: 'to run', avoid: ['douna'], tags: ['verb', 'Kullui', 'Seraji'] },
+  { pahari: 'douna', gloss_en: 'to run', avoid: ['daudna'], tags: ['verb', 'Sirmauri', 'Mahasuvi'] },
+  { pahari: 'bolna', gloss_en: 'to speak / say', avoid: [], tags: ['verb', 'Pahari-General'] },
+  { pahari: 'gaana', gloss_en: 'to sing', avoid: ['gana'], tags: ['verb', 'Pahari-General'] },
+  { pahari: 'naachna', gloss_en: 'to dance', avoid: [], tags: ['verb', 'Pahari-General'] },
+  { pahari: 'puchhna', gloss_en: 'to ask', avoid: ['puchna'], tags: ['verb', 'Pahari-General'] },
+  { pahari: 'dasna', gloss_en: 'to tell', avoid: ['batana'], tags: ['verb', 'Pahari-General'] },
+  { pahari: 'sunna', gloss_en: 'to listen / hear', avoid: [], tags: ['verb', 'Pahari-General'] },
+  { pahari: 'takna', gloss_en: 'to gaze / stare', avoid: ['dekhna (stare)'], tags: ['verb', 'Pahari-General'] },
+  { pahari: 'kurlana', gloss_en: 'to yearn / pine for someone', avoid: ['tarsna'], tags: ['verb', 'emotion', 'Pahari-General'] },
+  { pahari: 'jhalakna', gloss_en: 'to shimmer / sparkle', avoid: ['chamakna'], tags: ['verb', 'Pahari-General'] },
+  { pahari: 'bilkhna', gloss_en: 'to sob / lament deeply', avoid: [], tags: ['verb', 'Pahari-General'] },
+  { pahari: 'rulna', gloss_en: 'to be stuck / entangled (emotional)', avoid: ['rudna'], tags: ['verb', 'Kullui', 'Seraji'], notes: '"Dil rulya ae" = heart is entangled' },
+  { pahari: 'rudna', gloss_en: 'to be stuck / entangled (emotional)', avoid: ['rulna'], tags: ['verb', 'Sirmauri', 'Mahasuvi'], notes: '"Dil rudya re" = heart is entangled' },
+  { pahari: 'ghumna', gloss_en: 'to move / to wander', avoid: ['ger'], tags: ['verb', 'Kullui', 'Seraji'], notes: '"Gheri na" = don\'t wander' },
+  { pahari: 'ger', gloss_en: 'to move / to wander (verb root)', avoid: ['ghum'], tags: ['verb', 'Sirmauri', 'Mahasuvi'], notes: '"Geri na" = don\'t wander' },
+
+  // --- CLOTHING ---
+  { pahari: 'chunni', gloss_en: 'a red dupatta / scarf', avoid: ['dupatta', 'chunnru'], tags: ['clothing', 'Kullui', 'Seraji'] },
+  { pahari: 'chunnru', gloss_en: 'a red dupatta / scarf (diminutive)', avoid: ['dupatta'], tags: ['clothing', 'Sirmauri', 'Mahasuvi'] },
+  { pahari: 'pullan', gloss_en: 'traditional grass/wool shoes', avoid: ['juta', 'mojri'], tags: ['clothing', 'Kullui', 'Seraji'], notes: 'Iconic Kullu/Manali footwear woven from grass' },
+  { pahari: 'patu', gloss_en: 'traditional Pahari woolen shawl/wrap', avoid: ['saalu', 'shawl'], tags: ['clothing', 'Kullui', 'Seraji'] },
+  { pahari: 'saalu', gloss_en: 'woolen shawl (traditional)', avoid: ['shawl'], tags: ['clothing', 'Sirmauri', 'Mahasuvi'] },
+  { pahari: 'jhumku', gloss_en: 'earring (diminutive)', avoid: ['bali'], tags: ['clothing', 'Pahari-General'] },
+  { pahari: 'dhaantu', gloss_en: 'traditional Pahari silver necklace', avoid: [], tags: ['clothing', 'Pahari-General'] },
+  { pahari: 'nath', gloss_en: 'nose ring', avoid: [], tags: ['clothing', 'Pahari-General'] },
+  { pahari: 'bindru', gloss_en: 'bindi / forehead dot (diminutive)', avoid: ['bindi'], tags: ['clothing', 'Pahari-General'] },
+  { pahari: 'kangan', gloss_en: 'bangles / bracelets', avoid: ['chudi'], tags: ['clothing', 'Pahari-General'] },
+  { pahari: 'pajeb', gloss_en: 'anklets', avoid: ['payal'], tags: ['clothing', 'Pahari-General'] },
+  { pahari: 'topi', gloss_en: 'traditional Pahari cap', avoid: [], tags: ['clothing', 'Pahari-General'], notes: 'Kullu topi is distinctively flat and woven' },
+  { pahari: 'dhoti', gloss_en: 'traditional lower garment (men)', avoid: [], tags: ['clothing', 'Pahari-General'] },
+  { pahari: 'kurta', gloss_en: 'traditional upper garment', avoid: [], tags: ['clothing', 'Pahari-General'] },
+  { pahari: 'patka', gloss_en: 'waist sash / cummerbund', avoid: [], tags: ['clothing', 'Pahari-General'] },
+
+  // --- CULTURE / MUSIC ---
+  { pahari: 'Dussehra', gloss_en: 'Kullu Dussehra (global fair)', avoid: ['mela (generic)'], tags: ['culture', 'Kullui', 'Seraji'], notes: 'Uppercase; unique 7-day international fair in Kullu' },
+  { pahari: 'naati', gloss_en: 'Pahari folk dance / song genre', avoid: ['bhangra'], tags: ['music', 'Pahari-General'] },
+  { pahari: 'mela', gloss_en: 'village fair', avoid: ['mela (acceptable)'], tags: ['culture', 'Pahari-General'] },
+  { pahari: 'jatar', gloss_en: 'village deity festival / pilgrimage', avoid: [], tags: ['culture', 'Pahari-General'] },
+  { pahari: 'puja', gloss_en: 'worship / prayer ritual', avoid: [], tags: ['culture', 'Pahari-General'] },
+  { pahari: 'devta', gloss_en: 'village deity / god', avoid: ['bhagwan'], tags: ['culture', 'Pahari-General'] },
+  { pahari: 'shamshan', gloss_en: 'cremation ground', avoid: [], tags: ['culture', 'Pahari-General'] },
+  { pahari: 'vivah', gloss_en: 'marriage / wedding', avoid: ['shaadi'], tags: ['culture', 'Pahari-General'] },
+  { pahari: 'byaa', gloss_en: 'wedding (colloquial)', avoid: [], tags: ['culture', 'Pahari-General'] },
+  { pahari: 'tith', gloss_en: 'auspicious date / festival day', avoid: ['tyohaar'], tags: ['culture', 'Pahari-General'] },
+  { pahari: 'bali', gloss_en: 'sacrifice (ritual offering)', avoid: [], tags: ['culture', 'Pahari-General'] },
+  { pahari: 'dhaam', gloss_en: 'community feast', avoid: [], tags: ['culture', 'Pahari-General'] },
+  { pahari: 'lukdi', gloss_en: 'torch / firebrand (festival use)', avoid: [], tags: ['culture', 'Pahari-General'] },
+  { pahari: 'dhol', gloss_en: 'large drum', avoid: [], tags: ['music', 'Pahari-General'] },
+  { pahari: 'nagada', gloss_en: 'kettle drum', avoid: [], tags: ['music', 'Pahari-General'] },
+  { pahari: 'shehnai', gloss_en: 'traditional wind instrument', avoid: [], tags: ['music', 'Pahari-General'] },
+  { pahari: 'karnal', gloss_en: 'traditional long trumpet', avoid: [], tags: ['music', 'Pahari-General'] },
+  { pahari: 'raja', gloss_en: 'king (in folk tales)', avoid: [], tags: ['culture', 'Pahari-General'] },
+  { pahari: 'rani', gloss_en: 'queen', avoid: [], tags: ['culture', 'Pahari-General'] },
+  { pahari: 'jadoo', gloss_en: 'magic', avoid: [], tags: ['culture', 'Pahari-General'] },
+
+  // --- AGRICULTURE ---
+  { pahari: 'seb', gloss_en: 'apple', avoid: [], tags: ['agriculture', 'Kullui', 'Seraji'], notes: 'Iconic Kullu/Kinnaur crop' },
+  { pahari: 'fasal', gloss_en: 'crop / harvest', avoid: [], tags: ['agriculture', 'Pahari-General'] },
+  { pahari: 'gahu', gloss_en: 'wheat', avoid: ['gehu'], tags: ['agriculture', 'Pahari-General'] },
+  { pahari: 'makki', gloss_en: 'corn / maize', avoid: [], tags: ['agriculture', 'Pahari-General'] },
+  { pahari: 'jau', gloss_en: 'barley', avoid: [], tags: ['agriculture', 'Pahari-General'] },
+  { pahari: 'dhaan', gloss_en: 'paddy / rice plant', avoid: ['chawal'], tags: ['agriculture', 'Pahari-General'] },
+  { pahari: 'bagicha', gloss_en: 'orchard', avoid: [], tags: ['agriculture', 'Pahari-General'] },
+  { pahari: 'hal', gloss_en: 'plough', avoid: [], tags: ['agriculture', 'Pahari-General'] },
+  { pahari: 'bail', gloss_en: 'ox / bullock', avoid: ['bael'], tags: ['agriculture', 'Pahari-General'] },
+  { pahari: 'gaai', gloss_en: 'cow', avoid: ['gaye'], tags: ['agriculture', 'Pahari-General'] },
+  { pahari: 'bhains', gloss_en: 'buffalo', avoid: [], tags: ['agriculture', 'Pahari-General'] },
+  { pahari: 'bhed', gloss_en: 'sheep', avoid: ['bhed (acceptable)'], tags: ['agriculture', 'Pahari-General'] },
+  { pahari: 'bakri', gloss_en: 'goat', avoid: [], tags: ['agriculture', 'Pahari-General'] },
+  { pahari: 'goth', gloss_en: 'cattle shed / byre', avoid: [], tags: ['agriculture', 'Pahari-General'] },
+  { pahari: 'chaara', gloss_en: 'fodder / animal feed', avoid: [], tags: ['agriculture', 'Pahari-General'] },
+  { pahari: 'ghaasni', gloss_en: 'grass cutting (task)', avoid: [], tags: ['agriculture', 'Pahari-General'] },
+
+  // --- DAILY LIFE ---
+  { pahari: 'daana', gloss_en: 'food / meal / grain', avoid: ['khana'], tags: ['daily life', 'Kullui', 'Seraji'], notes: '"Daana khana" is frowned upon, just use "Daana"' },
+  { pahari: 'lakdi', gloss_en: 'firewood', avoid: ['lakdi (acceptable)'], tags: ['daily life', 'Pahari-General'] },
+  { pahari: 'chulha', gloss_en: 'traditional stove', avoid: [], tags: ['daily life', 'Pahari-General'] },
+  { pahari: 'dhuwaan', gloss_en: 'smoke', avoid: ['dhuan'], tags: ['daily life', 'Pahari-General'] },
+  { pahari: 'paani', gloss_en: 'water', avoid: [], tags: ['daily life', 'Pahari-General'] },
+  { pahari: 'roti', gloss_en: 'flatbread / food (general)', avoid: [], tags: ['daily life', 'Pahari-General'] },
+  { pahari: 'daal', gloss_en: 'lentils', avoid: [], tags: ['daily life', 'Pahari-General'] },
+  { pahari: 'siddu', gloss_en: 'traditional stuffed steamed bread', avoid: [], tags: ['daily life', 'Pahari-General'] },
+  { pahari: 'chah', gloss_en: 'tea', avoid: ['chai'], tags: ['daily life', 'Pahari-General'] },
+  { pahari: 'bidi', gloss_en: 'rolled cigarette / beedi', avoid: [], tags: ['daily life', 'Pahari-General'] },
+  { pahari: 'hookah', gloss_en: 'water pipe (traditional smoking)', avoid: [], tags: ['daily life', 'Pahari-General'] },
+
+  // --- NOUN / MISC ---
+  { pahari: 'katha', gloss_en: 'talk / story / matter', avoid: ['gallan', 'baat'], tags: ['noun', 'Sirmauri', 'Mahasuvi'] },
+  { pahari: 'baat', gloss_en: 'matter / topic / conversation', avoid: [], tags: ['noun', 'Kullui', 'Seraji'], notes: '"Kya baat" is acceptable loan blend' },
+  { pahari: 'gal', gloss_en: 'talk / matter', avoid: ['baat'], tags: ['noun', 'Kullui', 'Seraji'], notes: '"Ki gal ae?" = What is the matter?' },
+  { pahari: 'sach', gloss_en: 'truth', avoid: [], tags: ['noun', 'Pahari-General'] },
+  { pahari: 'jhuth', gloss_en: 'lie / falsehood', avoid: ['jhooth'], tags: ['noun', 'Pahari-General'] },
+  { pahari: 'janjal', gloss_en: 'trouble / entanglement', avoid: ['museebat'], tags: ['noun', 'Pahari-General'] },
+  { pahari: 'takdir', gloss_en: 'fate / destiny', avoid: ['kismat'], tags: ['noun', 'Pahari-General'] },
+  { pahari: 'dua', gloss_en: 'blessing / prayer', avoid: [], tags: ['noun', 'Pahari-General'] },
+  { pahari: 'pahari', gloss_en: 'of the mountains / Pahari people', avoid: [], tags: ['identity', 'Pahari-General'] },
+  { pahari: 'pahadan', gloss_en: 'mountain woman / Pahari woman', avoid: [], tags: ['identity', 'Pahari-General'], notes: 'Feminine form' },
+
+  // --- SERAJI-SPECIFIC: Banjar Valley / Jibhi dialect ---
+  { pahari: 'hyūn', gloss_en: 'yesterday (Seraji archaic form)', avoid: ['kāl', 'kal'], tags: ['time', 'Seraji'], notes: 'Seraji retains archaic form; standard Kullui uses "kāl"' },
+  { pahari: 'byāl', gloss_en: 'yesterday (alternative Seraji)', avoid: [], tags: ['time', 'Seraji'], notes: 'Archaic retention alongside "hyūn"' },
+  { pahari: 'parhyūn', gloss_en: 'day before yesterday (Seraji)', avoid: [], tags: ['time', 'Seraji'] },
+  { pahari: 'bhyāg', gloss_en: 'tomorrow (Seraji archaic form)', avoid: ['bhāg'], tags: ['time', 'Seraji'], notes: 'Seraji retains older aspirated form; standard Kullui uses "bhāg"' },
+  { pahari: 'parbhyāg', gloss_en: 'day after tomorrow (Seraji)', avoid: [], tags: ['time', 'Seraji'] },
+  { pahari: 'rāta', gloss_en: 'night (Seraji, with terminal vowel)', avoid: [], tags: ['time', 'Seraji'], notes: 'Seraji often retains terminal vowel where Kullui drops it: "rāta" vs "rāt"' },
+  { pahari: 'sveryā', gloss_en: 'morning (Seraji, soft y palatalization)', avoid: [], tags: ['time', 'Seraji'], notes: 'Distinctive Seraji pronunciation with soft palatalized "y"' },
+  { pahari: 'sanjhā', gloss_en: 'evening (Seraji variant)', avoid: [], tags: ['time', 'Seraji'] },
+  { pahari: 'bhyākhal', gloss_en: 'evening / dusk (Seraji)', avoid: [], tags: ['time', 'Seraji'], notes: 'Archaic Seraji form for evening' },
+  { pahari: 'gār', gloss_en: 'river / mountain stream (Seraji)', avoid: [], tags: ['nature', 'Seraji'], notes: 'Shorter form vs standard Kullui "gārā"; common in Banjar/Tirthan region' },
+  { pahari: 'gad', gloss_en: 'mountain stream / rivulet (Seraji)', avoid: [], tags: ['nature', 'Seraji'], notes: 'Used for smaller streams feeding the Tirthan River' },
+  { pahari: 'thāch', gloss_en: 'high-altitude meadow (Seraji)', avoid: [], tags: ['nature', 'Seraji'], notes: 'Distinctive Seraj landscape term; alpine pastures above Jibhi' },
+  { pahari: 'ragh', gloss_en: 'mountain slope / pasture (Seraji)', avoid: [], tags: ['nature', 'Seraji'], notes: '"Ragha" = on the slope — common in Seraj geography' },
+  { pahari: 'sar', gloss_en: 'high-altitude lake (Seraji)', avoid: [], tags: ['nature', 'Seraji'], notes: 'Used for glacial lakes near Jalori Pass' },
+  { pahari: 'dhār', gloss_en: 'mountain ridge (Seraji pronunciation)', avoid: [], tags: ['nature', 'Seraji'], notes: 'Seraji retains heavy retroflex "ḍh" sound' },
+  { pahari: 'kāṭh', gloss_en: 'wood / timber (Seraji)', avoid: [], tags: ['daily life', 'Seraji'], notes: 'Referenced in Kath-Kuni architecture; "kāṭh" = deodar timber' },
+  { pahari: 'chān', gloss_en: 'wooden balcony / veranda (Seraji)', avoid: [], tags: ['architecture', 'Seraji'], notes: 'Kath-Kuni house feature; carved wooden balcony with geometric patterns' },
+  { pahari: 'ubār', gloss_en: 'courtyard (Seraji)', avoid: [], tags: ['architecture', 'Seraji'], notes: 'Central courtyard of traditional Seraj homes' },
+  { pahari: 'dhāj', gloss_en: 'dry stone wall (Seraji)', avoid: [], tags: ['architecture', 'Seraji'], notes: 'Dry stone masonry terracing Banjar Valley slopes' },
+  { pahari: 'gharāt', gloss_en: 'watermill / gharat (Seraji)', avoid: [], tags: ['daily life', 'Seraji'], notes: 'Traditional water-powered grain mill along Tirthan streams' },
+  { pahari: 'khyet', gloss_en: 'field (Seraji, palatalized)', avoid: [], tags: ['nature', 'Seraji'], notes: 'Slight palatalization distinguishes Seraji "khyet" from general "khet"' },
+  { pahari: 'bāri', gloss_en: 'orchard / garden (Seraji)', avoid: [], tags: ['nature', 'Seraji'], notes: 'Apple orchards of Banjar Valley' },
+  { pahari: 'deyor', gloss_en: 'god / village deity (Seraji)', avoid: [], tags: ['culture', 'Seraji'], notes: 'Shringa Rishi devta is the primary deyor of Banjar' },
+  { pahari: 'dev', gloss_en: 'deity / divine (Seraji, ritual)', avoid: [], tags: ['culture', 'Seraji'], notes: 'Used in formal/devotional contexts' },
+  { pahari: 'ghara', gloss_en: 'house / home (Seraji alt.)', avoid: [], tags: ['place', 'Seraji'], notes: 'Alternative to "kud" / "bera"; older speakers in Jibhi use "ghara"' },
+  { pahari: 'Jibhi', gloss_en: 'Jibhi (Jihbi) — Banjar Valley village', avoid: [], tags: ['place', 'Seraji'], notes: 'Primary village in the Banjar Valley, Tirthan River' },
+  { pahari: 'Tirthan', gloss_en: 'Tirthan River (Seraj valley lifeline)', avoid: [], tags: ['nature', 'Seraji'], notes: 'Trout-fishing stream; tributary of Beas' },
+  { pahari: 'Banjar', gloss_en: 'Banjar Valley / Banjar (town)', avoid: [], tags: ['place', 'Seraji'], notes: 'Administrative region of Seraj; Banjar Mela' },
+  { pahari: 'Jalori', gloss_en: 'Jalori Pass (Seraj high pass)', avoid: [], tags: ['place', 'Seraji'], notes: 'Historical trade route connecting Kullu to Shimla' },
+  { pahari: 'Seraj', gloss_en: 'Seraj / Seraji region (Banjar Valley area)', avoid: [], tags: ['place', 'Seraji'] },
+  { pahari: 'Shringa', gloss_en: 'Shringa Rishi (patron deity of Banjar)', avoid: [], tags: ['culture', 'Seraji'], notes: 'Shringa Rishi Temple in Banjar — primary devta of Seraj' },
+  { pahari: 'Shikari', gloss_en: 'Mata Shikari Devi (goddess)', avoid: [], tags: ['culture', 'Seraji'], notes: 'Hilltop temple near Janjehli; Seraj deity' },
 ];
+
+const COMPOSER_PERSONA = 'You are a master Seraji Pahari folk songwriter from the Banjar Valley in the Seraj region of Himachal — the Jibhi-Tirthan area, where the Tirthan River flows through deodar and pine forests below Jalori Pass. You write songs in the melodic, rising-falling intonation distinctive to Seraji, a sub-dialect of Kullui with its own gentle, river-influenced character. You create authentic, soulful songs for the Suno v5.5 AI music generation platform.';
+
+const DIALECT_REQUIREMENT = 'CRITICAL: Lyrics MUST be in the Seraji dialect of Kullui Pahari from the Banjar/Seraj Valley (Jibhi-Tirthan area) — NOT standard Hindi, NOT Punjabi, and NOT Sirmauri or Mahasuvi dialects. Seraji is a sub-dialect of Kullui with its own characteristic rising-falling melodic intonation, softer aspirations, and vowel elongation on penultimate syllables. Use authentic Seraji vocabulary and the gentle, river-influenced flow of the Tirthan.';
+
+const LYRICS_FORMAT = 'Use Suno v5.5 tags: [Intro], [Verse 1]-[Verse 4], [Chorus] (identical on each repetition), [Bridge] (quiet shift), [Outro] (fade). Include instrument performance tags and vocal direction tags. The hook/chorus must be memorable and repeatable.';
+
+const STYLE_FORMAT = 'Style block = comma-separated English descriptor string. Structure: [Genre/Style], [Vocal Type], [Instruments], [Tempo/Key/Mood]. Must open with language hint "sung in Seraji Himachali Pahari" as the first sentence. Explicitly name "Seraji naati" as the dance genre — a slower, unhurried variant of Kullu naati with a gentle jhampak (swing) reflecting the flow of the Tirthan River. Name dhol and nagada for percussion; shehnai and karnal optional for festival/procession contexts. Emphasize the characteristic Seraji rising-falling melodic intonation with soft meend glides. Include call-and-response (sawāl-jawāb) patterns in group singing sections. No backbeat phrasing. BPM must be stated and fall within 85-100 (Seraji Naati is slower and more melodic than standard Kullui — nearer 87-92 BPM for devotional, 92-100 for lively).';
+
+const TITLE_RULE = 'Romanized Pahari title, 2-5 words, poetic, not English, not Devanagari. Examples: "Kail di Chhaan", "Nagada baaje pahadiyan", "Kudi di Jhumku", "Devta di Aawaz", "Beas di Lehar".';
+
+const OUTPUT_CONTRACT = 'Respond ONLY with a valid JSON object: {"title": "...", "lyrics": "...", "style": "..."}. No markdown fences. No other text.';
+
+const CRITIC_PERSONA = 'You are a Seraji Pahari language expert from the Banjar Valley (Jibhi-Tirthan region) in the Seraj area of Kullu district, specializing in the sub-dialect\'s distinctive rising-falling melodic intonation, softer aspirations, and vocabulary. Analyze song lyrics for Seraji dialect authenticity only — flag Hindi, Punjabi, AND Sirmauri/Mahasuvi drift.';
+
+const CRITIC_OUTPUT = 'Respond with JSON: {"is_authentic": bool, "confidence": 0-1, "issues": [{"excerpt": "...", "problem": "...", "suggestion": "..."}]}';
+
+const SONG_FORMULA = `FORMULA FOR A SERAJI PAHARI FOLK SONG:
+
+STRUCTURE (20-32 lines):
+[Intro] — 2-4 bars atmospheric, bansuri or acoustic solo
+[Verse 1] — 4 lines (setting + emotion introduction)
+[Chorus] — 4 lines (hook, must be IDENTICAL on each repetition)
+[Verse 2] — 4 lines (story development or character detail)
+[Chorus] — 4 lines (repeat EXACTLY as Verse 1 chorus)
+[Bridge] — 2-4 lines (quiet shift, emotional pivot)
+[Verse 3] — 4 lines (climax of emotion or story)
+[Verse 4] — 4 lines (resolution or poignant contrast)
+[Chorus] — 4 lines (final, most powerful iteration, EXACTLY same text)
+[Outro] — 2-4 bars instrument tag fade
+
+Line requirements:
+- Each line: 8-12 syllables (important for folk rhythm)
+- Rhyme scheme: AABB (traditional) or ABAB (modern folk)
+- Chorus: must be identical EVERY time — this is non-negotiable
+- Bridge: contrast in tone — often acoustic or quieter section
+
+Trope chains to weave into the narrative (use Seraji geography & culture):
+- chitte dandru → chunni in Tirthan valley wind → jhumku swaying → naati at Banjar Mela
+- kail shade → moonlight on Tirthan River → waiting on rasta → heart longing
+- snow peaks at Jalori Pass → Jibhi gaon path → dhol rhythm → feet in Seraji naati circle
+- Shringa Devta rath → karnal call → dhol heartbeat → Banjar valley chorus rising
+- apple orchard → Tirthan riverside → patu draped → evening home in Jibhi
+
+Use at least one trope chain organically within your verses.`;
+
+const COMMON_OPENERS = `EFFECTIVE WAYS TO START A VERSE (choose variety, don't repeat):
+
+1. Nature opener: "Deodar di chhaan vich..." (In the deodar's shade...)
+2. Time opener: "Suuraj pahadi pe chadhe..." (Sun climbs the mountain...)
+3. Emotion opener: "Manu teri yaad aandi ri..." (I remember you...)
+4. Activity opener: "Nagada baaje pahadiyan..." (Drums beat in the hills...)
+5. Direct address: "Kudi meri, sun le gal..." (My girl, listen...)
+6. Contrast opener: "Raat di chhaan vich, taare..." (In night's shadow, stars...)
+7. Seasonal opener: "Sardi di raat, chand di chaandi..." (Winter's night, moon's silver...)
+8. Movement opener: "Gaon di galiyan vich, dhol sunaave..." (In village lanes, drums are heard...)
+
+Each verse should start differently. Avoid starting two verses with the same opener.`;
+
+const EMOTIONAL_VIVIDNESS = `MAKE IT VISUAL, SENSORY, AND EMOTIONAL:
+
+LEVEL 1 (Good): "Sheeli hawa chale, deodar hile" (Cool wind blows, deodars sway)
+LEVEL 2 (Better): "Sheeli hawa di chhe, deodar jhuke" (Cold wind's breath, deodars bow)
+LEVEL 3 (Best): "Sheeli hawa di chhe vich, deodar jhuke, kudi di akh vich, aansu ruke" (In cold wind's breath, deodars bow; in the girl's eyes, tears pause)
+
+SENSORY DETAILS TO INCLUDE (weave in 2-3 senses per song):
+- Sight: golden sunlight on Jalori peaks, red chunni, swaying jhumku, deodar shadows, moon reflections on Tirthan River, pullan on stone paths, patu draped against snow
+- Sound: dhol beat, bansuri melody, village laughter, Tirthan water over stones, nagada thunder, shehnai call, karnal blast at Banjar Mela, khanjari chime
+- Touch: cold mountain wind, rough stone path, warm chah cup, soft patu wool, damp apple orchard grass, sun-warmed Seraj topi
+- Smell: woodsmoke from chulha, wet pine needles, mountain air, blooming rhododendron, apple blossom along Tirthan banks
+- Emotion: longing, joy, pride, melancholy, resilience, bittersweet ache
+
+The most powerful lines combine 2-3 sounds and an emotion.`;
+
+const CULTURAL_AUTHENTICITY = `AUTHENTIC SERAJI PAHARI FOLK ELEMENTS:
+
+Cultural references to USE:
+- Villages: gaon (village), pahadi (mountain), vich (in/inside), Jibhi (primary village), Banjar Valley, Tirthan River, Jalori Pass
+- People: kudi (girl/daughter), munda (boy/son), bhabo (sister-in-law), Devta / deyor (village deity)
+- Architecture: Kath-Kuni wooden-stone houses with carved chān (wooden balcony), slate roofs, dhāj dry stone walls, gharāt (watermills)
+- Clothing: chunni (dupatta), jhumku (earrings), patu (woolen shawl), pullan (grass shoes), Seraj-Kullu topi (woven cap), chandrahār (crescent necklace)
+- Instruments: dhol (must mention), nagada (must mention), bansuri (flute), shehnai (festival), karnal (procession trumpet), khanjari (tambourine), ransinghā (curved brass horn)
+- Dance: naati — specifically "Seraji naati" with Keharwā tāl (8 beats) at an unhurried jhampak swing, flowing like the Tirthan
+- Festivals: Banjar Mela (annual fair with devta processions), jatar (deity pilgrimage), dhaam (community feast), mela (village fair), Shringa Rishi puja
+- Food: daana (meal), chah (tea), siddu (steamed bread), chulha (hearth), trout from Tirthan streams, apple from Banjar orchards
+- Nature: deodar (cedar), kail (blue pine), gār / gad (mountain stream), thāch (high meadow), ragh (slope), dhār (ridge), sar (high lake), buransh (rhododendron), Tirthan River
+- Devta culture: Shringa Rishi (patron deity of Banjar), Shikari Devi (goddess), Devta carried in rath procession, shehnai and karnal lead the procession, dhol rhythms call the faithful
+- Emotions: prem (love), maya (love/adoration), yaad (memory), dukh (sorrow), aansu (tears), umang (enthusiasm)
+
+Cultural references to AVOID:
+- Modern technology (phones, cars, electricity)
+- Urban settings (cities, markets, offices)
+- Explicit religious content (keep to Devta reverence and spiritual nature connection)
+- Anything that sounds like Bollywood film music
+- English words (use Pahari equivalents)
+- Sirmauri/Mahasuvi forms: manjh (use vich), ri/ra/re genitives (use di/da/de), bitti (use kudi), herda (use dekhda), rouni (use raat), graan (use gaon), chunnru (use chunni), seet/syau (use sardi)
+
+MUST include at least 3 of the "use" elements in each verse.`;
+
+const CHORUS_TECHNIQUES = `MAKING A MEMORABLE CHORUS (Hook Formula):
+
+A great chorus follows this pattern:
+[Cultural element] + [Emotion/Action] + [Setting] = Hook
+
+EXAMPLES:
+"Nagada baaje pahadiyan, prem di goonj" (Drums beat in hills, love's echo)
+"Kudi di jhumku chale, meri vich chand" (Girl's earrings sway, in my heart the moon)
+"Vich pahadiyan di, raat chhaan" (In the hills, night's shadow)
+"Dhol di taal, te nagada di goonj" (Dhol's rhythm, and nagada's echo)
+"Deodar di chhaan vich, prem di baat" (In deodar's shade, love's talk)
+"Devta di aawaz, dhol di goonj" (Devta's voice, dhol's echo)
+"Tirthan di lehar, prem di baat" (Tirthan's wave, love's talk)
+
+Chorus requirements:
+- 4 lines exactly
+- Each line: 8-12 syllables
+- Last line must be the emotional punch — the line people will sing along to
+- Must be IDENTICAL every time it repeats (you'll paste it 3 times)
+
+⚠️ The chorus is NOT the time to be subtle. Make it bold, emotional, and singable.`;
+
+const NARRATIVE_THEMES = `NARRATIVE THEMES FOR SERAJI PAHARI FOLK SONGS:
+
+Choose ONE primary theme (your mood/occasion determines the best fit):
+
+1. SEPARATION AND LONGING (prem virah):
+Lovers separated by distance or circumstance. Waiting on mountain paths.
+Memories of togetherness. Yearning for reunion.
+Imagery: moonlit raat, empty rasta, letters, dusk, Jalori Pass, Tirthan riverside paths.
+
+2. CELEBRATION AND COMMUNITY (mela tyohar):
+Weddings, village fairs, Banjar Mela (annual fair with devta processions). Community joy.
+Imagery: dhol and nagada, dancing feet, colorful chunni, shared dhaam meals, shehnai and karnal at Shringa Rishi processions.
+
+3. NATURE AND SPIRITUALITY (pahadi shanti):
+The mountain landscape as sacred presence. Reverence for nature's beauty.
+Spiritual connection through the natural world.
+Imagery: deodar and kail forests, snow peaks above Jibhi, Tirthan River, mountain streams, dawn light over Jalori, thāch meadows.
+
+4. RESILIENCE AND HARD LIFE (sardi dukh):
+The dignity of difficult mountain life. Working hardship with grace.
+Farming through harsh sardi. Strength in community.
+Imagery: rough stone paths, cold winters, sveryā (early mornings), calloused hands, apple harvest, patu against cold.
+
+5. DAILY LIFE AND RHYTHMS (gaon jeevan):
+Village routines and small joys. Work songs. Intergenerational wisdom.
+Imagery: chulha smoke, fields at dusk, grazing animals, elders' stories, children playing, daana, chah, siddu at hearth, gharāt (watermill) at work.
+
+6. SHRINGA DEVTA AND THE SERAJ VALLEY (dev deyor):
+The unique Seraj tradition where each village has its own Devta (deyor) carried in a rath (palanquin) during festivals.
+Shringa Rishi is the patron deity of Banjar — his temple is in the Banjar Valley.
+Shehnai and karnal lead processions. Dhol rhythms call the faithful.
+Banjar Mela brings Devtas from across Seraj together in an annual gathering.
+Imagery: rath procession, karnal calls echoing across the valley, sacred groves by the Tirthan River, Devta fairgrounds at Shringa Rishi Temple, valley chorus rising.
+
+Trope chains from the song formula should support your chosen theme.
+Let the theme inform every verse. A secondary theme can add depth.`;
+
+const DIALECT_EXAMPLES = `EXAMPLES OF AUTHENTIC SERAJI PAHARI LINES
+(Seraji is the sub-dialect of Kullui spoken in the Banjar Valley / Jibhi-Tirthan region):
+
+NATURE:
+"Deodar di chhaan vich, sheeli sheeli hawa" (In the deodar's shade, cool cool breeze)
+"Suuraj pahade pe chadhe, sone di kite" (Sun climbs the mountain, golden rays)
+"Nagada baaje pahadiyan, dhol di goonj" (Nagada beats in the hills, dhol's echo)
+"Tirthan gār vich chitte machhli, thāch di hawa" (Tirthan stream with bright trout, wind of the high meadow)
+
+LOVE:
+"Manu teri yaad aandi, raat te din" (I remember you, night and day) [Use "manu" not "mainu" or "minjo"]
+"Teri akh vich chand, meri akh vich taare" (Moon in your eyes, stars in mine) [Use "vich" not "manjh"]
+"Kudi meri, jado fer aave?" (My girl, when will you come again?) [Use "jado" not "jadon" or "jaalu"]
+
+DAILY LIFE:
+"Gaon di galiyan vich, gal raata nu" (In the village lanes, talk at night) [Use "gaon" not "graan", "gal" not "gallan"]
+"Haath thande, pair thande, sardi lagge" (Cold hands, cold feet, warmth needed) [Use "raat" for night, "sardi" for winter]
+"Pahade pe chadhde, dhol sunaave" (Climbing the hill, drums are heard)
+
+SERAJI-SPECIFIC TIME REFERENCES:
+"Hyūn dekhya tera chehra sapna vich" (Yesterday saw your face in a dream) [Use "hyūn" for yesterday — Seraji archaic form]
+"Bhyāg fer milanga, Tirthan kinare" (Tomorrow we'll meet again, Tirthan riverside) [Use "bhyāg" for tomorrow — Seraji retains older form]
+
+CRITICAL SUBSTITUTIONS (memorize these):
+
+FROM HINDI/PUNJABI (always replace):
+- "mainu" → "manu" (to me)
+- "tainu" → "tenu" (to you)
+- "mujhe" → "manu" (to me)
+- "jadon" → "jado" (when)
+- "gallan" → "gal" (talk/stories)
+- "larki" → "kudi" (girl)
+- "larka" → "munda" (boy)
+- "pind" → "gaon" (village; pind is Kangri-influenced, gaon is preferred in Seraj)
+
+From SIRMAURI/MAHASUVI (also replace — these are wrong for Seraji):
+- "minjo" → "manu" (to me)
+- "tinjo" → "tenu" (to you)
+- "manjh" → "vich" (in/with)
+- "ri/ra/re" → "di/da/de" (genitive suffixes)
+- "bitti" → "kudi" (girl)
+- "bittu" → "munda" (boy)
+- "herda" → "dekhda" (watching)
+- "rouni" → "raat" (night)
+- "graan" → "gaon" (village)
+- "chunnru" → "chunni" (dupatta)
+- "jaalu" → "jado" (when)
+- "seet/syau" → "sardi" (winter)
+- "kothi" → "bera" (house)
+- "sadku" → "rasta" (road)
+- "dihu" → "din" (day)
+
+If you're unsure about a word, check the lexicon or use one of the examples above.`;
+
+const ITERATIVE_IMPROVEMENT = `ITERATIVE REFINEMENT PROCESS:
+
+You are now in REVISION mode. The critic has given you feedback.
+Your task: IMPROVE the song while keeping its emotional heart.
+
+REVISION STRATEGY:
+1. Address all high-severity issues first (vocabulary — Hindi, Punjabi, and Sirmauri/Mahasuvi drift)
+2. Fix medium-severity issues (grammar, structure, kinship terms)
+3. Consider stylistic suggestions (optional improvements)
+
+DO NOT:
+- Throw away the original creative vision
+- Over-correct into something unnatural
+- Lose the emotional arc or narrative
+- Introduce Sirmauri or Mahasuvi forms when fixing Punjabi (use Seraji forms, which follow Kullui grammar)
+
+DO:
+- Replace Hindi, Punjabi, AND Sirmauri/Mahasuvi drift with proper Seraji forms
+- Fix any structural issues (chorus identical, verse lengths)
+- Enhance cultural authenticity (Shringa Devta culture, Tirthan valley imagery, Seraji naati)
+- Maintain or improve the emotional impact
+- Preserve the melodic, rising-falling intonation of Seraji Pahari
+
+The critic's suggestions are guidance, not commands. Your artistic voice still matters.
+After revision, the contributor will evaluate again.`;
+
+const VALIDATION_RULES = `VALIDATION CHECKLIST FOR CRITIC:
+
+HIGH SEVERITY (Dealbreaker — must fix):
+❌ "mainu" → "manu" (Punjabi)
+❌ "tainu" → "tenu" (Punjabi)
+❌ "mujhe" → "manu" (Hindi)
+❌ "jadon" → "jado" (Punjabi)
+❌ "gallan" → "gal" (Punjabi)
+❌ "larki" → "kudi" (Hindi)
+❌ "larka" → "munda" (Hindi)
+❌ "manjh" → "vich" (Sirmauri drift — Seraji uses "vich")
+❌ "minjo" → "manu" (Sirmauri drift)
+❌ "tinjo" → "tenu" (Sirmauri drift)
+❌ "ri/ra/re" (genitive) → "di/da/de" (Sirmauri genitives — Seraji uses di/da/de)
+❌ "bitti" → "kudi" (Sirmauri girl — Seraji uses kudi)
+❌ "herda" → "dekhda" (Sirmauri watching — Seraji uses dekhda)
+❌ "rouni" → "raat" (Sirmauri night — Seraji uses raat)
+❌ "graan" → "gaon" (Sirmauri village — Seraji uses gaon)
+❌ "chunnru" → "chunni" (Sirmauri shawl — Seraji uses chunni)
+❌ "jaalu" → "jado" (Sirmauri when — Seraji uses jado)
+❌ "seet" / "syau" → "sardi" (Sirmauri winter — Seraji uses sardi)
+❌ Hindi "hai/hoon/hain" auxiliaries → omit or use "ae"
+
+MEDIUM SEVERITY (Improve if possible):
+⚠️ "pind" → "gaon" (Kangri-influenced variant; gaon is preferred Seraji)
+⚠️ "tha" / "thae" → "si" (Sirmauri past copula — Seraji uses si)
+⚠️ "baabu" → "baap" (Sirmauri father — Seraji uses baap)
+⚠️ "aama" → "amma" (Sirmauri mother — Seraji uses amma)
+⚠️ "bhailu" → "bhai" (Sirmauri brother — Seraji uses bhai)
+⚠️ "bhabhi" → "bhabo" (Sirmauri sister-in-law — Seraji uses bhabo)
+⚠️ "baani" → "diya" (Sirmauri sister — Seraji uses diya)
+⚠️ "kothi" → "bera" (Sirmauri house — Seraji uses bera)
+⚠️ "sadku" → "rasta" (Sirmauri road — Seraji uses rasta)
+⚠️ "deotha" → "Devta" (Sirmauri shrine — Seraji uses Devta)
+⚠️ "bonna" → "hona" (Sirmauri to become — Seraji uses hona)
+⚠️ "douna" → "daudna" (Sirmauri to run — Seraji uses daudna)
+⚠️ "ham" / "hum" → "asan" (Sirmauri we — Seraji uses asan)
+⚠️ "tumlog" → "tusaan" (Sirmauri you all — Seraji uses tusaan)
+⚠️ "de naal" → rephrase with "vich" or "saath" (Punjabi borrowing, borderline acceptable)
+
+STRUCTURAL RULES:
+❌ Chorus text must be IDENTICAL on every repetition
+❌ Must have [Intro], [Chorus], [Outro] at minimum
+❌ Tags must use square brackets: [Verse 1], [Chorus], etc.
+❌ Each verse: 4 lines minimum
+❌ Song total: 20-32 lines
+❌ Line length: 8-12 syllables (folk rhythm)
+
+STYLE BLOCK RULES:
+❌ First sentence MUST be: "sung in Seraji Himachali Pahari"
+❌ Must include "Seraji naati" dance rhythm
+❌ Must include "dhol" and "nagada" percussion
+❌ Must state BPM (85-100 — Seraji naati is slightly unhurried with a soft jhampak swing)
+❌ FORBIDDEN: "crisp snare on the backbeat", "backbeat", "bhangra"
+❌ Under 1000 characters
+
+TITLE RULES:
+❌ Romanized Pahari (not Devanagari, not English)
+❌ 2-5 words
+❌ Poetic/metaphorical
+❌ Examples: "Tirthan di Lehrain", "Seraji Naati", "Jibhi di Kudi", "Banjar da Nagada"`;
+
+const CRITIC_RULES = `CRITIC RULES — HOW TO ANALYZE:
+
+1. Be strict but constructive. Every issue MUST include a suggested fix.
+2. Focus on dialect authenticity first, then structural correctness.
+3. For each issue, cite the exact line number and phrase.
+4. If the song is fully authentic, say so clearly with high confidence (0.9+).
+5. Do NOT comment on creative quality, emotional impact, or musicality of the lyrics.
+6. The confidence score is your overall certainty (0.0-1.0).
+7. is_authentic should be false if ANY high-severity issues remain.
+8. is_authentic can be true only if all issues are cosmetic at most.`;
+
+function assembleComposerPrompt(fragments, formData, userLexicon = []) {
+  const { topic, mood, occasion, instruments, notes } = formData;
+  const moodMap = {
+    'melancholic': 'A) SEPARATION AND LONGING',
+    'joyful': 'B) CELEBRATION AND COMMUNITY',
+    'peaceful': 'C) NATURE AND SPIRITUALITY',
+    'bittersweet': 'D) RESILIENCE AND HARD LIFE',
+    'romantic': 'A) SEPARATION AND LONGING (romantic emphasis)',
+    'nostalgic': 'D) RESILIENCE AND HARD LIFE (memory emphasis)',
+    'hopeful': 'C) NATURE AND SPIRITUALITY (renewal emphasis)',
+  };
+  const occasionMap = {
+    'wedding': 'Wedding celebration — vibrant colors, dhol, community dancing',
+    'mela': 'Village fair — festive energy, families gathering, naati dance',
+    'harvest': 'Harvest season — gratitude, abundance, community labor',
+    'winter': 'Winter stillness — cold, woodsmoke, indoor gatherings',
+    'spring': 'Spring renewal — flowers blooming, new life, hope',
+    'separation': 'Lovers separated — longing, memory, waiting on mountain paths',
+    'daily_life': 'Daily mountain life — farming, shepherding, village routines',
+    'festival': 'Festival celebration — music, dance, community tradition',
+  };
+  const userLines = [`${fragments.composerPersona}
+
+${fragments.dialectRequirement}
+
+USER REQUEST:
+Topic: ${topic || 'mountain life'}
+Mood: ${mood || 'traditional'} → ${moodMap[mood] || 'A) SEPARATION AND LONGING'}
+Occasion: ${occasion || 'everyday life'} → ${occasionMap[occasion] || 'Daily life in the mountains'}
+Instruments: ${instruments || 'Dhol, Nagara, Bansuri, Acoustic Guitar'}
+Additional notes: ${notes || 'None provided'}
+
+${fragments.songFormula}
+
+${fragments.commonOpeners}
+
+${fragments.emotionalVividness}
+
+${fragments.culturalAuthenticity}
+
+${fragments.chorusTechniques}
+
+${fragments.narrativeThemes}
+
+${fragments.dialectExamples}
+
+${fragments.lyricsFormat}
+
+${fragments.styleFormat}
+
+${fragments.titleRule}
+
+${fragments.outputContract}`];
+
+  if (userLexicon && userLexicon.length) {
+    userLines.push('\n\nUSER LEXICON (preferred terms):\n' + userLexicon.map(e => e.pahari + ' = ' + e.gloss_en).join('\n'));
+  }
+
+  return { system: 'You are a helpful assistant.', user: userLines.join('\n') };
+}
+
+function assembleCriticPrompt(fragments, lyrics, title, style) {
+  const kulluiLexicon = LEXICON.filter(e => (e.tags || []).includes('Kullui') || (e.tags || []).includes('Seraji') || (e.tags || []).includes('Pahari-General'));
+  const lexBlock = kulluiLexicon.map(e => e.pahari + ' = ' + e.gloss_en).join('\n');
+  return {
+    system: `${fragments.criticPersona}
+
+${fragments.validationRules}
+
+${fragments.criticRules}
+
+Lexicon reference:
+${lexBlock}
+
+${fragments.criticOutput}`,
+    user: `SONG TITLE: ${title}
+STYLE: ${style}
+
+LYRICS TO ANALYZE:
+${lyrics.slice(0, 3000)}`,
+  };
+}
+
+const PROMPT_VERSION = '3.0.0';
+
+// Pass 1: fragments only (no assemblers) — avoids circular deps
+const FRAGMENTS = {
+  composerPersona: COMPOSER_PERSONA,
+  dialectRequirement: DIALECT_REQUIREMENT,
+  lyricsFormat: LYRICS_FORMAT,
+  styleFormat: STYLE_FORMAT,
+  titleRule: TITLE_RULE,
+  outputContract: OUTPUT_CONTRACT,
+  criticPersona: CRITIC_PERSONA,
+  criticOutput: CRITIC_OUTPUT,
+  songFormula: SONG_FORMULA,
+  commonOpeners: COMMON_OPENERS,
+  emotionalVividness: EMOTIONAL_VIVIDNESS,
+  culturalAuthenticity: CULTURAL_AUTHENTICITY,
+  chorusTechniques: CHORUS_TECHNIQUES,
+  narrativeThemes: NARRATIVE_THEMES,
+  dialectExamples: DIALECT_EXAMPLES,
+  iterativeImprovement: ITERATIVE_IMPROVEMENT,
+  validationRules: VALIDATION_RULES,
+  criticRules: CRITIC_RULES,
+};
+
+// Pass 2: build full PROMPT_FRAGMENTS with assembler methods bound to FRAGMENTS
+const PROMPT_FRAGMENTS = {
+  ...FRAGMENTS,
+  assembleComposerPrompt: (formData, userLexicon) =>
+    assembleComposerPrompt(FRAGMENTS, formData, userLexicon),
+  assembleCriticPrompt: (lyrics, title, style) =>
+    assembleCriticPrompt(FRAGMENTS, lyrics, title, style),
+};
 
 const CONTAMINATION_RULES = [
-  { pattern: '\\bde naal\\b', language: 'punjabi', severity: 'high', suggestion: 'manjh', explanation: 'Punjabi "de naal" means "with"; use Pahari "manjh" or postpositional forms' },
-  { pattern: '\\bjadon\\b', language: 'punjabi', severity: 'high', suggestion: 'jaalu', explanation: 'Punjabi "jadon" = when; Pahari uses "jaalu"' },
-  { pattern: '\\bgallan\\b', language: 'punjabi', severity: 'high', suggestion: 'katha', explanation: 'Punjabi "gallan" = talk/stories; Pahari uses "katha"' },
-  { pattern: '\\bdila ch\\b', language: 'punjabi', severity: 'high', suggestion: 'manjh', explanation: 'Punjabi "dila ch" = in the heart; use Pahari "manjh"' },
-  { pattern: '\\bmainu\\b', language: 'punjabi', severity: 'high', suggestion: 'minjo', explanation: 'Punjabi "mainu" = to me; Pahari uses "minjo"' },
-  { pattern: '\\btainu\\b', language: 'punjabi', severity: 'high', suggestion: 'tujo / tujhe', explanation: 'Punjabi "tainu" = to you; use Pahari forms' },
-  { pattern: '\\bpind\\b', language: 'punjabi', severity: 'high', suggestion: 'graan', explanation: 'Punjabi "pind" = village; Pahari uses "graan"' },
-  { pattern: '\\bvich\\b', language: 'punjabi', severity: 'high', suggestion: 'manjh', explanation: 'Punjabi "vich" = in; Pahari uses "manjh"' },
-  { pattern: '\\bdi\\b', language: 'punjabi', severity: 'medium', suggestion: 'ri / ra / re', explanation: 'Punjabi genitive "di" should be Pahari "ri" (fem) / "ra" (masc) / "re" (obl)' },
-  { pattern: '\\bda\\b', language: 'punjabi', severity: 'medium', suggestion: 'ra', explanation: 'Punjabi genitive "da" should be Pahari "ra"' },
-  { pattern: '\\bde\\b', language: 'punjabi', severity: 'medium', suggestion: 're', explanation: 'Punjabi oblique genitive "de" should be Pahari "re"' },
-  { pattern: '\\bmujhe\\b', language: 'hindi', severity: 'medium', suggestion: 'minjo', explanation: 'Hindi "mujhe" = to me; use Pahari "minjo"' },
-  { pattern: '\\btumhara\\b', language: 'hindi', severity: 'medium', suggestion: 'tera / teri', explanation: 'Hindi "tumhara" = your; use Pahari "tera/teri"' },
-  { pattern: '\\bkyunki\\b', language: 'hindi', severity: 'medium', suggestion: 'kathi / je', explanation: 'Hindi "kyunki" = because; use Pahari forms' },
-  { pattern: '\\blekin\\b', language: 'hindi', severity: 'medium', suggestion: 'par / magar (acceptable)', explanation: 'Hindi "lekin" = but; "par" is borderline acceptable' },
-  { pattern: '\\bdekhda\\b', language: 'hindi', severity: 'medium', suggestion: 'herda', explanation: 'Hindi "dekhda" = watching; use Pahari "herda"' },
-  { pattern: '\\braat\\b', language: 'hindi', severity: 'medium', suggestion: 'rouni', explanation: '"rouni" preferred for night; "raat" acceptable in mixed register' },
-  { pattern: '\\blarki\\b', language: 'hindi', severity: 'medium', suggestion: 'bitti', explanation: 'Hindi "larki" = girl; use Pahari "bitti"' },
+  // Hindi / Punjabi contamination (always replace)
+  { pattern: '\\bmainu\\b', language: 'punjabi', severity: 'high', suggestion: 'manu', explanation: 'Punjabi "mainu" = to me; Seraji uses "manu"' },
+  { pattern: '\\btainu\\b', language: 'punjabi', severity: 'high', suggestion: 'tenu', explanation: 'Punjabi "tainu" = to you; Seraji uses "tenu"' },
+  { pattern: '\\bmujhe\\b', language: 'hindi', severity: 'high', suggestion: 'manu', explanation: 'Hindi "mujhe" = to me; Seraji uses "manu"' },
+  { pattern: '\\bjadon\\b', language: 'punjabi', severity: 'high', suggestion: 'jado', explanation: 'Punjabi "jadon" = when; Seraji uses "jado"' },
+  { pattern: '\\bgallan\\b', language: 'punjabi', severity: 'high', suggestion: 'gal', explanation: 'Punjabi "gallan" = talk/stories; Seraji uses "gal"' },
+  { pattern: '\\blarki\\b', language: 'hindi', severity: 'high', suggestion: 'kudi', explanation: 'Hindi "larki" = girl; Seraji uses "kudi"' },
+  { pattern: '\\blarka\\b', language: 'hindi', severity: 'high', suggestion: 'munda', explanation: 'Hindi "larka" = boy; Seraji uses "munda"' },
+  { pattern: '\\btumhara\\b', language: 'hindi', severity: 'medium', suggestion: 'tera / teri', explanation: 'Hindi "tumhara" = your; use Seraji "tera/teri"' },
+  { pattern: '\\bkyunki\\b', language: 'hindi', severity: 'medium', suggestion: 'je / ki', explanation: 'Hindi "kyunki" = because; use Seraji "je/ki"' },
+  { pattern: '\\blekin\\b', language: 'hindi', severity: 'medium', suggestion: 'par / magar (acceptable)', explanation: 'Hindi "lekin" = but; "par/magar" is Pahari-acceptable' },
+
+  // Sirmauri / Mahasuvi drift — wrong for Seraji
+  { pattern: '\\bminjo\\b', language: 'sirmauri', severity: 'high', suggestion: 'manu', explanation: 'Sirmauri "minjo" = to me; Seraji uses "manu"' },
+  { pattern: '\\btinjo\\b', language: 'sirmauri', severity: 'high', suggestion: 'tenu', explanation: 'Sirmauri "tinjo" = to you; Seraji uses "tenu"' },
+  { pattern: '\\bmanjh\\b', language: 'sirmauri', severity: 'high', suggestion: 'vich', explanation: 'Sirmauri "manjh" = in; Seraji uses "vich"' },
+  { pattern: '\\bbitti\\b', language: 'sirmauri', severity: 'high', suggestion: 'kudi', explanation: 'Sirmauri "bitti" = girl; Seraji uses "kudi"' },
+  { pattern: '\\bherda\\b', language: 'sirmauri', severity: 'high', suggestion: 'dekhda', explanation: 'Sirmauri "herda" = watching; Seraji uses "dekhda"' },
+  { pattern: '\\brouni\\b', language: 'sirmauri', severity: 'high', suggestion: 'raat', explanation: 'Sirmauri "rouni" = night; Seraji uses "raat"' },
+  { pattern: '\\bgraan\\b', language: 'sirmauri', severity: 'high', suggestion: 'gaon', explanation: 'Sirmauri "graan" = village; Seraji uses "gaon"' },
+  { pattern: '\\bchunnru\\b', language: 'sirmauri', severity: 'high', suggestion: 'chunni', explanation: 'Sirmauri "chunnru" = dupatta; Seraji uses "chunni"' },
+  { pattern: '\\bjaalu\\b', language: 'sirmauri', severity: 'high', suggestion: 'jado', explanation: 'Sirmauri "jaalu" = when; Seraji uses "jado"' },
+  { pattern: '\\bbhabhi\\b', language: 'sirmauri', severity: 'medium', suggestion: 'bhabo', explanation: 'Sirmauri "bhabhi"; Seraji uses "bhabo"' },
+  { pattern: '\\bbaabu\\b', language: 'sirmauri', severity: 'medium', suggestion: 'baap', explanation: 'Sirmauri "baabu" = father; Seraji uses "baap"' },
+  { pattern: '\\baama\\b', language: 'sirmauri', severity: 'medium', suggestion: 'amma', explanation: 'Sirmauri "aama" = mother; Seraji uses "amma"' },
+  { pattern: '\\bbhailu\\b', language: 'sirmauri', severity: 'medium', suggestion: 'bhai', explanation: 'Sirmauri "bhailu" = brother; Seraji uses "bhai"' },
+  { pattern: '\\bbaani\\b', language: 'sirmauri', severity: 'medium', suggestion: 'diya', explanation: 'Sirmauri "baani" = sister; Seraji uses "diya"' },
+  { pattern: '\\bbittu\\b', language: 'sirmauri', severity: 'medium', suggestion: 'munda', explanation: 'Sirmauri "bittu" = boy; Seraji uses "munda"' },
+  { pattern: '\\bkothi\\b', language: 'sirmauri', severity: 'medium', suggestion: 'bera', explanation: 'Sirmauri "kothi" = house; Seraji uses "bera"' },
+  { pattern: '\\bsadku\\b', language: 'sirmauri', severity: 'medium', suggestion: 'rasta', explanation: 'Sirmauri "sadku" = road; Seraji uses "rasta"' },
+  { pattern: '\\bdeotha\\b', language: 'sirmauri', severity: 'medium', suggestion: 'Devta', explanation: 'Sirmauri "deotha"; Seraji uses "Devta" (uppercase)' },
+  { pattern: '\\bbonna\\b', language: 'sirmauri', severity: 'medium', suggestion: 'hona', explanation: 'Sirmauri "bonna" = to become; Seraji uses "hona"' },
+  { pattern: '\\bdouna\\b', language: 'sirmauri', severity: 'medium', suggestion: 'daudna', explanation: 'Sirmauri "douna" = to run; Seraji uses "daudna"' },
+  { pattern: '\\bseet\\b', language: 'sirmauri', severity: 'medium', suggestion: 'sardi', explanation: 'Sirmauri "seet" = winter; Seraji uses "sardi"' },
+  { pattern: '\\bsyau\\b', language: 'sirmauri', severity: 'medium', suggestion: 'sardi', explanation: 'Sirmauri "syau" = winter; Seraji uses "sardi"' },
+  { pattern: '\\bdihu\\b', language: 'sirmauri', severity: 'medium', suggestion: 'din', explanation: 'Sirmauri "dihu" = day; Seraji uses "din"' },
+  { pattern: '\\bsheeshu\\b', language: 'sirmauri', severity: 'medium', suggestion: 'sir', explanation: 'Sirmauri "sheeshu" = head; Seraji uses "sir"' },
+  { pattern: '\\bthae\\b', language: 'sirmauri', severity: 'medium', suggestion: 'si', explanation: 'Sirmauri "thae" = was; Seraji uses "si"' },
+
+  // Kangri / Punjabi loans — borderline
+  { pattern: '\\bpind\\b', language: 'kangri', severity: 'medium', suggestion: 'gaon', explanation: 'Kangri-influenced "pind" = village; Seraji prefers "gaon"' },
+  { pattern: '\\bde naal\\b', language: 'punjabi', severity: 'medium', suggestion: 'vich / saath', explanation: 'Punjabi "de naal" = with; rephrase with Seraji "saath" or "vich"' },
 ];
 
-// Derive medium rules from lexicon avoid terms
+// Derive medium rules from lexicon avoid terms — Kullui / Seraji / Pahari-General entries only.
+// Sirmauri/Mahasuvi entries are intentionally skipped to avoid dialect contradictions.
 for (const entry of LEXICON) {
   if (!entry.avoid || !entry.avoid.length) continue;
+  const tags = entry.tags || [];
+  if (!tags.includes('Kullui') && !tags.includes('Seraji') && !tags.includes('Pahari-General')) continue;
   for (const word of entry.avoid) {
     if (word.includes('(acceptable)')) continue;
     const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const pattern = '\\b' + escaped + '\\b';
     if (!CONTAMINATION_RULES.some(r => r.pattern === pattern)) {
-      CONTAMINATION_RULES.push({ pattern, language: 'lexicon', severity: 'medium', suggestion: entry.pahari, explanation: 'Avoid Hindi "' + word + '", use Pahari "' + entry.pahari + '"' });
+      CONTAMINATION_RULES.push({ pattern, language: 'lexicon', severity: 'medium', suggestion: entry.pahari, explanation: 'Avoid "' + word + '", use Seraji "' + entry.pahari + '"' });
     }
   }
 }
@@ -460,17 +1029,21 @@ const SUNO_RULES = {
   requiredSections: ['[Intro]', '[Verse', '[Chorus]'],
   recommendedSections: ['[Bridge]', '[Outro]'],
   styleRules: {
-    firstSentenceLanguage: 'Himachali Pahari',
-    mustContain: ['naati', 'dhol', 'nagara'],
-    bpm: { min: 90, max: 105 },
+    firstSentenceLanguage: 'Seraji Himachali Pahari',
+    mustContain: ['naati', 'dhol', 'nagada', 'seraji'],
+    bpm: { min: 85, max: 100 },
     forbidPhrases: ['crisp snare on the backbeat', 'crisp snare', 'backbeat'],
     forbidWords: ['bhangra'],
     tagVocabulary: [
       '[flute trill]', '[bansuri melody]', '[acoustic guitar fill]', '[soft electric guitar fill]',
       '[dhol accents]', '[valley echo]', '[male vocals with folk ornamentation]', '[group vocal harmony]',
-      '[full band, naati dance rhythm]', '[acoustic guitar strumming]', '[high-pitched flute melody]',
+      '[full band, Seraji naati rhythm]', '[acoustic guitar strumming]', '[high-pitched flute melody]',
       '[steady dhol kick]', '[chimta metallic chime]', '[electric guitar crunch]', '[dhol heartbeat]',
-      '[raw mountain voice]', '[foot stomp rhythm]', '[nagara beat]',
+      '[raw mountain voice]', '[foot stomp rhythm]', '[nagada beat]',
+      '[shehnai call]', '[karnal procession blast]', '[Seraji naati rhythm]', '[dhol dhamal]',
+      '[valley chorus]', '[melodic mountain voice]', '[group Devta procession drums]',
+      '[slow circular naati steps]', '[Tirthan river flow melody]', '[soft jhampak swing]',
+      '[seraji rising-falling intonation]', '[gentle meend glides]', '[banjar valley echo]',
     ],
   },
 };
@@ -479,43 +1052,14 @@ const SONG_PATTERNS = {
   form: 'O…/Ho… call-and-answer with callback last line',
   structure: ['Intro', 'Verse 1', 'Chorus', 'Verse 2', 'Chorus', 'Bridge', 'Verse 3', 'Verse 4', 'Chorus', 'Outro'],
   tropeChains: [
-    'white teeth → red chunnru in wind → jhumku swaying → mela dancing',
-    'deodar shade → moonlight → waiting on path → heart longing',
-    'snowy peaks → village path → dhol rhythm → feet dancing',
+    'chitte dandru → chunni in Tirthan wind → jhumku swaying → naati at Banjar Mela',
+    'kail shade → moonlight on Tirthan River → waiting on rasta → heart longing',
+    'snow peaks at Jalori Pass → Jibhi gaon path → dhol rhythm → feet in naati circle',
+    'Shringa Devta rath → karnal call → dhol heartbeat → Banjar valley chorus rising',
+    'apple orchard → Tirthan riverside → patu draped → evening home in Jibhi',
   ],
   chorusRule: 'identical hook text on every repetition',
 };
-
-const PROMPT_FRAGMENTS = {
-  composerPersona: 'You are a master Himachali Pahari folk songwriter from the Mahasuvi/Sirmauri belt. You create authentic, soulful songs for the Suno v5.5 AI music generation platform.',
-  dialectRequirement: 'CRITICAL: Lyrics MUST be in the Mahasuvi/Sirmauri dialect of Himachali Pahari — NOT standard Hindi, NOT Punjabi. Use authentic Pahari words, grammar, and expressions. The dialect must feel authentic to someone from the Shimla/Sirmaur hills.',
-  lyricsFormat: 'Use Suno v5.5 tags: [Intro], [Verse 1]-[Verse 4], [Chorus] (identical on each repetition), [Bridge] (quiet shift), [Outro] (fade). Include instrument performance tags and vocal direction tags. The hook/chorus must be memorable and repeatable.',
-  styleFormat: 'Style block = comma-separated English descriptor string. Structure: [Genre/Style], [Vocal Type], [Instruments], [Tempo/Key/Mood]. Must open with language hint "sung in Himachali Pahari" as the first sentence. Explicitly name naati as genre. Name dhol and nagara for percussion. No backbeat phrasing. BPM must be stated and fall within 90-105.',
-  titleRule: 'Romanized Pahari title, 2-5 words, poetic, not English, not Devanagari.',
-  outputContract: 'Respond ONLY with a valid JSON object: {"title": "...", "lyrics": "...", "style": "..."}. No markdown fences. No other text.',
-  criticPersona: 'You are a Himachali Pahari language expert specializing in Mahasuvi/Sirmauri dialects. Analyze song lyrics for dialect authenticity.',
-  criticOutput: 'Respond with JSON: {"is_authentic": bool, "confidence": 0-1, "issues": [{"excerpt": "...", "problem": "...", "suggestion": "..."}]}',
-};
-
-function assemblePrompt(prefs, userLexicon = [], includeLexicon = true) {
-  const fullLex = [...LEXICON, ...(userLexicon || [])];
-  const lexBlock = includeLexicon ? fullLex.map(e => e.pahari + ' = ' + e.gloss_en + (e.avoid?.length ? ' (avoid: ' + e.avoid.join(', ') + ')' : '')).join('\n') : '';
-  const rulesBlock = 'Style rules:\n- First sentence: "sung in Himachali Pahari"\n- Must name genre as naati\n- Percussion: dhol and nagara (no backbeat phrasing)\n- BPM: ' + SUNO_RULES.styleRules.bpm.min + '-' + SUNO_RULES.styleRules.bpm.max + '\n- No bhangra references\n';
-  const structureBlock = 'Structure: ' + SONG_PATTERNS.structure.join(' → ') + '\nForm: ' + SONG_PATTERNS.form + '\nTrope chains: ' + SONG_PATTERNS.tropeChains.join('; ') + '\nChorus rule: ' + SONG_PATTERNS.chorusRule + '\n';
-  const userLines = ['Create a Himachali Pahari folk song about: ' + prefs.topic];
-  if (prefs.mood) userLines.push('Mood: ' + prefs.mood);
-  if (prefs.occasion) userLines.push('Occasion: ' + prefs.occasion);
-  if (prefs.instruments) userLines.push('Incorporate these instruments: ' + prefs.instruments);
-  if (prefs.notes) userLines.push('Additional guidance: ' + prefs.notes);
-  userLines.push('\nRemember: Lyrics in authentic Mahasuvi/Sirmauri Pahari. Style in English. Output ONLY valid JSON.');
-  return { system: PROMPT_FRAGMENTS.composerPersona + '\n\n' + PROMPT_FRAGMENTS.dialectRequirement + '\n\n## Pahari Lexicon (use these)\n' + lexBlock + '\n\n## ' + rulesBlock + '\n\n## ' + structureBlock + '\n\n## Output Format\n' + PROMPT_FRAGMENTS.titleRule + '\n' + PROMPT_FRAGMENTS.lyricsFormat + '\n' + PROMPT_FRAGMENTS.styleFormat + '\n' + PROMPT_FRAGMENTS.outputContract, user: userLines.join('\n') };
-}
-
-function assembleCriticPrompt(lyrics) {
-  const lexBlock = LEXICON.map(e => e.pahari + ' = ' + e.gloss_en).join('\n');
-  const rulesBlock = CONTAMINATION_RULES.filter(r => r.severity === 'high').map(r => r.pattern + ' (' + r.language + ' ' + r.severity + ') → ' + r.suggestion).join('\n');
-  return { system: PROMPT_FRAGMENTS.criticPersona + '\n\nLexicon:\n' + lexBlock + '\n\nKnown contamination patterns:\n' + rulesBlock + '\n\n' + PROMPT_FRAGMENTS.criticOutput, user: 'Validate these lyrics:\n\n' + lyrics.slice(0, 3000) };
-}
 
 function runContaminationScan(lyrics) {
   const hits = []; const lines = (lyrics || '').split('\n');
@@ -525,11 +1069,6 @@ function runContaminationScan(lyrics) {
     for (const rule of CONTAMINATION_RULES) {
       const re = new RegExp(rule.pattern, 'gi'); let m;
       while ((m = re.exec(line)) !== null) {
-        if (rule.pattern === '\\bde\\b') {
-          const after = line.slice(m.index + m[0].length);
-          if (/^\s+naal\b/i.test(after)) { re.lastIndex = m.index + m[0].length; continue; }
-          if (/^(\s+de\b)/i.test(after)) { re.lastIndex = m.index + m[0].length; continue; }
-        }
         hits.push({ match: m[0], col: m.index, line: line.trim(), lineNo: i + 1, language: rule.language, severity: rule.severity, suggestion: rule.suggestion, explanation: rule.explanation, pattern: rule.pattern });
         if (m.index === re.lastIndex) re.lastIndex++;
       }
@@ -603,6 +1142,38 @@ function validateMechanical(lyrics, style) {
   else { warnings.push({ code: 'style_bpm_missing', severity: 'medium', message: 'Style block should include a BPM range within ' + SUNO_RULES.styleRules.bpm.min + '-' + SUNO_RULES.styleRules.bpm.max }); }
   for (const phrase of SUNO_RULES.styleRules.forbidPhrases) { if (styleLower.includes(phrase.toLowerCase())) warnings.push({ code: 'style_backbeat', severity: 'medium', message: 'Avoid "' + phrase + '" (bhangra attractor). Use "dhol" and "nagara" phrasing instead.' }); }
   return { warnings, isValid: warnings.filter(w => w.severity === 'high').length === 0 };
+}
+
+async function llmCall(cfg, slot, systemPrompt, userPrompt, { expectJson = true } = {}) {
+  const timeoutMs = 180000;
+  if (!cfg || !cfg.apiKey) return { ok: false, errorKind: 'auth', message: 'No API key configured for ' + slot + ' — set it in Settings.' };
+  if (!cfg.baseUrl) return { ok: false, errorKind: 'auth', message: 'No base URL configured for ' + slot + ' — set it in Settings.' };
+  const baseUrl = cfg.baseUrl.replace(/\/+$/, '');
+  let url = baseUrl + '/chat/completions';
+  if (cfg.corsProxy) { url = cfg.corsProxy + encodeURIComponent(url); }
+  const isComposer = slot === 'composer';
+  const body = { model: cfg.model || 'deepseek-v4-flash', messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: userPrompt }], temperature: cfg.temperature ?? (isComposer ? 0.85 : 0.2), max_tokens: cfg.maxTokens ?? 16384 };
+  if (expectJson) body.response_format = { type: 'json_object' };
+  const controller = new AbortController(); const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const resp = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + cfg.apiKey }, body: JSON.stringify(body), signal: controller.signal });
+    clearTimeout(timer);
+    if (resp.status === 401 || resp.status === 403) { const msg = await resp.text().catch(() => ''); return { ok: false, errorKind: 'auth', message: 'Key rejected (' + resp.status + '). Verify your API key.' + (msg ? ' ' + msg.slice(0, 200) : '') }; }
+    if (resp.status === 429) return { ok: false, errorKind: 'rate_limit', message: 'Rate limited. Wait a moment and retry.' };
+    if (!resp.ok) { const msg = await resp.text().catch(() => ''); return { ok: false, errorKind: 'provider_error', message: 'Provider error (' + resp.status + ')' + (msg ? ': ' + msg.slice(0, 300) : '') }; }
+    const data = await resp.json(); const content = data?.choices?.[0]?.message?.content; const finish = data?.choices?.[0]?.finish_reason;
+    if (!content) { if (finish === 'length') return { ok: false, errorKind: 'bad_json', message: 'Response empty (max_tokens too short or reasoning ate tokens). Try increasing max_tokens.' }; return { ok: false, errorKind: 'bad_json', message: 'Empty response from model.' }; }
+    if (!expectJson) return { ok: true, data: content };
+    let json;
+    try { const cleaned = content.replace(/^```(?:json)?\s*/, '').replace(/\s*```$/, '').trim(); json = JSON.parse(cleaned); } catch (e) { return { ok: false, errorKind: 'bad_json', message: 'Failed to parse response as JSON. Raw: ' + content.slice(0, 300) }; }
+    return { ok: true, data: json };
+  } catch (e) {
+    clearTimeout(timer);
+    if (e.name === 'AbortError') return { ok: false, errorKind: 'timeout', message: 'Request timed out after ' + (timeoutMs / 1000) + 's.' };
+    const msg = e.message || String(e);
+    if (msg.includes('Failed to fetch') || msg.includes('NetworkError') || msg.includes('CORS') || msg.includes('network')) return { ok: false, errorKind: 'cors_or_network', message: 'Network/CORS error. The provider may not allow browser calls. Set a proxy base URL in Settings.' };
+    return { ok: false, errorKind: 'provider_error', message: msg };
+  }
 }
 
 const POLL_INTERVAL = 5000;
@@ -710,13 +1281,13 @@ function migrateV1History() {
       id: s.id || crypto.randomUUID(), createdAt: s.generated_at || new Date().toISOString(),
       title: s.title || 'Untitled', lyrics: s.lyrics?.content || '', style: s.style?.content || '',
       topic: s.topic || '', prefs: {},
-      report: { mechanical: { warnings: [], isValid: true }, scan: [], critic: null, repair: null },
+      report: { mechanical: { warnings: [], isValid: true }, scan: [], critic: null, repair: null, iterations: 0 },
       pipelineVersion: 1,
     }));
   } catch { return []; }
 }
 
-let _storage = { schemaVersion: 2, settings: JSON.parse(JSON.stringify(DEFAULT_SETTINGS)), userLexicon: [] };
+let _storage = { schemaVersion: 2, settings: JSON.parse(JSON.stringify(DEFAULT_SETTINGS)), userLexicon: [], editMode: false };
 let _v2localHistory = [];
 try {
   const raw = localStorage.getItem(STORAGE_KEY);
@@ -771,14 +1342,14 @@ const showLexicon = signal(false);
 const showExportImport = signal(false);
 const history = signal(initialHistory);
 const copyFeedback = signal({ title: false, style: false, lyrics: false });
-const editMode = signal(false);
+const editMode = signal(_storage.editMode ?? false);
 const hoveredHit = signal(null);
 const audioGen = signal({ status: 'idle', taskId: null, tracks: [], error: null, generations: [], activeGen: -1 });
 const showSunoConfirm = signal(false);
 const pendingSunoArgs = signal(null);
 const selectedHistoryId = signal(null);
 
-effect(() => { _storage.settings = settings.value; _storage.history = history.value; _storage.userLexicon = userLexiconSig.value; saveStorage(); });
+effect(() => { _storage.settings = settings.value; _storage.history = history.value; _storage.userLexicon = userLexiconSig.value; _storage.editMode = editMode.value; saveStorage(); });
 
 let scanTimer = null;
 function scheduleScan(text) {
@@ -794,7 +1365,8 @@ const STAGES = [
   { key: 'validate', label: 'Validate', blurb: 'Suno structure rules' },
   { key: 'scan', label: 'Scan', blurb: 'Dialect contamination' },
   { key: 'critic', label: 'Critic', blurb: 'LLM authenticity check' },
-  { key: 'repair', label: 'Repair', blurb: 'Targeted dialect fixes' },
+  { key: 'revise', label: 'Revise', blurb: 'Fix issues from critic feedback' },
+  { key: 'verify', label: 'Verify', blurb: 'Second critic pass' },
 ];
 
 function pushStep(name, status, msg) {
@@ -871,7 +1443,7 @@ async function runPipeline(prefs) {
   pushStep('compose', 'active', 'Calling composer…');
 
   const withProxy = (cfg) => settings.value.corsProxy ? { ...cfg, corsProxy: settings.value.corsProxy } : cfg;
-  const prompts = assemblePrompt(prefs, userLexiconSig.value);
+  const prompts = PROMPT_FRAGMENTS.assembleComposerPrompt(prefs, userLexiconSig.value);
   const result = await llmCall(withProxy(settings.value.composer), 'composer', prompts.system, prompts.user);
   if (!result.ok) {
     pushStep('compose', 'failed', result.message);
@@ -900,7 +1472,7 @@ async function runPipeline(prefs) {
   let critic = null;
   if (settings.value.criticEnabled) {
     pushStep('critic', 'active', '');
-    const cp = assembleCriticPrompt(d.lyrics);
+    const cp = PROMPT_FRAGMENTS.assembleCriticPrompt(d.lyrics, d.title, d.style);
     const cr = await llmCall(withProxy(settings.value.critic), 'critic', cp.system, cp.user);
     if (cr.ok) {
       critic = cr.data;
@@ -913,33 +1485,96 @@ async function runPipeline(prefs) {
     pushStep('critic', 'skipped', 'disabled');
   }
 
-  let repairApplied = false, afterHigh = highHits, finalLyrics = d.lyrics;
-  const needRepair = (critic && critic.is_authentic === false && (critic.confidence || 0) < 0.7) || highHits > 0;
-  if (needRepair) {
-    pushStep('repair', 'active', 'Applying fixes…');
+  let iterations = 0;
+  let finalLyrics = d.lyrics;
+  let finalCritic = critic;
+  const MAX_ITERATIONS = 2;
+
+  const shouldRevise = settings.value.criticEnabled && critic && critic.confidence !== undefined &&
+    (critic.confidence < 0.8 || !critic.is_authentic);
+
+  if (shouldRevise) {
+    pushStep('revise', 'active', '');
+
     const issues = [];
-    for (const h of scan) if (h.severity === 'high') issues.push('- Line ' + h.lineNo + ': "' + h.match + '" (' + h.language + ') → ' + h.suggestion);
-    if (critic && critic.issues) for (const iss of critic.issues) issues.push('- "' + (iss.excerpt || '') + '": ' + (iss.problem || '') + ' → ' + (iss.suggestion || ''));
-    const rp = 'The following lyrics have dialect issues. Fix ONLY the flagged constructions with the suggested Pahari forms. Keep the title, structure, tags, and all other lines byte-identical. Return the same JSON shape {title, lyrics, style}.\n\nOriginal lyrics:\n' + d.lyrics + '\n\nIssues:\n' + issues.join('\n');
-    const rr = await llmCall(withProxy(settings.value.composer), 'composer', 'You are a Himachali Pahari dialect editor. ' + PROMPT_FRAGMENTS.dialectRequirement, rp);
-    if (rr.ok && rr.data.lyrics && rr.data.lyrics.length) {
-      finalLyrics = rr.data.lyrics; repairApplied = true;
-      afterHigh = runContaminationScan(finalLyrics).filter(h => h.severity === 'high').length;
-      mech = validateMechanical(finalLyrics, d.style);
-      pushStep('repair', 'done', 'high ' + highHits + ' → ' + afterHigh);
+    for (const h of scan) {
+      if (h.severity === 'high') {
+        issues.push(`- Line ${h.lineNo}: "${h.match}" (${h.language}) → ${h.suggestion}`);
+      }
+    }
+    if (critic.issues) {
+      for (const iss of critic.issues) {
+        issues.push(`- "${iss.excerpt || ''}": ${iss.problem || ''} → ${iss.suggestion || ''}`);
+      }
+    }
+
+    const conf = critic.confidence || 0;
+    let revisionType;
+    if (conf < 0.6) revisionType = 'full';
+    else if (conf < 0.8) revisionType = 'targeted';
+    else revisionType = 'scrub';
+
+    const typeGuide = revisionType === 'full'
+      ? 'Perform a thorough revision addressing all issues.'
+      : revisionType === 'targeted'
+        ? 'Focus on the specific issues listed below. Keep everything else intact.'
+        : 'Quick vocabulary scrub — fix only the specific word substitutions listed below.';
+
+    const rp = `${PROMPT_FRAGMENTS.iterativeImprovement}
+
+ORIGINAL SONG:
+Title: ${d.title}
+Style: ${d.style}
+Lyrics:
+${d.lyrics}
+
+REVISION TYPE: ${revisionType}
+${typeGuide}
+
+ISSUES TO ADDRESS:
+${issues.join('\n')}
+
+${PROMPT_FRAGMENTS.outputContract}`;
+
+    const rr = await llmCall(withProxy(settings.value.composer), 'composer',
+      PROMPT_FRAGMENTS.dialectRequirement, rp);
+    if (rr.ok && rr.data && rr.data.lyrics && rr.data.lyrics.length) {
+      finalLyrics = rr.data.lyrics;
+      iterations = 1;
+      const afterReviseScan = runContaminationScan(finalLyrics);
+      const afterHigh = afterReviseScan.filter(h => h.severity === 'high').length;
+      pushStep('revise', 'done', `${revisionType} · high ${highHits}→${afterHigh}`);
+
+      if (settings.value.criticEnabled && iterations < MAX_ITERATIONS) {
+        pushStep('verify', 'active', '');
+        const vp = PROMPT_FRAGMENTS.assembleCriticPrompt(finalLyrics, d.title, d.style);
+        const vr = await llmCall(withProxy(settings.value.critic), 'critic', vp.system, vp.user);
+        if (vr.ok) {
+          finalCritic = vr.data;
+          const vconf = finalCritic.confidence || 0;
+          pushStep('verify', 'done', (finalCritic.is_authentic ? 'authentic' : 'issues') + ' · ' + vconf.toFixed(2));
+        } else {
+          pushStep('verify', 'skipped', 'unavailable');
+        }
+      } else {
+        pushStep('verify', 'skipped', 'disabled');
+      }
     } else {
-      pushStep('repair', 'done', rr.ok ? 'kept original' : 'failed · kept original');
+      pushStep('revise', 'done', 'kept original');
+      pushStep('verify', 'skipped', 'not needed');
     }
   } else {
-    pushStep('repair', 'skipped', 'nothing to fix');
+    pushStep('revise', 'skipped', critic ? 'approved' : 'no critic data');
+    pushStep('verify', 'skipped', 'not needed');
   }
 
   const finalScan = runContaminationScan(finalLyrics);
-  const report = { mechanical: mech, scan: finalScan, critic, repair: repairApplied ? { applied: true, beforeHigh: highHits, afterHigh } : null };
+  const report = { mechanical: mech, scan: finalScan, critic: finalCritic, iterations };
   const recordId = crypto.randomUUID();
   const record = {
     id: recordId, createdAt: new Date().toISOString(), title: d.title, lyrics: finalLyrics,
     style: d.style, topic: prefs.topic, prefs, report, pipelineVersion: 3,
+    metadata: { prompt_version: PROMPT_VERSION, generated_at: new Date().toISOString() },
   };
   songLyrics.value = finalLyrics; scanHits.value = finalScan; songReport.value = report;
   selectedHistoryId.value = recordId;
@@ -960,7 +1595,7 @@ function App() {
                 <span style="font-size:20px;font-weight:700;letter-spacing:-.02em;color:var(--accent)">Bitti</span>
                 <span style="font-size:20px;font-weight:700;letter-spacing:-.02em;color:var(--ink)">Bol</span>
               </div>
-              <span style="font-family:var(--mono);font-size:10px;letter-spacing:.04em;color:var(--text-dim);white-space:nowrap">Himachali Pahari Song Studio</span>
+              <span style="font-family:var(--mono);font-size:10px;letter-spacing:.04em;color:var(--text-dim);white-space:nowrap">Seraji Pahari Song Studio</span>
             </div>
           </div>
         </div>
@@ -998,6 +1633,7 @@ function ChecksGrid() {
   const mech = rep.mechanical;
   const critic = rep.critic;
   const repair = rep.repair;
+  const iterations = rep.iterations;
   const mechWarnings = (mech && mech.warnings || []).map(w => ({
     message: w.message,
     dotStyle: 'flex-shrink:0;width:7px;height:7px;border-radius:50%;margin-top:6px;background:' + (w.severity === 'high' ? '#c0472a' : '#a9791a'),
@@ -1020,7 +1656,7 @@ function ChecksGrid() {
             <div style="font-size:12.5px;font-weight:600;color:${critic.is_authentic ? 'var(--success)' : 'var(--accent)'}">${criticVerdict}</div>
             ${criticIssues.map(iss => html`<div style="font-size:11px;color:#8a7d68;margin-top:6px;line-height:1.4">· ${iss.text}</div>`)}
           ` : html`<div style="font-size:12px;color:#b0a48f">Not run for this song.</div>`}
-          ${repair && repair.applied ? html`<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border-light);font-size:11.5px;color:var(--success)">Repair applied · high hits ${repair.beforeHigh} → ${repair.afterHigh}</div>` : ''}
+          ${iterations ? html`<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border-light);font-size:11.5px;color:var(--success)">Revised (${iterations} iteration${iterations > 1 ? 's' : ''})</div>` : repair && repair.applied ? html`<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border-light);font-size:11.5px;color:var(--success)">Repair applied · high hits ${repair.beforeHigh} → ${repair.afterHigh}</div>` : ''}
         </div>
       </div>
     </div>
@@ -1041,12 +1677,28 @@ function ContaminationPanel() {
   if (highCount > 0) { badgeBg = 'var(--accent-soft)'; badgeFg = 'var(--accent)'; badgeLabel = highCount + ' high'; }
   else if (medCount > 0) { badgeBg = 'var(--warn-soft)'; badgeFg = 'var(--warn-fg)'; badgeLabel = medCount + ' medium'; }
   const hovered = hoveredHit.value;
+  const fixAll = () => {
+    const sorted = [...hits].sort((a, b) => (b.lineNo - a.lineNo) || (b.col - a.col));
+    const lns = songLyrics.value.split('\n');
+    for (const h of sorted) {
+      const idx = h.lineNo - 1;
+      if (idx >= 0 && idx < lns.length) {
+        const l = lns[idx];
+        lns[idx] = l.slice(0, h.col) + h.suggestion + l.slice(h.col + h.match.length);
+      }
+    }
+    songLyrics.value = lns.join('\n');
+    scheduleScan(songLyrics.value);
+  };
   return html`
     <div class="card" style="padding:0;overflow:hidden">
       <div style="padding:16px 18px;border-bottom:1px solid var(--border-light)">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
           <h2 class="panel-title">Dialect scan</h2>
-          <span class="badge" style="background:${badgeBg};color:${badgeFg}">${badgeLabel}</span>
+          <div style="display:flex;align-items:center;gap:8px">
+            ${hits.length > 1 ? html`<button onClick=${fixAll} style="font-size:11px;font-weight:600;padding:4px 11px;border:1px solid #d3c6a8;background:#fff;color:var(--warn-fg);border-radius:var(--radius-sm);cursor:pointer">Fix all (${hits.length})</button>` : ''}
+            <span class="badge" style="background:${badgeBg};color:${badgeFg}">${badgeLabel}</span>
+          </div>
         </div>
         <p style="font-size:11px;color:var(--text-dim);margin-top:6px;line-height:1.5">Flags Hindi / Punjabi words that break Pahari authenticity. Hover a hit to find it in the lyrics.</p>
       </div>
@@ -1072,7 +1724,7 @@ function ContaminationPanel() {
                 <div style="font-size:11px;color:var(--text-soft);line-height:1.4;font-family:var(--mono)">${h.line.length > 54 ? h.line.slice(0, 54) + '…' : h.line}</div>
                 <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px">
                   <span style="font-size:12px;color:var(--success);font-family:var(--mono)">→ ${h.suggestion}</span>
-                  <button onClick=${() => { songLyrics.value = applyReplacement(songLyrics.value, h.pattern, h.suggestion, h.lineNo, h.col); scheduleScan(songLyrics.value); }} style="flex-shrink:0;font-size:11px;font-weight:600;padding:4px 11px;border:1px solid #d3c6a8;background:#fff;color:var(--warn-fg);border-radius:var(--radius-sm);cursor:pointer">Apply fix</button>
+                  <button onClick=${() => { const lns = songLyrics.value.split('\n'); const idx = h.lineNo - 1; if (idx >= 0 && idx < lns.length) { const l = lns[idx]; lns[idx] = l.slice(0, h.col) + h.suggestion + l.slice(h.col + h.match.length); songLyrics.value = lns.join('\n'); scheduleScan(songLyrics.value); } }} style="flex-shrink:0;font-size:11px;font-weight:600;padding:4px 11px;border:1px solid #d3c6a8;background:#fff;color:var(--warn-fg);border-radius:var(--radius-sm);cursor:pointer">Apply fix</button>
                 </div>
               </div>
             `;
@@ -1097,8 +1749,19 @@ function ErrorBanner() {
   `;
 }
 
+function normalizeHistoryItem(record) {
+  const report = record.report || {};
+  if (report.iterations !== undefined) {
+    return { ...record, wasRepaired: report.iterations > 0, iterationCount: report.iterations };
+  }
+  if (report.repair) {
+    return { ...record, wasRepaired: report.repair.applied || false, iterationCount: report.repair.beforeHigh || 1 };
+  }
+  return { ...record, wasRepaired: false, iterationCount: 0 };
+}
+
 function HistoryPanel() {
-  const items = history.value;
+  const items = history.value.map(normalizeHistoryItem);
   const header = (count) => html`
     <div class="card-header" style="margin-bottom:${count ? '12px' : '10px'}">
       <div style="display:flex;align-items:baseline;gap:8px">
@@ -1193,6 +1856,7 @@ function HistoryPanel() {
                   <div style="min-width:0;flex:1;display:flex;align-items:center;gap:6px">
                   <div style="font-size:13px;font-weight:600;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${s.title}</div>
                   ${(Array.isArray(s.audio) ? s.audio.length : s.audio?.tracks?.length) ? html`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>` : ''}
+                  ${s.wasRepaired ? html`<span style="flex-shrink:0;font-size:9px;color:#c7bca6;background:#f5f0e6;padding:0 5px;border-radius:3px;line-height:16px" title="Revised after critic feedback">R</span>` : ''}
                   <div style="font-family:var(--mono);font-size:10px;color:#b0a48f;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${(s.topic || '').slice(0, 28)} · ${dateStr}</div>
                 </div>
                 <button onClick=${e => { e.stopPropagation(); history.value = history.value.filter(h => h.id !== s.id); }} style="flex-shrink:0;width:22px;height:22px;display:flex;align-items:center;justify-content:center;border:none;background:none;color:#c7bca6;cursor:pointer;border-radius:5px;font-size:14px">✕</button>
@@ -1221,7 +1885,7 @@ function InputForm() {
         <div>
           <label class="form-label">Topic <span style="color:var(--accent)">*</span></label>
           <textarea class="form-textarea" value=${formTopic.value} onInput=${e => formTopic.value = e.target.value} placeholder="chitte dandru · mountain love · apple harvest" style="min-height:58px;font-size:15px"></textarea>
-          <p class="form-hint">Type in any language — lyrics come back in Mahasuvi Pahari.</p>
+          <p class="form-hint">Type in any language — lyrics come back in Seraji Pahari.</p>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
           <div>
@@ -1442,7 +2106,7 @@ function SongCard() {
         </div>
         <div>
           <h3 style="font-family:var(--serif);font-size:24px;font-weight:600;color:var(--ink);letter-spacing:-.01em">Compose a Pahari folk song</h3>
-          <p style="font-size:14px;color:var(--text-dim);margin-top:8px;max-width:380px;line-height:1.55">Set a topic on the left and generate. Lyrics arrive in Mahasuvi Pahari, checked line-by-line for dialect drift.</p>
+          <p style="font-size:14px;color:var(--text-dim);margin-top:8px;max-width:380px;line-height:1.55">Set a topic on the left and generate. Lyrics arrive in Seraji Pahari, checked line-by-line for dialect drift.</p>
         </div>
       </div>
     </section>

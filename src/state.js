@@ -1,7 +1,7 @@
 import { signal, effect } from 'https://esm.sh/@preact/signals@2.0.1?external=preact';
 import { _storage, initialHistory, saveStorage, DEFAULT_SETTINGS } from './storage.js';
-import { runContaminationScan, validateMechanical, llmCall, submitGeneration, pollGeneration, assembleComposerPrompt, assembleCriticPrompt, PROMPT_VERSION } from './core/index.js';
-import { PROMPT_FRAGMENTS } from './constants.js';
+import { runContaminationScan, validateMechanical, llmCall, submitGeneration, pollGeneration } from './core/index.js';
+import { PROMPT_FRAGMENTS, PROMPT_VERSION } from './constants.js';
 
 export const settings = signal(_storage.settings);
 export const formTopic = signal('');
@@ -123,7 +123,7 @@ export async function runPipeline(prefs) {
   pushStep('compose', 'active', 'Calling composer…');
 
   const withProxy = (cfg) => settings.value.corsProxy ? { ...cfg, corsProxy: settings.value.corsProxy } : cfg;
-  const prompts = assembleComposerPrompt(prefs, userLexiconSig.value);
+  const prompts = PROMPT_FRAGMENTS.assembleComposerPrompt(prefs, userLexiconSig.value);
   const result = await llmCall(withProxy(settings.value.composer), 'composer', prompts.system, prompts.user);
   if (!result.ok) {
     pushStep('compose', 'failed', result.message);
@@ -152,7 +152,7 @@ export async function runPipeline(prefs) {
   let critic = null;
   if (settings.value.criticEnabled) {
     pushStep('critic', 'active', '');
-    const cp = assembleCriticPrompt(d.lyrics, d.title, d.style);
+    const cp = PROMPT_FRAGMENTS.assembleCriticPrompt(d.lyrics, d.title, d.style);
     const cr = await llmCall(withProxy(settings.value.critic), 'critic', cp.system, cp.user);
     if (cr.ok) {
       critic = cr.data;
@@ -227,7 +227,7 @@ ${PROMPT_FRAGMENTS.outputContract}`;
 
       if (settings.value.criticEnabled && iterations < MAX_ITERATIONS) {
         pushStep('verify', 'active', '');
-        const vp = assembleCriticPrompt(finalLyrics, d.title, d.style);
+        const vp = PROMPT_FRAGMENTS.assembleCriticPrompt(finalLyrics, d.title, d.style);
         const vr = await llmCall(withProxy(settings.value.critic), 'critic', vp.system, vp.user);
         if (vr.ok) {
           finalCritic = vr.data;

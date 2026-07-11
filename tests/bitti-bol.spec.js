@@ -12,8 +12,8 @@ test.describe('Bitti Bol v2', () => {
   });
 
   test('renders header and form', async ({ page }) => {
-    await expect(page.getByText('Himachali Pahari Song Studio')).toBeVisible();
-    await expect(page.getByText('Himachali Pahari Song Studio')).toBeVisible();
+    await expect(page.getByText('Seraji Pahari Song Studio')).toBeVisible();
+    await expect(page.getByText('Seraji Pahari Song Studio')).toBeVisible();
     await expect(page.getByText('New Song')).toBeVisible();
     await expect(page.getByText('History')).toBeVisible();
   });
@@ -31,9 +31,9 @@ test.describe('Bitti Bol v2', () => {
   test('lexicon modal opens', async ({ page }) => {
     await page.getByTitle('Lexicon').click();
     await expect(page.getByRole('heading', { name: 'Lexicon' })).toBeVisible({ timeout: 3000 });
-    await expect(page.getByText('bitti', { exact: true }).first()).toBeVisible();
-    await expect(page.getByText('girl / daughter')).toBeVisible();
-    await expect(page.getByText('manjh')).toBeVisible();
+    await expect(page.getByText('kudi', { exact: true }).first()).toBeVisible();
+    await expect(page.getByText('girl / daughter').first()).toBeVisible();
+    await expect(page.getByText('vich', { exact: true })).toBeVisible();
     await expect(page.getByText('dandru')).toBeVisible();
     await page.locator('.modal').getByText('✕').click();
     await expect(page.getByRole('heading', { name: 'Lexicon' })).not.toBeVisible();

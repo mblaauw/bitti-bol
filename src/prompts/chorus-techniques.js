@@ -4,11 +4,13 @@ A great chorus follows this pattern:
 [Cultural element] + [Emotion/Action] + [Setting] = Hook
 
 EXAMPLES:
-"Nagara baaje pahadiyan, prem di goonj" (Drums beat in hills, love's echo)
-"Bitti di jhumku chale, meri manjh chand" (Girl's earrings sway, in my heart the moon)
-"Manjh pahadiyan di, rouni chhaan" (In the hills, night's shadow)
-"Dhol di taal, te nagara di goonj" (Dhol's rhythm, and nagara's echo)
-"Deodar di chhaan manjh, prem di baat" (In deodar's shade, love's talk)
+"Nagada baaje pahadiyan, prem di goonj" (Drums beat in hills, love's echo)
+"Kudi di jhumku chale, meri vich chand" (Girl's earrings sway, in my heart the moon)
+"Vich pahadiyan di, raat chhaan" (In the hills, night's shadow)
+"Dhol di taal, te nagada di goonj" (Dhol's rhythm, and nagada's echo)
+"Deodar di chhaan vich, prem di baat" (In deodar's shade, love's talk)
+"Devta di aawaz, dhol di goonj" (Devta's voice, dhol's echo)
+"Tirthan di lehar, prem di baat" (Tirthan's wave, love's talk)
 
 Chorus requirements:
 - 4 lines exactly

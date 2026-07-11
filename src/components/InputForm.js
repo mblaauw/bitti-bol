@@ -18,7 +18,7 @@ export function InputForm() {
         <div>
           <label class="form-label">Topic <span style="color:var(--accent)">*</span></label>
           <textarea class="form-textarea" value=${formTopic.value} onInput=${e => formTopic.value = e.target.value} placeholder="chitte dandru · mountain love · apple harvest" style="min-height:58px;font-size:15px"></textarea>
-          <p class="form-hint">Type in any language — lyrics come back in Mahasuvi Pahari.</p>
+          <p class="form-hint">Type in any language — lyrics come back in Seraji Pahari.</p>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
           <div>

@@ -1,1 +1,1 @@
-export const TITLE_RULE = 'Romanized Pahari title, 2-5 words, poetic, not English, not Devanagari.';
+export const TITLE_RULE = 'Romanized Pahari title, 2-5 words, poetic, not English, not Devanagari. Examples: "Kail di Chhaan", "Nagada baaje pahadiyan", "Kudi di Jhumku", "Devta di Aawaz", "Beas di Lehar".';

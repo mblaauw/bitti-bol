@@ -8,11 +8,6 @@ export function runContaminationScan(lyrics) {
     for (const rule of CONTAMINATION_RULES) {
       const re = new RegExp(rule.pattern, 'gi'); let m;
       while ((m = re.exec(line)) !== null) {
-        if (rule.pattern === '\\bde\\b') {
-          const after = line.slice(m.index + m[0].length);
-          if (/^\s+naal\b/i.test(after)) { re.lastIndex = m.index + m[0].length; continue; }
-          if (/^(\s+de\b)/i.test(after)) { re.lastIndex = m.index + m[0].length; continue; }
-        }
         hits.push({ match: m[0], col: m.index, line: line.trim(), lineNo: i + 1, language: rule.language, severity: rule.severity, suggestion: rule.suggestion, explanation: rule.explanation, pattern: rule.pattern });
         if (m.index === re.lastIndex) re.lastIndex++;
       }

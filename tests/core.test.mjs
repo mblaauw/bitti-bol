@@ -18,39 +18,50 @@ const {
 
 // ---- CONTAMINATION RULES ----
 describe('CONTAMINATION_RULES', () => {
-  it('di/da/de are medium severity (not high)', () => {
-    for (const p of ['\\bde\\b', '\\bda\\b', '\\bdi\\b']) {
+  it('ri/ra/re are Sirmauri drift, auto-generated as medium', () => {
+    for (const p of ['\\bri\\b', '\\bra\\b', '\\bre\\b']) {
       const rule = CONTAMINATION_RULES.find(r => r.pattern === p);
-      assert(rule, `rule ${p} exists`);
+      assert(rule, `auto-generated rule ${p} exists (from Seraji/Kullui di/da/de avoids)`);
       assert.equal(rule.severity, 'medium', `${p} severity should be medium`);
     }
   });
 
-  it('phrase rules remain high', () => {
-    for (const p of ['\\bde naal\\b', '\\bgallan\\b', '\\bmainu\\b']) {
+  it('high-severity contamination rules stay high', () => {
+    for (const p of ['\\bmainu\\b', '\\bgallan\\b', '\\bminjo\\b', '\\bmanjh\\b']) {
       const rule = CONTAMINATION_RULES.find(r => r.pattern === p);
       assert.equal(rule.severity, 'high', `${p} severity should be high`);
+    }
+  });
+
+  it('de-naal phrase demoted to medium', () => {
+    const rule = CONTAMINATION_RULES.find(r => r.pattern === '\\bde naal\\b');
+    assert.equal(rule.severity, 'medium', '"de naal" is borderline Punjabi borrowing — medium, not high');
+  });
+
+  it('vich / di / da / de are NOT contamination (valid Kullui / Seraji)', () => {
+    for (const p of ['\\bvich\\b', '\\bdi\\b', '\\bda\\b', '\\bde\\b']) {
+      const rule = CONTAMINATION_RULES.find(r => r.pattern === p);
+      assert(!rule, `${p} should NOT be a contamination pattern — it is valid in Kullui and Seraji`);
     }
   });
 });
 
 // ---- P0-1 FALSE POSITIVES ----
 describe('P0-1: false positive guards', () => {
-  it('"Minjo de de tera hathru" — no high hits', () => {
-    const hits = runContaminationScan('Minjo de de tera hathru');
+  it('"Kudi de de tera hathru" — no high hits (de is valid Kullui/Seraji genitive)', () => {
+    const hits = runContaminationScan('Kudi de de tera hathru');
     const high = hits.filter(h => h.severity === 'high');
-    assert.equal(high.length, 0, 'no high hits for doubled "de"');
+    assert.equal(high.length, 0, '"de" is valid Kullui/Seraji genitive, not contamination');
   });
 
-  it('"O bitti da gaana" — no high hits (da is medium)', () => {
-    const hits = runContaminationScan('O bitti da gaana');
-    const high = hits.filter(h => h.severity === 'high');
-    assert.equal(high.length, 0, 'no high hits for "da"');
+  it('"Ho kudi da gaana" — no hits at all (kudi, da, and Ho are valid Seraji/Pahari)', () => {
+    const hits = runContaminationScan('Ho kudi da gaana');
+    assert.equal(hits.length, 0, '"kudi" (girl), "da" (genitive), "Ho" (vocative) are all valid — no contamination expected');
   });
 
-  it('"de naal" — only one hit (phrase rule, no solo de)', () => {
+  it('"de naal" — one hit (phrase rule, no solo de duplicate)', () => {
     const hits = runContaminationScan('de naal');
-    assert.equal(hits.length, 1, 'only one hit for "de naal" ("de naal" phrase, no duplicate "de")');
+    assert.equal(hits.length, 1, 'only one hit for "de naal" (phrase rule, no duplicate "de")');
     assert(hits[0].pattern.includes('de naal'), 'hit is the phrase rule');
   });
 
@@ -58,6 +69,13 @@ describe('P0-1: false positive guards', () => {
     const hits = runContaminationScan('mainu');
     assert.equal(hits.length, 1);
     assert.equal(hits[0].severity, 'high');
+  });
+
+  it('"minjo" is now high (Sirmauri drift, was valid Sirmauri target)', () => {
+    const hits = runContaminationScan('minjo');
+    assert.equal(hits.length, 1);
+    assert.equal(hits[0].severity, 'high');
+    assert.equal(hits[0].suggestion, 'manu');
   });
 });
 
@@ -102,9 +120,9 @@ Hook line
 [Outro]`;
 
   it('passes well-formed song (advisory warnings expected)', () => {
-    const result = validateMechanical(validSong, 'naati, dhol, nagara, acoustic guitar');
+    const result = validateMechanical(validSong, 'naati, dhol, nagada, acoustic guitar');
     // Advisory: missing Bridge, no language hint, no BPM — these are not errors
-    assert(result.warnings.length <= 3);
+    assert(result.warnings.length <= 4);
   });
 
   it('catches missing chorus', () => {
@@ -158,7 +176,7 @@ describe('pollGeneration', () => {
 });
 
 // ---- SUMMARY ----
-const totalHits = runContaminationScan('de de de\nde naal\nmainu jadon gallan');
-console.log('Integration: total hits on mixed input:', totalHits.length);
+const totalHits = runContaminationScan('mainu tera pyar\njadon gallan larki\nminjo manjh bitti\ndeh di gaon raat');
+console.log('Integration: total hits on Seraji/Kullui-anchored mixed input:', totalHits.length);
 console.log('  high hits:', totalHits.filter(h => h.severity === 'high').length);
 console.log('  medium hits:', totalHits.filter(h => h.severity === 'medium').length);

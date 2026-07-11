@@ -22,7 +22,7 @@ export function App() {
                 <span style="font-size:20px;font-weight:700;letter-spacing:-.02em;color:var(--accent)">Bitti</span>
                 <span style="font-size:20px;font-weight:700;letter-spacing:-.02em;color:var(--ink)">Bol</span>
               </div>
-              <span style="font-family:var(--mono);font-size:10px;letter-spacing:.04em;color:var(--text-dim);white-space:nowrap">Himachali Pahari Song Studio</span>
+              <span style="font-family:var(--mono);font-size:10px;letter-spacing:.04em;color:var(--text-dim);white-space:nowrap">Seraji Pahari Song Studio</span>
             </div>
           </div>
         </div>

@@ -1,7 +1,8 @@
 import LEXICON from '../lexicon.js';
 
 export function assembleCriticPrompt(fragments, lyrics, title, style) {
-  const lexBlock = LEXICON.map(e => e.pahari + ' = ' + e.gloss_en).join('\n');
+  const kulluiLexicon = LEXICON.filter(e => (e.tags || []).includes('Kullui') || (e.tags || []).includes('Seraji') || (e.tags || []).includes('Pahari-General'));
+  const lexBlock = kulluiLexicon.map(e => e.pahari + ' = ' + e.gloss_en).join('\n');
   return {
     system: `${fragments.criticPersona}
 

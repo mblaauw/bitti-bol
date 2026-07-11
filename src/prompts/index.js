@@ -19,7 +19,7 @@ import { CRITIC_RULES } from './critic-rules.js';
 import { assembleComposerPrompt } from './assemble-composer.js';
 import { assembleCriticPrompt } from './assemble-critic.js';
 
-export const PROMPT_VERSION = '2.0.0';
+export const PROMPT_VERSION = '3.0.0';
 
 // Pass 1: fragments only (no assemblers) — avoids circular deps
 const FRAGMENTS = {

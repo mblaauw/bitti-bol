@@ -13,7 +13,7 @@ export function SongCard() {
         </div>
         <div>
           <h3 style="font-family:var(--serif);font-size:24px;font-weight:600;color:var(--ink);letter-spacing:-.01em">Compose a Pahari folk song</h3>
-          <p style="font-size:14px;color:var(--text-dim);margin-top:8px;max-width:380px;line-height:1.55">Set a topic on the left and generate. Lyrics arrive in Mahasuvi Pahari, checked line-by-line for dialect drift.</p>
+          <p style="font-size:14px;color:var(--text-dim);margin-top:8px;max-width:380px;line-height:1.55">Set a topic on the left and generate. Lyrics arrive in Seraji Pahari, checked line-by-line for dialect drift.</p>
         </div>
       </div>
     </section>

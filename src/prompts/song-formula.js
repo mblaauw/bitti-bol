@@ -1,4 +1,4 @@
-export const SONG_FORMULA = `FORMULA FOR A PERFECT PAHARI FOLK SONG:
+export const SONG_FORMULA = `FORMULA FOR A SERAJI PAHARI FOLK SONG:
 
 STRUCTURE (20-32 lines):
 [Intro] — 2-4 bars atmospheric, bansuri or acoustic solo
@@ -18,9 +18,11 @@ Line requirements:
 - Chorus: must be identical EVERY time — this is non-negotiable
 - Bridge: contrast in tone — often acoustic or quieter section
 
-Trope chains to weave into the narrative:
-- white teeth → red chunnru in wind → jhumku swaying → mela dancing
-- deodar shade → moonlight → waiting on path → heart longing
-- snowy peaks → village path → dhol rhythm → feet dancing
+Trope chains to weave into the narrative (use Seraji geography & culture):
+- chitte dandru → chunni in Tirthan valley wind → jhumku swaying → naati at Banjar Mela
+- kail shade → moonlight on Tirthan River → waiting on rasta → heart longing
+- snow peaks at Jalori Pass → Jibhi gaon path → dhol rhythm → feet in Seraji naati circle
+- Shringa Devta rath → karnal call → dhol heartbeat → Banjar valley chorus rising
+- apple orchard → Tirthan riverside → patu draped → evening home in Jibhi
 
 Use at least one trope chain organically within your verses.`;
